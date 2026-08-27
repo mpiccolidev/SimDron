@@ -1,4 +1,8 @@
 # SimDron
+
+# Simulador de Drones Argentino
+
+## Desarrollador Principal: Mauro Iván Piccoli
 SimDron es un simulador de drones pensado para entrenamiento educativo militar de nuevas tecnologías de Sistemas Remotos Autónomos
 
 /*
@@ -51,3 +55,14 @@ Soporta modos de vuelo
 ACRO, ANGLE y HORIZON
 Modos de control del 1 al 4
 Opciones de payload simulado o añadible.
+
+Disclaimer
+Antes de continuar, lea las instrucciones de seguridad del fabricante del HMD (Head-Mounted Display) sobre el uso, el cuidado y las precauciones. Estas instrucciones sobre el espacio físico donde se utilizará el dispositivo están resaltadas para evitar incidentes.
+Algunas personas pueden experimentar fotosensibilidad, fatiga o mareos. Se recomienda tener cuidado con el tiempo frente a la pantalla. Sin embargo, estos efectos pueden reducirse con el uso continuado y el aumento del uso, desde sesiones cortas hasta duraciones más largas.
+Todos los nombres, ubicaciones, personajes, drones y demás elementos que aparecen en este simulador SimDron son ficticios y se utilizan con fines educativos dentro de la institución adquirente.
+Cualquier parecido con ubicaciones geográficas, asentamientos, organizaciones, eventos o personas reales es involuntario y puede estar sujeto a modificaciones para evitar malentendidos. El desarrollador no pretende representar, respaldar ni involucrarse en conflictos, territorios, situaciones políticas o eventos históricos reales. El contenido del juego está diseñado con fines educativos para proporcionar una comprensión integral del uso de las nuevas tecnologías en escenarios operativos actuales, tanto cuando se requiere la defensa del territorio nacional debido a la agresión externa de un estado ficticio como al servir a la población cuando las agencias civiles se ven desbordadas. No está diseñado para promover la violencia, el extremismo ni ninguna acción que pueda dar lugar a la percepción de que se está violando alguna ley. Los usuarios deben usar el producto únicamente con fines educativos, de conformidad con la legislación vigente en su jurisdicción. El desarrollador no asume ninguna responsabilidad por las consecuencias derivadas del uso ilegal o indebido de este simulador de realidad virtual.
+
+- **Developer:** Mauro Iván Piccoli
+- **Proyecto:** Sistema de Simulación de Sistemas de Armas de Vehiculos Autónomos (SimDRON)
+- **Cliente/Destinatario:** Ejército Argentino / Ministerio de Defensa
+- **Rol:** Idra Original, Diseño, Arte 2D y 3D, Ingeniería de Sonido, Backend y FrontEnd, Arquitectura de software, físicas de vuelo y desarrollo de sistemas tácticos, Sistema de enemigos con IA, Proyecto, 
