@@ -3,6 +3,9 @@
 # Simulador de Drones Argentino
 
 ## Desarrollador Principal: Mauro Iván Piccoli
+
+SimDron — Argentine drone flight simulator developed in Unity LTS for immersive VR training on Meta Quest 3/3S.
+
 SimDron es un simulador de drones pensado para entrenamiento educativo militar de nuevas tecnologías de Sistemas Remotos Autónomos
 
 /*
