@@ -1,24 +1,725 @@
-html<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SimDron - Simulador de Drones Argentino (Meta Quest 3)</title>
-    <meta name="description" content="SimDron es un simulador de vuelo de drones desarrollado en Argentina por Mauro Iván Piccoli para el Ejército Argentino utilizando Unity LTS y optimizado para Meta Quest 3/3S.">
-    <style>
-        body { font-family: Arial, sans-serif; background-color: #1a1a1a; color: #ffffff; text-align: center; padding: 50px; }
-        h1 { color: #4CAF50; font-size: 2.5em; }
-        p { font-size: 1.2em; max-width: 600px; margin: 20px auto; color: #cccccc; }
-        .btn { display: inline-block; background-color: #24292e; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 20px; border: 1px solid #444; }
-        .btn:hover { background-color: #333; }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SimDron — Simulador de Drones y Vehículos Autónomos</title>
+  <meta name="description" content="SimDron es una plataforma argentina de simulación inmersiva de drones y sistemas remotos autónomos, desarrollada en Unity y optimizada para Meta Quest 3 y 3S." />
+  <meta name="theme-color" content="#0a0a0a" />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <link rel="canonical" href="https://mpiccolidev.github.io/SimDron/" />
+  <link rel="icon" type="image/png" href="assets/simdron-favicon.png" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="es_AR" />
+  <meta property="og:title" content="SimDron — Sistema de Simulación de Vehículos Autónomos" />
+  <meta property="og:description" content="Simulación inmersiva de drones, físicas de vuelo, sensores, entornos 3D y entrenamiento sobre Meta Quest." />
+  <meta property="og:url" content="https://mpiccolidev.github.io/SimDron/" />
+  <meta property="og:image" content="https://mpiccolidev.github.io/SimDron/assets/og-simdron.jpg" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="SimDron — Sistema de Simulación de Vehículos Autónomos" />
+  <meta name="twitter:description" content="Simulación inmersiva de drones y sistemas remotos autónomos sobre Meta Quest." />
+  <meta name="twitter:image" content="https://mpiccolidev.github.io/SimDron/assets/og-simdron.jpg" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "SimDron",
+    "applicationCategory": "SimulationApplication",
+    "operatingSystem": "Meta Quest",
+    "description": "Plataforma de simulación inmersiva de drones y sistemas remotos autónomos desarrollada en Unity.",
+    "url": "https://mpiccolidev.github.io/SimDron/",
+    "author": {
+      "@type": "Person",
+      "name": "Mauro Iván Piccoli"
+    }
+  }
+  </script>
+
+  <style>
+    :root {
+      --bg: #090909;
+      --bg-2: #101010;
+      --panel: #151515;
+      --panel-2: #1b1b1b;
+      --line: #2b2b2b;
+      --text: #f5f5f5;
+      --muted: #a8a8a8;
+      --accent: rgb(255, 200, 0);
+      --accent-soft: rgba(255, 200, 0, .10);
+      --max: 1180px;
+      --radius: 22px;
+      --shadow: 0 24px 80px rgba(0,0,0,.38);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 75% 0%, rgba(255,200,0,.06), transparent 28rem),
+        var(--bg);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+
+    .container { width: min(calc(100% - 36px), var(--max)); margin-inline: auto; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(18px);
+      background: rgba(9,9,9,.82);
+      border-bottom: 1px solid rgba(255,255,255,.07);
+    }
+
+    .nav {
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      min-width: 150px;
+    }
+
+    .brand img {
+      max-width: 170px;
+      max-height: 45px;
+      object-fit: contain;
+    }
+
+    .brand-fallback {
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: -.035em;
+    }
+    .brand-fallback span { color: var(--accent); }
+
+    .navlinks { display: flex; align-items: center; gap: 22px; }
+    .navlinks a {
+      font-size: .76rem;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+      color: #cfcfcf;
+      transition: color .2s ease;
+    }
+    .navlinks a:hover { color: white; }
+
+    .nav-cta {
+      border: 1px solid var(--accent) !important;
+      color: var(--accent) !important;
+      padding: 10px 14px;
+      border-radius: 999px;
+    }
+
+    .hero {
+      padding: 86px 0 54px;
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.03fr .97fr;
+      gap: 56px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--accent);
+      font-weight: 800;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      font-size: .74rem;
+      margin-bottom: 22px;
+    }
+    .eyebrow::before { content: ""; width: 34px; height: 2px; background: var(--accent); }
+
+    h1 {
+      font-size: clamp(3rem, 7vw, 6.3rem);
+      line-height: .92;
+      letter-spacing: -.055em;
+      margin: 0 0 26px;
+      max-width: 8.6ch;
+    }
+    h1 .accent { color: var(--accent); }
+
+    .hero-copy {
+      font-size: clamp(1.03rem, 1.6vw, 1.25rem);
+      color: #c7c7c7;
+      max-width: 640px;
+      margin: 0 0 32px;
+    }
+
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 18px;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: .9rem;
+      border: 1px solid var(--line);
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn.primary { background: var(--accent); color: #080808; border-color: var(--accent); }
+    .btn.secondary { background: #151515; }
+    .btn.secondary:hover { border-color: #555; }
+
+    .hero-meta {
+      margin-top: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .chip {
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid #292929;
+      color: #aaa;
+      background: rgba(255,255,255,.02);
+      font-size: .72rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .media-slot {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius);
+      border: 1px solid #2a2a2a;
+      background:
+        linear-gradient(145deg, rgba(255,200,0,.08), transparent 35%),
+        linear-gradient(180deg, #1c1c1c, #101010);
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+    .media-slot::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+      background-size: 32px 32px;
+      z-index: -1;
+    }
+    .media-slot img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity .25s ease;
+    }
+    .media-slot.has-image img { opacity: 1; }
+    .media-slot.has-image .slot-copy { opacity: 0; }
+
+    .hero-media { aspect-ratio: 4 / 5; min-height: 510px; }
+    .slot-copy {
+      position: absolute;
+      inset: auto 24px 24px 24px;
+      transition: opacity .2s ease;
+    }
+    .slot-kicker {
+      display: block;
+      color: var(--accent);
+      font-size: .7rem;
+      font-weight: 800;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .slot-title { font-size: 1.35rem; font-weight: 800; letter-spacing: -.025em; }
+    .slot-note { color: #999; font-size: .88rem; margin-top: 5px; }
+
+    .section { padding: 92px 0; }
+    .section + .section { border-top: 1px solid rgba(255,255,255,.055); }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: .8fr 1.2fr;
+      gap: 52px;
+      margin-bottom: 46px;
+      align-items: end;
+    }
+    .section h2 {
+      font-size: clamp(2.2rem, 5vw, 4.4rem);
+      line-height: .98;
+      letter-spacing: -.045em;
+      margin: 0;
+    }
+    .section-intro { color: #aaa; max-width: 680px; margin: 0; font-size: 1.04rem; }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+    .about-card {
+      min-height: 250px;
+      padding: 28px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: linear-gradient(160deg, rgba(255,255,255,.035), rgba(255,255,255,.01));
+    }
+    .about-card strong { color: var(--accent); display: block; margin-bottom: 12px; font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; }
+    .about-card h3 { margin: 0 0 13px; font-size: 1.45rem; letter-spacing: -.025em; }
+    .about-card p { color: #aaa; margin: 0; }
+
+    .cap-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+    .cap {
+      padding: 22px;
+      min-height: 205px;
+      border: 1px solid #292929;
+      border-radius: 16px;
+      background: var(--panel);
+    }
+    .cap-num { color: var(--accent); font-weight: 900; font-size: .78rem; letter-spacing: .1em; }
+    .cap h3 { margin: 26px 0 10px; font-size: 1.25rem; }
+    .cap p { margin: 0; color: #999; font-size: .92rem; }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: 1.25fr .75fr;
+      grid-template-rows: repeat(2, minmax(250px, 340px));
+      gap: 14px;
+    }
+    .gallery .wide { grid-row: 1 / 3; }
+    .gallery .media-slot { min-height: 250px; }
+
+    .platforms {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+    .platform {
+      position: relative;
+      padding: 26px;
+      min-height: 260px;
+      border-radius: 18px;
+      border: 1px solid #292929;
+      background: #121212;
+      overflow: hidden;
+    }
+    .platform::after {
+      content: attr(data-code);
+      position: absolute;
+      right: 12px;
+      bottom: -20px;
+      font-size: 5.2rem;
+      line-height: 1;
+      color: rgba(255,255,255,.035);
+      font-weight: 900;
+      letter-spacing: -.06em;
+    }
+    .platform span { color: var(--accent); font-size: .75rem; font-weight: 900; letter-spacing: .12em; }
+    .platform h3 { font-size: 1.55rem; margin: 22px 0 10px; }
+    .platform p { color: #999; margin: 0; font-size: .92rem; }
+
+    .vr-panel {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      align-items: center;
+      padding: 34px;
+      border-radius: 24px;
+      border: 1px solid #2d2d2d;
+      background:
+        radial-gradient(circle at 15% 0%, rgba(255,200,0,.12), transparent 26rem),
+        #111;
+    }
+    .vr-panel .media-slot { min-height: 420px; aspect-ratio: 4/3; }
+    .vr-panel h2 { margin-bottom: 18px; }
+    .vr-panel p { color: #aaa; max-width: 560px; }
+    .big-stat { font-size: clamp(3.2rem, 8vw, 6.7rem); line-height: .9; font-weight: 900; letter-spacing: -.065em; color: var(--accent); margin: 28px 0 10px; }
+    .stat-label { text-transform: uppercase; letter-spacing: .12em; font-size: .75rem; color: #888; }
+
+    .tech-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 34px;
+    }
+    .tech-list span {
+      padding: 10px 13px;
+      border-radius: 10px;
+      background: #151515;
+      border: 1px solid #2b2b2b;
+      font-weight: 700;
+      font-size: .82rem;
+    }
+
+    .author-card {
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      gap: 52px;
+      padding: 38px;
+      border-radius: 24px;
+      background: #111;
+      border: 1px solid #2b2b2b;
+    }
+    .author-name { font-size: clamp(2.1rem, 5vw, 4.6rem); line-height: .96; letter-spacing: -.05em; margin: 12px 0 14px; }
+    .author-role { color: var(--accent); font-weight: 800; }
+    .author-copy { color: #aaa; }
+
+    .footer {
+      padding: 42px 0 60px;
+      border-top: 1px solid rgba(255,255,255,.07);
+      color: #777;
+      font-size: .85rem;
+    }
+    .footer-grid { display: flex; justify-content: space-between; gap: 24px; align-items: flex-start; }
+    .footer a { color: #aaa; }
+
+    .mobile-toggle { display: none; }
+
+    @media (max-width: 900px) {
+      .hero-grid, .section-head, .vr-panel, .author-card { grid-template-columns: 1fr; }
+      .hero { padding-top: 56px; }
+      .hero-media { min-height: 420px; aspect-ratio: 16/11; }
+      .section { padding: 72px 0; }
+      .section-head { gap: 18px; }
+      .cap-grid, .platforms { grid-template-columns: repeat(2, 1fr); }
+      .gallery { grid-template-columns: 1fr 1fr; grid-template-rows: repeat(2, 260px); }
+      .gallery .wide { grid-row: 1 / 3; }
+      .navlinks { display: none; }
+      .mobile-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        border-radius: 10px;
+        border: 1px solid #2c2c2c;
+        background: #151515;
+        color: white;
+        font-size: 1.15rem;
+      }
+      .nav.open { align-items: flex-start; flex-wrap: wrap; padding: 16px 0; }
+      .nav.open .navlinks {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        padding-bottom: 6px;
+      }
+      .nav.open .navlinks a { padding: 11px 0; }
+      .nav.open .nav-cta { border: 0 !important; padding: 11px 0; }
+    }
+
+    @media (max-width: 620px) {
+      .container { width: min(calc(100% - 26px), var(--max)); }
+      .nav { min-height: 66px; }
+      .brand img { max-width: 145px; }
+      .hero { padding: 44px 0 32px; }
+      h1 { font-size: clamp(3.15rem, 17vw, 5.2rem); }
+      .hero-copy { font-size: 1rem; }
+      .actions { display: grid; grid-template-columns: 1fr; }
+      .btn { width: 100%; }
+      .hero-media { min-height: 360px; }
+      .section { padding: 60px 0; }
+      .about-grid, .cap-grid, .platforms { grid-template-columns: 1fr; }
+      .about-card { min-height: 0; }
+      .gallery { grid-template-columns: 1fr; grid-template-rows: repeat(3, 245px); }
+      .gallery .wide { grid-row: auto; }
+      .vr-panel { padding: 24px; }
+      .vr-panel .media-slot { min-height: 300px; }
+      .author-card { padding: 26px; gap: 24px; }
+      .footer-grid { flex-direction: column; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { scroll-behavior: auto !important; transition: none !important; }
+    }
+  </style>
 </head>
 <body>
-    <h1>SimDron</h1>
-    <h2>Sistema de Simulación de Vehículos Autónomos</h2>
-    <p>Desarrollado en Argentina por <strong>Mauro Iván Piccoli</strong> para el Ejército Argentino y el Ministerio de Defensa. Optimizado para dispositivos VR standalone Meta Quest 3 y 3S.</p>
-    
-    <!-- Este enlace es clave para que Google salte de la web al código de tu repositorio -->
-    <a href="https://github.com" class="btn">Ver Código en GitHub</a>
+  <header class="topbar">
+    <div class="container nav" id="nav">
+      <a href="#inicio" class="brand" aria-label="SimDron - Inicio">
+        <img src="assets/simdron-logo.png" alt="SimDron" onload="this.nextElementSibling.hidden=true" onerror="this.hidden=true" />
+        <span class="brand-fallback"><span>Sim</span>DRON</span>
+      </a>
+
+      <button class="mobile-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" onclick="toggleMenu(this)">☰</button>
+
+      <nav class="navlinks" aria-label="Navegación principal">
+        <a href="#proyecto">Proyecto</a>
+        <a href="#capacidades">Capacidades</a>
+        <a href="#plataformas">Plataformas</a>
+        <a href="#tecnologia">Tecnología</a>
+        <a href="#desarrollo">Desarrollo</a>
+        <a class="nav-cta" href="https://github.com/mpiccolidev/SimDron" target="_blank" rel="noopener">GitHub ↗</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="inicio">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow">Simulación inmersiva XR</div>
+          <h1>Volá. Probá. <span class="accent">Entrená.</span></h1>
+          <p class="hero-copy">SimDron es una plataforma argentina de simulación de drones y sistemas remotos autónomos, basada en físicas de vuelo, entornos 3D interactivos y realidad virtual.</p>
+          <div class="actions">
+            <a class="btn primary" href="#proyecto">Conocer el proyecto</a>
+            <a class="btn secondary" href="https://github.com/mpiccolidev/SimDron" target="_blank" rel="noopener">Ver repositorio en GitHub ↗</a>
+          </div>
+          <div class="hero-meta" aria-label="Tecnologías y capacidades">
+            <span class="chip">Unity</span>
+            <span class="chip">Meta Quest</span>
+            <span class="chip">XR</span>
+            <span class="chip">Físicas de vuelo</span>
+            <span class="chip">IA</span>
+            <span class="chip">Standalone VR</span>
+          </div>
+        </div>
+
+        <div class="media-slot hero-media" data-image-slot="hero.webp">
+          <img src="assets/hero.webp" alt="Vista principal del simulador SimDron" onload="slotLoaded(this)" />
+          <div class="slot-copy">
+            <span class="slot-kicker">Imagen principal</span>
+            <div class="slot-title">Captura inmersiva de SimDron</div>
+            <div class="slot-note">Reemplazar por una captura horizontal o vertical limpia del simulador.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="proyecto">
+      <div class="container">
+        <div class="section-head">
+          <h2>Un simulador pensado para aprender haciendo.</h2>
+          <p class="section-intro">El proyecto combina realidad virtual, simulación física y escenarios 3D para familiarizar al usuario con la operación de sistemas aéreos no tripulados y con los desafíos que aparecen en distintos entornos de vuelo.</p>
+        </div>
+
+        <div class="about-grid">
+          <article class="about-card">
+            <strong>01 · Inmersión</strong>
+            <h3>Entornos VR de 360°</h3>
+            <p>La experiencia está planteada para trabajar dentro de escenarios virtuales de escala amplia, con terreno, vegetación, estructuras, iluminación y condiciones ambientales.</p>
+          </article>
+          <article class="about-card">
+            <strong>02 · Simulación</strong>
+            <h3>Vuelo y sistemas configurables</h3>
+            <p>Permite explorar diferentes perfiles de aeronave, modos de control, cámaras, sensores, autonomía, conectividad y parámetros de vuelo dentro de un entorno controlado.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="capacidades">
+      <div class="container">
+        <div class="section-head">
+          <h2>Capacidades principales.</h2>
+          <p class="section-intro">Una misma plataforma reúne vuelo, sensores, entorno y sistemas de apoyo para representar distintas condiciones de entrenamiento sin depender de una estación de trabajo externa durante la experiencia.</p>
+        </div>
+
+        <div class="cap-grid">
+          <article class="cap">
+            <div class="cap-num">01</div>
+            <h3>Vuelo</h3>
+            <p>Multirrotor, FPV, modos ACRO / ANGLE / HORIZON, modos de control 1–4 y soporte para gamepad.</p>
+          </article>
+          <article class="cap">
+            <div class="cap-num">02</div>
+            <h3>Sensores</h3>
+            <p>Cámaras configurables, control de gimbal y FOV, visión RGB, IR y térmica.</p>
+          </article>
+          <article class="cap">
+            <div class="cap-num">03</div>
+            <h3>Entorno</h3>
+            <p>Viento, clima, iluminación dinámica, terrenos de gran escala y escenarios de entrenamiento.</p>
+          </article>
+          <article class="cap">
+            <div class="cap-num">04</div>
+            <h3>Sistemas</h3>
+            <p>Batería, autonomía, conectividad, degradación de señal, payload, IA y comunicación por fibra óptica.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-label="Galería">
+      <div class="container">
+        <div class="section-head">
+          <h2>Dentro de SimDron.</h2>
+          <p class="section-intro">Primera selección visual del proyecto con capturas reales de la simulación, la experiencia FPV, la consola Mission Control y la visualización táctica.</p>
+        </div>
+
+        <div class="gallery">
+          <div class="media-slot wide" data-image-slot="mission-control.webp">
+            <img src="assets/mission-control.webp" alt="SimDron Mission Control" onload="slotLoaded(this)" />
+            <div class="slot-copy">
+              <span class="slot-kicker">Mission Control</span>
+              <div class="slot-title">Planificación, telemetría y control</div>
+              <div class="slot-note">Archivo esperado: assets/mission-control.webp</div>
+            </div>
+          </div>
+          <div class="media-slot" data-image-slot="fpv.webp">
+            <img src="assets/fpv.webp" alt="Vuelo FPV en SimDron" onload="slotLoaded(this)" />
+            <div class="slot-copy">
+              <span class="slot-kicker">FPV</span>
+              <div class="slot-title">Experiencia de vuelo</div>
+              <div class="slot-note">Archivo esperado: assets/fpv.webp</div>
+            </div>
+          </div>
+          <div class="media-slot" data-image-slot="sensors.webp">
+            <img src="assets/sensors.webp" alt="Sensores y cámaras de SimDron" onload="slotLoaded(this)" />
+            <div class="slot-copy">
+              <span class="slot-kicker">Sensores</span>
+              <div class="slot-title">RGB, IR y térmica</div>
+              <div class="slot-note">Archivo esperado: assets/sensors.webp</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="plataformas">
+      <div class="container">
+        <div class="section-head">
+          <h2>Distintos perfiles de aeronave.</h2>
+          <p class="section-intro">SimDron permite trabajar con múltiples perfiles de plataforma que pueden variar en comportamiento, autonomía, sensores, cámaras y capacidad de carga.</p>
+        </div>
+
+        <div class="platforms">
+          <article class="platform" data-code="RFT">
+            <span>PERFIL 01</span>
+            <h3>RTF</h3>
+            <p>Configuración orientada a una experiencia de vuelo accesible y progresiva desde el primer uso.</p>
+          </article>
+          <article class="platform" data-code="FPV">
+            <span>PERFIL 02</span>
+            <h3>FPV</h3>
+            <p>Perfil para operación inmersiva en primera persona y entrenamiento de maniobras.</p>
+          </article>
+          <article class="platform" data-code="PRO">
+            <span>PERFIL 03</span>
+            <h3>Pro</h3>
+            <p>Configuración con parámetros y sistemas orientados a escenarios de mayor complejidad.</p>
+          </article>
+          <article class="platform" data-code="MINI">
+            <span>PERFIL 04</span>
+            <h3>Mini</h3>
+            <p>Perfil compacto para representar plataformas ligeras con comportamiento diferenciado.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="tecnologia">
+      <div class="container vr-panel">
+        <div>
+          <div class="eyebrow">Standalone VR</div>
+          <h2>Diseñado para Meta Quest.</h2>
+          <p>El simulador fue desarrollado en Unity y optimizado para ejecutarse directamente en dispositivos Meta Quest 3 y Meta Quest 3S, priorizando rendimiento, portabilidad e inmersión.</p>
+          <div class="big-stat">360°</div>
+          <div class="stat-label">Experiencia inmersiva</div>
+          <div class="tech-list">
+            <span>Unity</span><span>C#</span><span>XR</span><span>3D</span><span>Physics</span><span>AI</span><span>Optimization</span>
+          </div>
+        </div>
+
+        <div class="media-slot" data-image-slot="vr.webp">
+          <img src="assets/vr.webp" alt="Visualización táctica y navegación dentro del ecosistema SimDron" onload="slotLoaded(this)" />
+          <div class="slot-copy">
+            <span class="slot-kicker">Meta Quest 3 / 3S</span>
+            <div class="slot-title">Visualización táctica y escenarios</div>
+            <div class="slot-note">Mapa, planificación y representación espacial dentro del ecosistema del simulador</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="desarrollo">
+      <div class="container">
+        <div class="section-head">
+          <h2>Ingeniería y producción digital.</h2>
+          <p class="section-intro">El desarrollo integra arquitectura de software, programación, físicas de vuelo, control de aeronaves, IA, integración VR, optimización standalone, escenarios, arte 2D/3D, audio y diseño de sistemas de entrenamiento.</p>
+        </div>
+
+        <div class="author-card">
+          <div>
+            <div class="eyebrow">Desarrollo principal</div>
+            <div class="author-name">Mauro Iván Piccoli</div>
+            <div class="author-role">Game Developer · XR / Virtual Reality · Simulation</div>
+          </div>
+          <div class="author-copy">
+            <p>SimDron es un proyecto desarrollado en Argentina para entrenamiento educativo y simulación inmersiva de nuevas tecnologías asociadas a Sistemas Remotos Autónomos.</p>
+            <p>La autoría técnica del proyecto comprende idea original, dirección y desarrollo, diseño, arte 2D/3D, ingeniería de sonido, backend, frontend, arquitectura de software, físicas de vuelo, sistemas de simulación e inteligencia artificial.</p>
+            <div class="actions" style="margin-top:22px">
+              <a class="btn primary" href="https://github.com/mpiccolidev/SimDron" target="_blank" rel="noopener">Explorar el repositorio ↗</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-label="Aviso">
+      <div class="container">
+        <div class="about-card" style="min-height:0">
+          <strong>Uso y alcance</strong>
+          <h3>Herramienta de simulación y entrenamiento</h3>
+          <p>SimDron está destinado a fines educativos y de entrenamiento. La simulación no reemplaza la operación real, los procedimientos aplicables ni las recomendaciones de seguridad del fabricante del dispositivo de realidad virtual.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div><strong style="color:#ddd">SimDron</strong><br />Sistema de Simulación de Vehículos Autónomos</div>
+      <div>© <span id="year"></span> Mauro Iván Piccoli · <a href="https://github.com/mpiccolidev/SimDron" target="_blank" rel="noopener">GitHub</a></div>
+    </div>
+  </footer>
+
+  <script>
+    function slotLoaded(img) {
+      img.closest('.media-slot')?.classList.add('has-image');
+    }
+
+    function toggleMenu(button) {
+      const nav = document.getElementById('nav');
+      const open = nav.classList.toggle('open');
+      button.setAttribute('aria-expanded', String(open));
+      button.textContent = open ? '×' : '☰';
+    }
+
+    document.querySelectorAll('.navlinks a').forEach(a => {
+      a.addEventListener('click', () => {
+        document.getElementById('nav')?.classList.remove('open');
+        const b = document.querySelector('.mobile-toggle');
+        if (b) { b.setAttribute('aria-expanded', 'false'); b.textContent = '☰'; }
+      });
+    });
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
