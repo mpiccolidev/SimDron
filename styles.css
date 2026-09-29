@@ -124,3 +124,26 @@ h1{font-size:clamp(3.25rem,6.3vw,6.7rem);max-width:9.2ch;margin-top:24px}h1 em{f
   .stick-zone{gap:26px}
   .inspect-hint{bottom:136px}
 }
+
+
+/* v4.2 — true third-person aircraft attitude / centered GLB pivot */
+.flight-stage{--bank:0deg}
+.sim-ground{
+  transform:perspective(560px) rotateX(66deg) rotateZ(var(--bank)) translate3d(var(--gx,0px),var(--gz,0px),0);
+  transform-origin:center top;
+}
+.flight-model{
+  position:absolute;
+  inset:0 !important;
+  width:100% !important;
+  height:100% !important;
+  transform:none !important;
+  transition:none !important;
+  z-index:2;
+}
+@media (max-width:900px){
+  .flight-model{inset:0 !important;height:calc(100% - 128px) !important;bottom:128px !important}
+}
+@media (max-width:560px){
+  .flight-model{inset:0 0 124px 0 !important;height:auto !important;bottom:124px !important}
+}

@@ -10,9 +10,9 @@
   const rad = d => d * Math.PI / 180;
 
   const CAMERA = {
-    target: '0m 0.23m -0.065m',
-    orbit: '28deg 67deg 1.12m',
-    fov: '34deg'
+    target: '0m 0m 0m',
+    orbit: '32deg 68deg .96m',
+    fov: '32deg'
   };
 
   function VirtualStick({ side, value, onChange }) {
@@ -136,8 +136,6 @@
       const mv = modelRef.current;
       if (mv) {
         mv.setAttribute('orientation', '0deg 0deg 0deg');
-        mv.style.setProperty('--alt-shift', '0px');
-        mv.style.setProperty('--lateral-shift', '0px');
       }
       frameCamera();
     };
@@ -190,6 +188,7 @@
         // The source GLB has its origin below the visual centre. Explicit framing
         // keeps the aircraft large and centered instead of relying on auto framing.
         requestAnimationFrame(() => {
+          mv.setAttribute('orientation', '0deg 0deg 0deg');
           frameCamera();
           setTimeout(frameCamera, 80);
         });
@@ -251,16 +250,22 @@
 
         const mv = modelRef.current;
         if (mv) {
-          mv.setAttribute('orientation', `${st.roll.toFixed(2)}deg ${st.pitch.toFixed(2)}deg ${st.yaw.toFixed(2)}deg`);
-          mv.style.setProperty('--alt-shift', `${clamp(-(st.alt - 12) * 5.5, -135, 105)}px`);
-          mv.style.setProperty('--lateral-shift', `${clamp(st.vx * 7, -34, 34)}px`);
+          // The web GLB is re-centered around its true visual centre, so attitude
+          // changes rotate the aircraft itself instead of swinging it around an
+          // off-centre export origin. model-viewer uses X/Y/Z Euler orientation:
+          // pitch around X, yaw around Y, roll around Z.
+          mv.setAttribute('orientation', `${(-st.pitch).toFixed(2)}deg ${st.yaw.toFixed(2)}deg ${(-st.roll).toFixed(2)}deg`);
         }
 
         const stage = stageRef.current;
         if (stage) {
+          // Third-person chase presentation: the aircraft stays in the centre
+          // while its attitude is animated in 3D; terrain/horizon provide the
+          // translational reference, like a camera following the vehicle.
           stage.style.setProperty('--gx', `${(-st.x * 28) % 54}px`);
           stage.style.setProperty('--gz', `${(st.z * 28) % 54}px`);
           stage.style.setProperty('--horizon-shift', `${clamp((12 - st.alt) * 3.2, -60, 60)}px`);
+          stage.style.setProperty('--bank', `${clamp(-st.roll * .18, -7, 7)}deg`);
         }
 
         telemetryClock.current += dt;
