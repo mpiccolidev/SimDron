@@ -112,6 +112,10 @@
     const telemetryClock = useRef(0);
     const activeRef = useRef(true);
     const frameRef = useRef(0);
+    const fiberRef = useRef(null);
+    const fiberPointsRef = useRef([]);
+    const fiberAnchorLocalRef = useRef(null);
+    const fiberFrameRef = useRef(0);
 
     useEffect(() => { leftRef.current = leftStick; }, [leftStick]);
     useEffect(() => { rightRef.current = rightStick; }, [rightStick]);
@@ -136,6 +140,15 @@
       if (rig) {
         rig.position.set(0, 0, 0);
         rig.rotationQuaternion = BABYLON.Quaternion.Identity();
+      }
+      const fiber = fiberRef.current;
+      if (fiber && aircraftRef.current && fiberAnchorLocalRef.current) {
+        const rig = aircraftRef.current;
+        rig.computeWorldMatrix(true);
+        const anchor = BABYLON.Vector3.TransformCoordinates(fiberAnchorLocalRef.current, rig.getWorldMatrix());
+        const pts = fiberPointsRef.current;
+        for (let i = 0; i < pts.length; i++) pts[i].copyFrom(anchor);
+        if (pts.length) BABYLON.MeshBuilder.CreateLines('fiberTrail', { points: pts, instance: fiber });
       }
       const camera = cameraRef.current;
       if (camera) {
@@ -356,6 +369,20 @@
 
         makeGrid(baseGroundYRef.current, maxDim);
 
+        // Visual fiber spool trail. The anchor sits near the lower-rear area of the
+        // aircraft rig and leaves a lightweight world-space line as the vehicle moves.
+        // It is deliberately visual-only and does not alter flight dynamics.
+        fiberAnchorLocalRef.current = new BABYLON.Vector3(0, -maxDim * .13, maxDim * .34);
+        aircraft.computeWorldMatrix(true);
+        const fiberAnchor = BABYLON.Vector3.TransformCoordinates(fiberAnchorLocalRef.current, aircraft.getWorldMatrix());
+        const fiberPoints = Array.from({ length: 180 }, () => fiberAnchor.clone());
+        fiberPointsRef.current = fiberPoints;
+        const fiber = BABYLON.MeshBuilder.CreateLines('fiberTrail', { points: fiberPoints, updatable: true }, scene);
+        fiber.color = new BABYLON.Color3(.98, .79, .18);
+        fiber.alpha = .72;
+        fiber.isPickable = false;
+        fiberRef.current = fiber;
+
         setLoaded(true);
       }).catch(err => {
         console.error('SimDron 3D model load error', err);
@@ -377,6 +404,9 @@
         cameraRef.current = null;
         sceneRef.current = null;
         engineRef.current = null;
+        fiberRef.current = null;
+        fiberPointsRef.current = [];
+        fiberAnchorLocalRef.current = null;
         scene.dispose();
         engine.dispose();
       };
@@ -403,7 +433,9 @@
 
         const throttle = clamp(l.y + keyAxis('w', 's'), -1, 1);
         const yawIn = clamp(l.x + keyAxis('d', 'a'), -1, 1);
-        const pitchIn = clamp(r.y + keyAxis('arrowup', 'arrowdown'), -1, 1);
+        // Mode 2: pushing the pitch stick forward / ArrowUp commands nose-down.
+        // Keep the on-screen stick moving upward, but invert the aerodynamic command.
+        const pitchIn = -clamp(r.y + keyAxis('arrowup', 'arrowdown'), -1, 1);
         const rollIn = clamp(r.x + keyAxis('arrowright', 'arrowleft'), -1, 1);
         const m = modeRef.current;
 
@@ -430,7 +462,7 @@
         // Pitch drives forward/back movement in the current yaw direction;
         // roll adds lateral movement. The camera follows but does not replace it.
         const yawR = rad(st.yaw);
-        const forward = Math.sin(rad(st.pitch)) * 2.1;
+        const forward = -Math.sin(rad(st.pitch)) * 2.1;
         const lateral = Math.sin(rad(st.roll)) * 1.7;
         const targetVx = Math.sin(yawR) * forward + Math.cos(yawR) * lateral;
         const targetVz = Math.cos(yawR) * forward - Math.sin(yawR) * lateral;
@@ -453,6 +485,20 @@
           rig.position.x = st.x * size * .22;
           rig.position.z = st.z * size * .22;
           rig.position.y = clamp((st.alt - 12) * size * .022, -size * .35, size * .65);
+
+          // Unspool a visual fiber line from the aircraft. Keep a fixed number of
+          // points so the Babylon line can be updated cheaply on desktop and mobile.
+          if (fiberRef.current && fiberAnchorLocalRef.current && fiberPointsRef.current.length) {
+            fiberFrameRef.current = (fiberFrameRef.current + 1) % 3;
+            if (fiberFrameRef.current === 0) {
+              rig.computeWorldMatrix(true);
+              const anchor = BABYLON.Vector3.TransformCoordinates(fiberAnchorLocalRef.current, rig.getWorldMatrix());
+              const pts = fiberPointsRef.current;
+              for (let i = 0; i < pts.length - 1; i++) pts[i].copyFrom(pts[i + 1]);
+              pts[pts.length - 1].copyFrom(anchor);
+              BABYLON.MeshBuilder.CreateLines('fiberTrail', { points: pts, instance: fiberRef.current });
+            }
+          }
         }
 
         if (camera && rig) {

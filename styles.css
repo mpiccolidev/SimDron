@@ -200,3 +200,89 @@ h1{font-size:clamp(3.25rem,6.3vw,6.7rem);max-width:9.2ch;margin-top:24px}h1 em{f
   .flight-canvas{inset:0 0 118px 0;height:auto !important}
   .flight-stage-loading{inset:0 0 118px 0}
 }
+
+/* v4.4 — mission authoring, public map previews, mobile flight viewport */
+.mission-authoring{
+  margin-top:54px;
+  padding-top:42px;
+  border-top:1px solid var(--line-strong);
+  display:grid;
+  grid-template-columns:.72fr 1.28fr;
+  gap:44px;
+  align-items:center;
+}
+.mission-authoring-copy h3{font-size:clamp(2.2rem,4.2vw,4.2rem);margin:14px 0 20px;max-width:10ch}
+.mission-authoring-copy p{color:var(--muted);font-size:.91rem;max-width:590px}
+.mission-authoring-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:24px}
+.mission-authoring-tags span{border:1px solid var(--line);padding:7px 9px;font:700 .56rem var(--mono);letter-spacing:.06em;color:#aeb6b6}
+.mission-authoring-visual{margin:0;border:1px solid var(--line-strong);background:#080a0a;overflow:hidden}
+.mission-authoring-visual img{display:block;width:100%;max-height:760px;object-fit:contain;background:#070909}
+.mission-authoring-visual figcaption{display:flex;justify-content:space-between;gap:18px;padding:11px 13px;border-top:1px solid var(--line)}
+.mission-authoring-visual figcaption span{font:700 .6rem var(--mono);color:var(--accent)}
+.mission-authoring-visual figcaption b{font:800 .6rem var(--mono);letter-spacing:.055em;text-align:right}
+
+.map-browser{border-top:1px solid var(--line-strong)}
+.map-feature{display:grid;grid-template-columns:1.25fr .75fr;border:1px solid var(--line-strong);border-top:0;background:#080a0a;min-height:470px;transition:opacity .18s ease,transform .18s ease}
+.map-feature.swapping{opacity:.46;transform:translateY(4px)}
+.map-feature-visual{position:relative;margin:0;min-height:470px;display:grid;place-items:center;overflow:hidden;border-right:1px solid var(--line)}
+.map-feature-visual img{width:100%;height:100%;max-height:680px;object-fit:contain;user-select:none;-webkit-user-drag:none}
+.map-feature-visual figcaption{position:absolute;left:12px;right:12px;bottom:12px;display:flex;justify-content:space-between;gap:18px;padding:9px 11px;background:rgba(4,5,5,.78);border:1px solid rgba(255,255,255,.09);backdrop-filter:blur(8px)}
+.map-feature-visual figcaption span{font:700 .55rem var(--mono);color:var(--accent);letter-spacing:.08em}
+.map-feature-visual figcaption b{font:800 .61rem var(--mono);letter-spacing:.05em}
+.map-feature-copy{padding:40px 32px;display:flex;flex-direction:column;justify-content:center}
+.map-feature-copy>span{font:700 .6rem var(--mono);color:var(--accent);letter-spacing:.09em}
+.map-feature-copy h3{font-size:clamp(2.2rem,4vw,4.3rem);margin:14px 0 18px}
+.map-feature-copy p{color:var(--muted);font-size:.9rem}
+.map-feature-copy small{margin-top:25px;padding-top:14px;border-top:1px solid var(--line);font:700 .52rem var(--mono);letter-spacing:.08em;color:#778080}
+.map-tier{padding:32px 0 6px;border-bottom:1px solid var(--line-strong)}
+.map-tier-head{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:14px}
+.map-tier-head span{font-family:var(--display);font-size:1.5rem}
+.map-tier-head small{font:700 .55rem var(--mono);letter-spacing:.08em;color:#778080}
+.map-scroll{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(180px,1fr);gap:8px;overflow-x:auto;padding:0 0 16px;scroll-snap-type:x proximity;scrollbar-width:thin;scrollbar-color:#343b3b transparent}
+.map-card{position:relative;min-width:180px;aspect-ratio:1;border:1px solid var(--line);background:#090b0b;padding:0;overflow:hidden;cursor:pointer;text-align:left;scroll-snap-align:start;color:#fff}
+.map-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.52) brightness(.72) contrast(1.04);transition:filter .22s,transform .3s;user-select:none;-webkit-user-drag:none}
+.map-card::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.04),rgba(0,0,0,.66));pointer-events:none}
+.map-card span,.map-card b{position:absolute;z-index:2;left:10px}
+.map-card span{top:9px;font:700 .52rem var(--mono);color:var(--accent)}
+.map-card b{bottom:9px;font-family:var(--display);font-size:1.03rem;letter-spacing:-.02em}
+.map-card:hover img,.map-card.active img{filter:saturate(.8) brightness(.88) contrast(1.02);transform:scale(1.018)}
+.map-card.active{border-color:var(--accent);box-shadow:inset 0 0 0 1px rgba(255,200,0,.18)}
+
+@media(max-width:900px){
+  .mission-authoring{grid-template-columns:1fr;gap:26px}
+  .mission-authoring-copy h3{max-width:14ch}
+  .map-feature{grid-template-columns:1fr;min-height:0}
+  .map-feature-visual{min-height:380px;border-right:0;border-bottom:1px solid var(--line)}
+  .map-feature-copy{padding:26px 22px}
+  .map-scroll{grid-auto-columns:190px}
+
+  /* The 3D viewport now keeps the full flight stage on phones. Sticks float over it. */
+  .flight-modal,.flight-shell,.flight-app{height:100dvh;max-height:100dvh}
+  .flight-body{min-height:0;overflow:hidden}
+  .flight-stage{position:absolute;inset:0}
+  .flight-canvas{inset:0 !important;width:100% !important;height:100% !important;min-height:100% !important}
+  .flight-stage-loading{inset:0 !important}
+  .flight-sidepanel{height:138px;min-height:0;pointer-events:none;background:linear-gradient(180deg,transparent 0%,rgba(7,9,9,.38) 25%,rgba(7,9,9,.92) 100%);border-top:0;padding:8px 14px 10px}
+  .stick-zone{pointer-events:auto;width:100%;margin-top:auto;align-items:end}
+  .stick-label{margin-bottom:4px;text-shadow:0 1px 5px #000}
+  .stick-axis{display:none}
+  .inspect-hint{display:none}
+}
+@media(max-width:560px){
+  .flight-app{grid-template-rows:52px 1fr}
+  .flight-topbar{height:52px;padding-left:8px;padding-right:48px;gap:4px}
+  .flight-modes{gap:3px}
+  .flight-modes button{height:29px;padding:0 6px;font-size:.49rem}
+  .flight-reset{height:29px;padding:0 6px;font-size:.49rem}
+  .flight-close{width:34px;height:34px;right:8px;top:9px}
+  .flight-sidepanel{height:126px;padding:4px 8px 8px}
+  .stick-zone{padding:0 4px;gap:24px}
+  .virtual-stick{width:min(104px,29vw);height:min(104px,29vw)}
+  .stick-label{font-size:.45rem;white-space:nowrap}
+  .flight-hud{top:8px;left:8px;width:min(280px,calc(100% - 16px));grid-template-columns:repeat(3,1fr)}
+  .hud-item{background:rgba(3,4,4,.62)}
+  .map-feature-visual{min-height:300px}
+  .map-scroll{grid-auto-columns:162px}
+  .map-tier-head{align-items:flex-start;flex-direction:column;gap:4px}
+  .mission-authoring{margin-top:40px;padding-top:30px}
+}

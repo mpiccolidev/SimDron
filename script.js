@@ -87,20 +87,45 @@
     preload.src = item.image;
   }));
 
-  // Cartography: image isn't requested until the section is opened.
-  $$('.map-trigger').forEach(trigger => trigger.addEventListener('click', () => {
-    const item = trigger.closest('.map-item');
-    const open = item.classList.toggle('open');
-    trigger.setAttribute('aria-expanded', String(open));
-    trigger.querySelector('.map-action').textContent = open ? 'CLOSE MAP ×' : 'VIEW MAP +';
-    if (open) {
-      const img = item.querySelector('img[data-src]');
-      if (img && !img.src) {
-        img.addEventListener('load', () => img.classList.add('loaded'), { once:true });
-        img.src = img.dataset.src;
-      } else if (img) img.classList.add('loaded');
-    }
-  }));
+  // Cartography browser. Public map assets are deliberately web-resolution previews.
+  const mapFeature = $('[data-map-feature]');
+  if (mapFeature) {
+    const featureImg = $('.map-feature-visual img', mapFeature);
+    const featureTier = $('[data-map-tier]', mapFeature);
+    const featureTitle = $('[data-map-title]', mapFeature);
+    const featureCode = $('[data-map-code]', mapFeature);
+    const featureHeading = $('[data-map-heading]', mapFeature);
+    const featureDescription = $('[data-map-description]', mapFeature);
+
+    $$('.map-card').forEach(card => card.addEventListener('click', () => {
+      $$('.map-card').forEach(c => c.classList.remove('active'));
+      card.classList.add('active');
+
+      const nextSrc = card.dataset.mapSrc;
+      const swap = () => {
+        featureImg.src = nextSrc;
+        featureImg.alt = `Vista general del entorno ${card.dataset.mapTitle} de SimDron`;
+        featureTier.textContent = card.dataset.mapTier;
+        featureTitle.textContent = card.dataset.mapTitle;
+        featureCode.textContent = card.dataset.mapCode;
+        featureHeading.textContent = card.dataset.mapHeading;
+        featureDescription.textContent = card.dataset.mapDescription;
+        requestAnimationFrame(() => mapFeature.classList.remove('swapping'));
+      };
+      mapFeature.classList.add('swapping');
+      const preload = new Image();
+      preload.onload = swap;
+      preload.onerror = swap;
+      preload.src = nextSrc;
+    }));
+
+    // This is only a UI discouragement, not DRM; the real protection is serving
+    // reduced-resolution previews instead of source cartography.
+    $$('.map-browser img').forEach(img => {
+      img.addEventListener('contextmenu', e => e.preventDefault());
+      img.draggable = false;
+    });
+  }
 
   // Lazy YouTube thumbnails only near the media section.
   const thumbObserver = new IntersectionObserver(entries => {

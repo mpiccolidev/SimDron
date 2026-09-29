@@ -226,6 +226,22 @@
             </div>
           </div>
         </div>
+
+        <div class="mission-authoring reveal" data-delay="90">
+          <div class="mission-authoring-copy">
+            <div class="section-marker">MISSION AUTHORING / AAR</div>
+            <h3>DISEÑAR, EJECUTAR Y REVISAR MISIONES COMPLEJAS.</h3>
+            <p>Mission Control permite construir ejercicios para varios alumnos sobre un mismo entorno operacional, combinar múltiples blancos, rutas, eventos y contramedidas electrónicas activas y conducir la sesión desde una estación de instructor.</p>
+            <p>Durante el ejercicio se registran posiciones, estados y eventos relevantes para reconstruir la sesión y generar un feedback útil en la revisión posterior con los alumnos.</p>
+            <div class="mission-authoring-tags">
+              <span>MULTI-STUDENT</span><span>TARGETS</span><span>ECM</span><span>SESSION TRACE</span><span>AFTER ACTION REVIEW</span>
+            </div>
+          </div>
+          <figure class="mission-authoring-visual">
+            <img src="assets/mission-authoring.webp" alt="Creación y seguimiento de una misión multioperador en SimDron Mission Control" loading="lazy" />
+            <figcaption><span>MISSION CONTROL</span><b>PLANIFICACIÓN · EJECUCIÓN · REVISIÓN</b></figcaption>
+          </figure>
+        </div>
       </div>
     </section>
 
@@ -251,30 +267,57 @@
         <div class="section-head reveal">
           <div>
             <div class="section-marker">06 / MAP LIBRARY</div>
-            <h2>ESCENARIOS GEOGRÁFICOS Y TERRENOS A GRAN ESCALA.</h2>
+            <h2>ENTORNOS SINTÉTICOS PARA DISTINTOS NIVELES DE COMPLEJIDAD.</h2>
           </div>
-          <p>La cartografía se mantiene fuera de la carga inicial. Cada mapa se descarga únicamente cuando el usuario abre su ficha.</p>
+          <p>La biblioteca abarca escenarios desde áreas de familiarización y maniobra hasta entornos operacionales densos. Las vistas públicas muestran únicamente previews web; el contenido de trabajo permanece dentro del simulador.</p>
         </div>
 
-        <div class="map-library reveal" data-delay="60">
-          <article class="map-item">
-            <button class="map-trigger" aria-expanded="false">
-              <span><small>ENV / 01</small><b>URBAN TRAINING AREA</b></span>
-              <span class="map-action">VIEW MAP +</span>
-            </button>
-            <div class="map-content">
-              <div class="map-inner">
-                <div class="map-copy">
-                  <span>1 KM² / URBAN</span>
-                  <h3>Entorno urbano modular</h3>
-                  <p>Escenario de gran escala con sectores residenciales, infraestructura, vías de circulación, espacios abiertos y puntos de referencia para navegación y planificación.</p>
-                </div>
-                <figure class="map-frame">
-                  <img data-src="assets/urban-map.webp" alt="Vista ortográfica del entorno urbano de SimDron" />
-                </figure>
-              </div>
+        <div class="map-browser reveal" data-delay="60">
+          <div class="map-feature" data-map-feature>
+            <figure class="map-feature-visual">
+              <img src="assets/map-urban-detail.webp" alt="Vista general del entorno Urban de SimDron" draggable="false" />
+              <figcaption><span data-map-tier>INTERMEDIATE / 05</span><b data-map-title>URBAN</b></figcaption>
+            </figure>
+            <div class="map-feature-copy">
+              <span data-map-code>URBAN / BUILT ENVIRONMENT</span>
+              <h3 data-map-heading>Entorno urbano modular</h3>
+              <p data-map-description>Área urbana de mayor densidad para navegación, reconocimiento, coordinación y planificación de ejercicios sobre un tejido construido complejo.</p>
+              <small>PREVIEW PÚBLICA · RESOLUCIÓN WEB</small>
             </div>
-          </article>
+          </div>
+
+          <div class="map-tier">
+            <div class="map-tier-head"><span>BASIC</span><small>FAMILIARIZATION / CONTROL</small></div>
+            <div class="map-scroll" aria-label="Escenarios básicos">
+              <button class="map-card" data-map-title="DECK" data-map-tier="BASIC / 01" data-map-code="DECK / PRECISION" data-map-heading="Plataforma de precisión" data-map-description="Área compacta para despegue, aterrizaje, aproximación y control fino." data-map-src="assets/map-deck-preview.webp"><img src="assets/map-deck-preview.webp" alt="Mapa Deck" loading="lazy" draggable="false"><span>01</span><b>DECK</b></button>
+              <button class="map-card" data-map-title="POLYGON / STRUCT" data-map-tier="BASIC / 02" data-map-code="STRUCT / GEOMETRY" data-map-heading="Estructuras y pasos" data-map-description="Geometría simple para maniobras de precisión, referencias espaciales y entrenamiento de control." data-map-src="assets/map-struct-preview.webp"><img src="assets/map-struct-preview.webp" alt="Mapa Polygon Struct" loading="lazy" draggable="false"><span>02</span><b>POLYGON</b></button>
+              <button class="map-card" data-map-title="HANGAR" data-map-tier="BASIC / 03" data-map-code="HANGAR / CONFINED" data-map-heading="Operación en espacios confinados" data-map-description="Escenario compacto para aproximaciones, interiores y control próximo a estructuras." data-map-src="assets/map-hangar-preview.webp"><img src="assets/map-hangar-preview.webp" alt="Mapa Hangar" loading="lazy" draggable="false"><span>03</span><b>HANGAR</b></button>
+              <button class="map-card" data-map-title="FIELD" data-map-tier="BASIC / 04" data-map-code="FIELD / OPEN" data-map-heading="Campo abierto" data-map-description="Terreno abierto para navegación básica, circuitos, orientación y transición entre referencias." data-map-src="assets/map-field-preview.webp"><img src="assets/map-field-preview.webp" alt="Mapa Field" loading="lazy" draggable="false"><span>04</span><b>FIELD</b></button>
+              <button class="map-card" data-map-title="DESERT" data-map-tier="BASIC / 05" data-map-code="DESERT / LOW FEATURE" data-map-heading="Terreno desértico" data-map-description="Entorno de baja densidad visual para orientación, navegación y gestión de referencias escasas." data-map-src="assets/map-desert-preview.webp"><img src="assets/map-desert-preview.webp" alt="Mapa Desert" loading="lazy" draggable="false"><span>05</span><b>DESERT</b></button>
+            </div>
+          </div>
+
+          <div class="map-tier">
+            <div class="map-tier-head"><span>INTERMEDIATE</span><small>NAVIGATION / ISR / INFRASTRUCTURE</small></div>
+            <div class="map-scroll" aria-label="Escenarios intermedios">
+              <button class="map-card" data-map-title="COAST" data-map-tier="INTERMEDIATE / 01" data-map-code="COAST / LITTORAL" data-map-heading="Entorno costero" data-map-description="Escenario litoral con contraste tierra-agua y sectores de infraestructura para navegación y observación." data-map-src="assets/map-coast-preview.webp"><img src="assets/map-coast-preview.webp" alt="Mapa Coast" loading="lazy" draggable="false"><span>01</span><b>COAST</b></button>
+              <button class="map-card" data-map-title="AIRBASE" data-map-tier="INTERMEDIATE / 02" data-map-code="AIRBASE / INFRASTRUCTURE" data-map-heading="Infraestructura aeronáutica" data-map-description="Pistas, plataformas y sectores operativos para planificación y reconocimiento de infraestructura." data-map-src="assets/map-airbase-preview.webp"><img src="assets/map-airbase-preview.webp" alt="Mapa Airbase" loading="lazy" draggable="false"><span>02</span><b>AIRBASE</b></button>
+              <button class="map-card" data-map-title="FOREST" data-map-tier="INTERMEDIATE / 03" data-map-code="FOREST / VEGETATION" data-map-heading="Entorno forestal" data-map-description="Vegetación densa y referencias discontinuas para navegación, búsqueda y vuelo a baja altura." data-map-src="assets/map-forest-preview.webp"><img src="assets/map-forest-preview.webp" alt="Mapa Forest" loading="lazy" draggable="false"><span>03</span><b>FOREST</b></button>
+              <button class="map-card" data-map-title="INDUSTRIAL" data-map-tier="INTERMEDIATE / 04" data-map-code="INDUSTRIAL / COMPLEX" data-map-heading="Complejo industrial" data-map-description="Infraestructura, patios y corredores para vuelo técnico, observación y operación entre obstáculos." data-map-src="assets/map-industrial-preview.webp"><img src="assets/map-industrial-preview.webp" alt="Mapa Industrial" loading="lazy" draggable="false"><span>04</span><b>INDUSTRIAL</b></button>
+              <button class="map-card active" data-map-title="URBAN" data-map-tier="INTERMEDIATE / 05" data-map-code="URBAN / BUILT ENVIRONMENT" data-map-heading="Entorno urbano modular" data-map-description="Área urbana de mayor densidad para navegación, reconocimiento, coordinación y planificación de ejercicios sobre un tejido construido complejo." data-map-src="assets/map-urban-detail.webp"><img src="assets/map-urban-preview.webp" alt="Mapa Urban" loading="lazy" draggable="false"><span>05</span><b>URBAN</b></button>
+            </div>
+          </div>
+
+          <div class="map-tier">
+            <div class="map-tier-head"><span>ADVANCED</span><small>TACTICAL / COMPLEX OPERATIONS</small></div>
+            <div class="map-scroll" aria-label="Escenarios avanzados">
+              <button class="map-card" data-map-title="FOB" data-map-tier="ADVANCED / 01" data-map-code="FOB / FORWARD BASE" data-map-heading="Forward operating base" data-map-description="Entorno compuesto para reconocimiento, rutas de aproximación, coordinación y operación sobre múltiples puntos de interés." data-map-src="assets/map-fob-preview.webp"><img src="assets/map-fob-preview.webp" alt="Mapa FOB" loading="lazy" draggable="false"><span>01</span><b>FOB</b></button>
+              <button class="map-card" data-map-title="MOUNTAIN" data-map-tier="ADVANCED / 02" data-map-code="MOUNTAIN / RELIEF" data-map-heading="Terreno de montaña" data-map-description="Relieve marcado y desniveles para navegación, control de altura y planificación sobre terreno complejo." data-map-src="assets/map-mountain-preview.webp"><img src="assets/map-mountain-preview.webp" alt="Mapa Mountain" loading="lazy" draggable="false"><span>02</span><b>MOUNTAIN</b></button>
+              <button class="map-card" data-map-title="TRENCH" data-map-tier="ADVANCED / 03" data-map-code="TRENCH / LINEAR NETWORK" data-map-heading="Red de trincheras" data-map-description="Trazados lineales y posiciones distribuidas para navegación a baja altura y reconocimiento de detalle." data-map-src="assets/map-trench-preview.webp"><img src="assets/map-trench-preview.webp" alt="Mapa Trench" loading="lazy" draggable="false"><span>03</span><b>TRENCH</b></button>
+              <button class="map-card" data-map-title="COMBAT" data-map-tier="ADVANCED / 04" data-map-code="COMBAT / CONTESTED" data-map-heading="Entorno operacional complejo" data-map-description="Escenario de alta densidad preparado para combinar múltiples actores, objetivos, rutas y efectos de sistema." data-map-src="assets/map-combat-preview.webp"><img src="assets/map-combat-preview.webp" alt="Mapa Combat" loading="lazy" draggable="false"><span>04</span><b>COMBAT</b></button>
+              <button class="map-card" data-map-title="NETROAD" data-map-tier="ADVANCED / 05" data-map-code="NETROAD / ROUTE NETWORK" data-map-heading="Red de caminos" data-map-description="Red extendida de rutas y nodos para navegación, seguimiento, reconocimiento y planificación de itinerarios." data-map-src="assets/map-netroad-preview.webp"><img src="assets/map-netroad-preview.webp" alt="Mapa NetRoad" loading="lazy" draggable="false"><span>05</span><b>NETROAD</b></button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
