@@ -1,19 +1,16 @@
 (() => {
   if (!window.React || !window.ReactDOM) throw new Error('React runtime missing');
+  if (!window.BABYLON) throw new Error('Babylon runtime missing');
+
   const React = window.React;
   const ReactDOM = window.ReactDOM;
+  const BABYLON = window.BABYLON;
   const h = React.createElement;
   const { useEffect, useMemo, useRef, useState } = React;
 
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
   const lerp = (a, b, t) => a + (b - a) * t;
   const rad = d => d * Math.PI / 180;
-
-  const CAMERA = {
-    target: '0m 0m 0m',
-    orbit: '32deg 68deg .96m',
-    fov: '32deg'
-  };
 
   function VirtualStick({ side, value, onChange }) {
     const activePointer = useRef(null);
@@ -33,10 +30,14 @@
     const down = (e) => {
       activePointer.current = e.pointerId;
       e.currentTarget.setPointerCapture?.(e.pointerId);
+      e.preventDefault();
       updateFromEvent(e);
     };
     const move = (e) => {
-      if (activePointer.current === e.pointerId) updateFromEvent(e);
+      if (activePointer.current === e.pointerId) {
+        e.preventDefault();
+        updateFromEvent(e);
+      }
     };
     const up = (e) => {
       if (activePointer.current !== e.pointerId) return;
@@ -53,13 +54,14 @@
         onPointerDown: down,
         onPointerMove: move,
         onPointerUp: up,
-        onPointerCancel: up
+        onPointerCancel: up,
+        onContextMenu: e => e.preventDefault()
       },
         h('div', {
           className: 'stick-knob',
           style: {
-            '--sx': `${value.x * 39}px`,
-            '--sy': `${-value.y * 39}px`
+            '--sx': `${value.x * 34}px`,
+            '--sy': `${-value.y * 34}px`
           }
         })
       ),
@@ -84,16 +86,24 @@
     ));
   }
 
-  function FlightApp({ modelUrl, posterUrl }) {
+  function FlightApp({ modelUrl }) {
     const [mode, setMode] = useState('ANGLE');
     const [loaded, setLoaded] = useState(false);
+    const [loadError, setLoadError] = useState('');
     const [leftStick, setLeftStick] = useState({ x: 0, y: 0 });
     const [rightStick, setRightStick] = useState({ x: 0, y: 0 });
     const [keyTick, setKeyTick] = useState(0);
     const [telemetry, setTelemetry] = useState({ mode: 'ANGLE', throttle: 50, alt: 12, roll: 0, pitch: 0, yaw: 0 });
 
-    const modelRef = useRef(null);
-    const stageRef = useRef(null);
+    const canvasRef = useRef(null);
+    const sceneRef = useRef(null);
+    const engineRef = useRef(null);
+    const cameraRef = useRef(null);
+    const aircraftRef = useRef(null);
+    const modelRootRef = useRef(null);
+    const modelSizeRef = useRef(.66);
+    const baseGroundYRef = useRef(-.46);
+
     const leftRef = useRef(leftStick);
     const rightRef = useRef(rightStick);
     const modeRef = useRef(mode);
@@ -101,6 +111,7 @@
     const stateRef = useRef({ roll: 0, pitch: 0, yaw: 0, alt: 12, x: 0, z: 0, vx: 0, vz: 0 });
     const telemetryClock = useRef(0);
     const activeRef = useRef(true);
+    const frameRef = useRef(0);
 
     useEffect(() => { leftRef.current = leftStick; }, [leftStick]);
     useEffect(() => { rightRef.current = rightStick; }, [rightStick]);
@@ -113,19 +124,6 @@
       }
     };
 
-    const frameCamera = () => {
-      const mv = modelRef.current;
-      if (!mv) return;
-      try {
-        mv.setAttribute('camera-target', CAMERA.target);
-        mv.setAttribute('camera-orbit', CAMERA.orbit);
-        mv.setAttribute('field-of-view', CAMERA.fov);
-        mv.jumpCameraToGoal?.();
-      } catch (err) {
-        console.warn('Could not reframe model-viewer camera', err);
-      }
-    };
-
     const reset = () => {
       stateRef.current = { roll: 0, pitch: 0, yaw: 0, alt: 12, x: 0, z: 0, vx: 0, vz: 0 };
       leftRef.current = { x: 0, y: 0 };
@@ -133,13 +131,23 @@
       setLeftStick({ x: 0, y: 0 });
       setRightStick({ x: 0, y: 0 });
       clearKeys();
-      const mv = modelRef.current;
-      if (mv) {
-        mv.setAttribute('orientation', '0deg 0deg 0deg');
+
+      const rig = aircraftRef.current;
+      if (rig) {
+        rig.position.set(0, 0, 0);
+        rig.rotationQuaternion = BABYLON.Quaternion.Identity();
       }
-      frameCamera();
+      const camera = cameraRef.current;
+      if (camera) {
+        const size = modelSizeRef.current || .66;
+        camera.alpha = Math.PI * 1.22;
+        camera.beta = Math.PI * .39;
+        camera.radius = size * 2.15;
+        camera.target.copyFromFloats(0, 0, 0);
+      }
     };
 
+    // Desktop Mode 2 keyboard input.
     useEffect(() => {
       const controlled = new Set(['w', 'a', 's', 'd', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright']);
       const down = (e) => {
@@ -153,12 +161,14 @@
       };
       const up = (e) => {
         const k = e.key.toLowerCase();
+        if (!controlled.has(k)) return;
+        e.preventDefault();
         if (keysRef.current.delete(k)) setKeyTick(v => v + 1);
       };
       const blur = () => clearKeys();
       const visibility = () => { if (document.hidden) clearKeys(); };
       window.addEventListener('keydown', down, { passive: false });
-      window.addEventListener('keyup', up);
+      window.addEventListener('keyup', up, { passive: false });
       window.addEventListener('blur', blur);
       document.addEventListener('visibilitychange', visibility);
       return () => {
@@ -180,30 +190,206 @@
       };
     }, []);
 
+    // Real 3D scene. Unlike model-viewer, the aircraft is a TransformNode that we
+    // explicitly rotate and translate; OrbitCamera is used only to inspect/follow it.
     useEffect(() => {
-      const mv = modelRef.current;
-      if (!mv) return;
-      const onLoad = () => {
-        setLoaded(true);
-        // The source GLB has its origin below the visual centre. Explicit framing
-        // keeps the aircraft large and centered instead of relying on auto framing.
-        requestAnimationFrame(() => {
-          mv.setAttribute('orientation', '0deg 0deg 0deg');
-          frameCamera();
-          setTimeout(frameCamera, 80);
-        });
-      };
-      mv.addEventListener('load', onLoad);
-      return () => mv.removeEventListener('load', onLoad);
-    }, []);
+      const canvas = canvasRef.current;
+      if (!canvas) return;
 
+      let disposed = false;
+      const engine = new BABYLON.Engine(canvas, true, {
+        preserveDrawingBuffer: false,
+        stencil: true,
+        antialias: true,
+        adaptToDeviceRatio: true
+      });
+      engineRef.current = engine;
+
+      const scene = new BABYLON.Scene(engine);
+      sceneRef.current = scene;
+      scene.clearColor = new BABYLON.Color4(0.025, 0.03, 0.03, 1);
+      scene.ambientColor = new BABYLON.Color3(.22, .22, .22);
+
+      const camera = new BABYLON.ArcRotateCamera(
+        'inspectionCamera',
+        Math.PI * 1.22,
+        Math.PI * .39,
+        1.4,
+        BABYLON.Vector3.Zero(),
+        scene
+      );
+      cameraRef.current = camera;
+      camera.attachControl(canvas, true);
+      camera.panningSensibility = 0;
+      camera.wheelDeltaPercentage = .012;
+      camera.pinchDeltaPercentage = .008;
+      camera.inertia = .72;
+      camera.angularSensibilityX = 750;
+      camera.angularSensibilityY = 750;
+      camera.lowerBetaLimit = .18;
+      camera.upperBetaLimit = Math.PI - .24;
+      // Arrow keys belong to the simulated right stick, never to the inspection camera.
+      camera.keysUp = [];
+      camera.keysDown = [];
+      camera.keysLeft = [];
+      camera.keysRight = [];
+
+      const hemi = new BABYLON.HemisphericLight('hemi', new BABYLON.Vector3(.25, 1, -.2), scene);
+      hemi.intensity = 1.28;
+      hemi.diffuse = new BABYLON.Color3(.96, .98, 1);
+      hemi.groundColor = new BABYLON.Color3(.1, .1, .1);
+
+      const key = new BABYLON.DirectionalLight('key', new BABYLON.Vector3(-.45, -.8, .55), scene);
+      key.position = new BABYLON.Vector3(3, 5, -3);
+      key.intensity = 1.7;
+
+      const rim = new BABYLON.DirectionalLight('rim', new BABYLON.Vector3(.5, -.25, -.7), scene);
+      rim.position = new BABYLON.Vector3(-4, 2, 4);
+      rim.intensity = .65;
+      rim.diffuse = new BABYLON.Color3(1, .84, .25);
+
+      const aircraft = new BABYLON.TransformNode('aircraftRig', scene);
+      aircraft.rotationQuaternion = BABYLON.Quaternion.Identity();
+      aircraftRef.current = aircraft;
+
+      const makeGrid = (groundY, size) => {
+        const gridRoot = new BABYLON.TransformNode('gridRoot', scene);
+        const half = size * 7;
+        const step = size * .72;
+        const count = 22;
+        const lineColor = new BABYLON.Color3(.12, .135, .135);
+        for (let i = -count; i <= count; i++) {
+          const p = i * step;
+          const l1 = BABYLON.MeshBuilder.CreateLines(`gx${i}`, { points: [
+            new BABYLON.Vector3(-half, groundY, p),
+            new BABYLON.Vector3(half, groundY, p)
+          ] }, scene);
+          l1.color = lineColor;
+          l1.alpha = .42;
+          l1.isPickable = false;
+          l1.parent = gridRoot;
+
+          const l2 = BABYLON.MeshBuilder.CreateLines(`gz${i}`, { points: [
+            new BABYLON.Vector3(p, groundY, -half),
+            new BABYLON.Vector3(p, groundY, half)
+          ] }, scene);
+          l2.color = lineColor;
+          l2.alpha = .42;
+          l2.isPickable = false;
+          l2.parent = gridRoot;
+        }
+
+        const pad = BABYLON.MeshBuilder.CreateDisc('referencePad', { radius: size * .72, tessellation: 64 }, scene);
+        pad.rotation.x = Math.PI / 2;
+        pad.position.y = groundY + .002;
+        pad.isPickable = false;
+        const padMat = new BABYLON.StandardMaterial('padMat', scene);
+        padMat.diffuseColor = new BABYLON.Color3(.035, .04, .04);
+        padMat.emissiveColor = new BABYLON.Color3(.02, .02, .02);
+        padMat.specularColor = BABYLON.Color3.Black();
+        pad.material = padMat;
+
+        const ring = BABYLON.MeshBuilder.CreateTorus('referenceRing', {
+          diameter: size * 1.15,
+          thickness: size * .012,
+          tessellation: 96
+        }, scene);
+        ring.position.y = groundY + .01;
+        ring.isPickable = false;
+        const ringMat = new BABYLON.StandardMaterial('ringMat', scene);
+        ringMat.emissiveColor = new BABYLON.Color3(1, .78, 0);
+        ringMat.diffuseColor = new BABYLON.Color3(.15, .12, 0);
+        ring.material = ringMat;
+      };
+
+      BABYLON.SceneLoader.ImportMeshAsync(null, '', modelUrl, scene).then(result => {
+        if (disposed) return;
+
+        // Determine the actual visual bounds of the imported GLB and re-parent the
+        // imported top-level nodes below a centered root. This makes the rotation
+        // pivot independent from however Blender exported the model origin.
+        let min = new BABYLON.Vector3(Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY);
+        let max = new BABYLON.Vector3(Number.NEGATIVE_INFINITY, Number.NEGATIVE_INFINITY, Number.NEGATIVE_INFINITY);
+        const importedSet = new Set(result.meshes);
+
+        result.meshes.forEach(mesh => {
+          if (!mesh || !mesh.getBoundingInfo) return;
+          mesh.computeWorldMatrix(true);
+          const info = mesh.getBoundingInfo();
+          if (!info || !info.boundingBox) return;
+          min = BABYLON.Vector3.Minimize(min, info.boundingBox.minimumWorld);
+          max = BABYLON.Vector3.Maximize(max, info.boundingBox.maximumWorld);
+        });
+
+        const center = min.add(max).scale(.5);
+        const dimensions = max.subtract(min);
+        const maxDim = Math.max(dimensions.x, dimensions.y, dimensions.z, .1);
+        modelSizeRef.current = maxDim;
+        baseGroundYRef.current = -maxDim * .70;
+
+        const modelRoot = new BABYLON.TransformNode('centeredModelRoot', scene);
+        modelRootRef.current = modelRoot;
+        // Only top-level imported meshes/nodes are reparented so the GLB hierarchy stays intact.
+        result.meshes.forEach(mesh => {
+          if (!mesh) return;
+          if (!mesh.parent || !importedSet.has(mesh.parent)) mesh.parent = modelRoot;
+          mesh.isPickable = false;
+        });
+        result.transformNodes?.forEach(node => {
+          if (!node || node === modelRoot) return;
+          if (!node.parent || (!importedSet.has(node.parent) && node.parent !== modelRoot)) {
+            // GLTFLoader usually exposes meshes as the visible hierarchy, so leave
+            // nested transform nodes untouched; this branch only catches detached roots.
+          }
+        });
+
+        modelRoot.position = center.scale(-1);
+        modelRoot.parent = aircraft;
+
+        // Fit to the viewport from the actual model size — not a hard-coded camera distance.
+        camera.radius = maxDim * 2.05;
+        camera.lowerRadiusLimit = maxDim * .82;
+        camera.upperRadiusLimit = maxDim * 6.5;
+        camera.target.copyFromFloats(0, 0, 0);
+        camera.minZ = Math.max(.005, maxDim * .02);
+        camera.maxZ = maxDim * 100;
+
+        makeGrid(baseGroundYRef.current, maxDim);
+
+        setLoaded(true);
+      }).catch(err => {
+        console.error('SimDron 3D model load error', err);
+        if (!disposed) setLoadError('No se pudo cargar el modelo 3D.');
+      });
+
+      const resize = () => engine.resize();
+      window.addEventListener('resize', resize);
+      const ro = new ResizeObserver(() => engine.resize());
+      ro.observe(canvas);
+
+      engine.runRenderLoop(() => scene.render());
+
+      return () => {
+        disposed = true;
+        window.removeEventListener('resize', resize);
+        ro.disconnect();
+        aircraftRef.current = null;
+        cameraRef.current = null;
+        sceneRef.current = null;
+        engineRef.current = null;
+        scene.dispose();
+        engine.dispose();
+      };
+    }, [modelUrl]);
+
+    // Flight-control simulation. This loop changes the actual Babylon aircraft rig.
     useEffect(() => {
       let raf = 0;
       let last = performance.now();
+
       const frame = (now) => {
-        let dt = (now - last) / 1000;
+        let dt = Math.min((now - last) / 1000, .035);
         last = now;
-        dt = Math.min(dt, .035);
         if (!activeRef.current) {
           raf = requestAnimationFrame(frame);
           return;
@@ -222,8 +408,8 @@
         const m = modeRef.current;
 
         if (m === 'ACRO') {
-          st.pitch = clamp(st.pitch + pitchIn * 76 * dt, -82, 82);
-          st.roll = clamp(st.roll + rollIn * 100 * dt, -88, 88);
+          st.pitch = clamp(st.pitch + pitchIn * 78 * dt, -82, 82);
+          st.roll = clamp(st.roll + rollIn * 108 * dt, -88, 88);
         } else {
           const targetPitch = pitchIn * 34;
           const targetRoll = rollIn * 38;
@@ -232,40 +418,48 @@
           st.roll = lerp(st.roll, targetRoll, smoothing);
         }
 
-        st.yaw = (st.yaw + yawIn * 88 * dt + 360) % 360;
+        st.yaw = (st.yaw + yawIn * 92 * dt + 360) % 360;
 
         const cp = Math.cos(rad(st.pitch));
         const cr = Math.cos(rad(st.roll));
-        const tiltLoss = (1 - Math.max(0, cp * cr)) * 4.5;
+        const tiltLoss = (1 - Math.max(0, cp * cr)) * 4.8;
         const vertical = m === 'HORIZON' ? throttle * 3.2 : throttle * 3.2 - tiltLoss;
         st.alt = clamp(st.alt + vertical * dt, 0, 80);
 
-        const targetVx = Math.sin(rad(st.roll)) * 5.2;
-        const targetVz = Math.sin(rad(st.pitch)) * 5.5;
+        // Simplified horizontal motion for the third-person demonstrator.
+        // Pitch drives forward/back movement in the current yaw direction;
+        // roll adds lateral movement. The camera follows but does not replace it.
+        const yawR = rad(st.yaw);
+        const forward = Math.sin(rad(st.pitch)) * 2.1;
+        const lateral = Math.sin(rad(st.roll)) * 1.7;
+        const targetVx = Math.sin(yawR) * forward + Math.cos(yawR) * lateral;
+        const targetVz = Math.cos(yawR) * forward - Math.sin(yawR) * lateral;
         const motionSmooth = 1 - Math.exp(-2.8 * dt);
         st.vx = lerp(st.vx, targetVx, motionSmooth);
         st.vz = lerp(st.vz, targetVz, motionSmooth);
         st.x += st.vx * dt;
         st.z += st.vz * dt;
 
-        const mv = modelRef.current;
-        if (mv) {
-          // The web GLB is re-centered around its true visual centre, so attitude
-          // changes rotate the aircraft itself instead of swinging it around an
-          // off-centre export origin. model-viewer uses X/Y/Z Euler orientation:
-          // pitch around X, yaw around Y, roll around Z.
-          mv.setAttribute('orientation', `${(-st.pitch).toFixed(2)}deg ${st.yaw.toFixed(2)}deg ${(-st.roll).toFixed(2)}deg`);
+        const rig = aircraftRef.current;
+        const camera = cameraRef.current;
+        const size = modelSizeRef.current || .66;
+        if (rig) {
+          rig.rotationQuaternion = BABYLON.Quaternion.RotationYawPitchRoll(
+            rad(st.yaw),
+            rad(-st.pitch),
+            rad(-st.roll)
+          );
+          // Altitude is visually compressed so the vehicle remains inspectable.
+          rig.position.x = st.x * size * .22;
+          rig.position.z = st.z * size * .22;
+          rig.position.y = clamp((st.alt - 12) * size * .022, -size * .35, size * .65);
         }
 
-        const stage = stageRef.current;
-        if (stage) {
-          // Third-person chase presentation: the aircraft stays in the centre
-          // while its attitude is animated in 3D; terrain/horizon provide the
-          // translational reference, like a camera following the vehicle.
-          stage.style.setProperty('--gx', `${(-st.x * 28) % 54}px`);
-          stage.style.setProperty('--gz', `${(st.z * 28) % 54}px`);
-          stage.style.setProperty('--horizon-shift', `${clamp((12 - st.alt) * 3.2, -60, 60)}px`);
-          stage.style.setProperty('--bank', `${clamp(-st.roll * .18, -7, 7)}deg`);
+        if (camera && rig) {
+          // Chase-style target with damping: the aircraft can visibly move inside
+          // the frame while the camera gently follows it. Mouse/touch still owns orbit/zoom.
+          const desiredTarget = rig.position.clone();
+          camera.target = BABYLON.Vector3.Lerp(camera.target, desiredTarget, 1 - Math.exp(-3.5 * dt));
         }
 
         telemetryClock.current += dt;
@@ -280,14 +474,15 @@
             yaw: st.yaw
           });
         }
+
         raf = requestAnimationFrame(frame);
       };
+
       raf = requestAnimationFrame(frame);
+      frameRef.current = raf;
       return () => cancelAnimationFrame(raf);
     }, []);
 
-    // Keyboard input is combined with touch input for the on-screen sticks too.
-    // keyTick intentionally forces a render when a key is pressed/released.
     const visualSticks = useMemo(() => {
       void keyTick;
       const keys = keysRef.current;
@@ -306,44 +501,28 @@
 
     const modeCopy = {
       ACRO: 'Rate control. La actitud se conserva al soltar pitch o roll; el piloto debe corregirla manualmente.',
-      ANGLE: 'Auto-nivelado. El dron avanza inclinándose y la pérdida de componente vertical puede producir descenso si no se compensa con throttle.',
-      HORIZON: 'Traslación similar a ANGLE con mantenimiento de altura: la inclinación no introduce la misma pérdida vertical y el nivel se gobierna con throttle.'
+      ANGLE: 'Auto-nivelado. El dron se inclina para trasladarse y puede perder altura si no se compensa con throttle.',
+      HORIZON: 'Movimiento comparable a ANGLE con compensación vertical: la altura responde principalmente al throttle.'
     };
 
     return h('div', { className: 'flight-app' },
       h('div', { className: 'flight-topbar' },
         h('div', { className: 'flight-title' }, 'SIMDRON / FLIGHT CONTROL DEMO'),
-        h('div', { className: `flight-status${loaded ? ' live' : ''}` }, loaded ? 'MODEL READY' : 'LOADING MODEL…'),
+        h('div', { className: `flight-status${loaded ? ' live' : ''}` }, loadError || (loaded ? 'MODEL READY' : 'LOADING MODEL…')),
         h('div', { className: 'flight-modes' }, ...['ACRO', 'ANGLE', 'HORIZON'].map(m =>
           h('button', { key: m, className: mode === m ? 'active' : '', onClick: () => setMode(m) }, m)
         )),
         h('button', { className: 'flight-reset', onClick: reset }, 'RESET')
       ),
       h('div', { className: 'flight-body' },
-        h('div', { className: 'flight-stage', ref: stageRef },
-          h('div', { className: 'sim-horizon' }),
-          h('div', { className: 'sim-ground' }),
-          h('model-viewer', {
-            ref: modelRef,
-            className: 'flight-model',
-            src: modelUrl,
-            poster: posterUrl,
-            alt: 'Modelo 3D interactivo de dron FPV SimDron',
-            'camera-controls': true,
-            'disable-pan': true,
-            'interaction-prompt': 'none',
-            'shadow-intensity': '1.15',
-            'shadow-softness': '.8',
-            'exposure': '1.12',
-            'camera-target': CAMERA.target,
-            'camera-orbit': CAMERA.orbit,
-            'field-of-view': CAMERA.fov,
-            'min-camera-orbit': 'auto auto .52m',
-            'max-camera-orbit': 'auto auto 3.2m',
-            'min-field-of-view': '18deg',
-            'max-field-of-view': '58deg',
-            'touch-action': 'none'
+        h('div', { className: 'flight-stage' },
+          h('canvas', {
+            ref: canvasRef,
+            className: 'flight-canvas',
+            tabIndex: 0,
+            'aria-label': 'Vista tridimensional interactiva del dron FPV SimDron'
           }),
+          !loaded && h('div', { className: 'flight-stage-loading' }, loadError || 'CARGANDO MODELO 3D…'),
           h(Hud, { t: telemetry }),
           h('div', { className: 'flight-crosshair' }),
           h('div', { className: 'inspect-hint' }, 'DRAG · ORBIT   /   WHEEL · ZOOM')

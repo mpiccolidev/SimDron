@@ -147,3 +147,56 @@ h1{font-size:clamp(3.25rem,6.3vw,6.7rem);max-width:9.2ch;margin-top:24px}h1 em{f
 @media (max-width:560px){
   .flight-model{inset:0 0 124px 0 !important;height:auto !important;bottom:124px !important}
 }
+
+/* v4.3 — Babylon third-person renderer. The canvas is the full flight stage;
+   the aircraft is a real scene node and is no longer a small embedded viewport. */
+.flight-body{position:relative}
+.flight-stage{position:relative;isolation:isolate}
+.flight-stage::after{z-index:1}
+.flight-canvas{
+  position:absolute;
+  inset:0;
+  z-index:2;
+  display:block;
+  width:100% !important;
+  height:100% !important;
+  min-width:100%;
+  min-height:100%;
+  outline:none;
+  background:#070909;
+  touch-action:none;
+  cursor:grab;
+}
+.flight-canvas:active{cursor:grabbing}
+.flight-stage-loading{
+  position:absolute;
+  z-index:6;
+  inset:0;
+  display:grid;
+  place-items:center;
+  pointer-events:none;
+  background:radial-gradient(circle at center,rgba(255,255,255,.025),transparent 32rem);
+  color:#8b9595;
+  font:700 .58rem var(--mono);
+  letter-spacing:.12em;
+}
+.flight-hud{z-index:7}
+.flight-crosshair{z-index:6}
+.inspect-hint{z-index:7}
+/* Old model-viewer rules remain inert because v4.3 renders to .flight-canvas. */
+@media(max-width:900px){
+  .flight-canvas{bottom:124px;height:calc(100% - 124px) !important}
+  .flight-stage-loading{bottom:124px}
+}
+@media(max-width:560px){
+  .flight-canvas{bottom:118px;height:calc(100% - 118px) !important}
+  .flight-stage-loading{bottom:118px}
+}
+@media(max-width:900px){
+  .flight-canvas{inset:0 0 124px 0;height:auto !important;min-height:0}
+  .flight-stage-loading{inset:0 0 124px 0}
+}
+@media(max-width:560px){
+  .flight-canvas{inset:0 0 118px 0;height:auto !important}
+  .flight-stage-loading{inset:0 0 118px 0}
+}

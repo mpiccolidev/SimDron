@@ -189,8 +189,8 @@
       // React is an island: neither React nor the 3D runtime is part of the initial page load.
       await loadScript('https://unpkg.com/react@18.3.1/umd/react.production.min.js');
       await loadScript('https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js');
-      await loadScript('https://ajax.googleapis.com/ajax/libs/model-viewer/4.3.1/model-viewer.min.js', { module:true });
-      if (customElements?.whenDefined) await customElements.whenDefined('model-viewer');
+      await loadScript('https://cdn.babylonjs.com/babylon.js');
+      await loadScript('https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js');
       await loadScript('flight-demo.js');
       window.mountSimDronFlightDemo(root, {
         modelUrl: 'assets/fpv-drone.glb',
