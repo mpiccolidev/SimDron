@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SimDron — Entrenamiento sintético para operaciones UAS</title>
-  <meta name="description" content="SimDron es una plataforma argentina de simulación inmersiva para entrenamiento, planificación y ensayo de misiones con sistemas remotos autónomos, optimizada para Meta Quest y complementada por Mission Control." />
-  <meta name="theme-color" content="#080909" />
+  <title>SimDron — Sistema de Simulación de Vehículos Autónomos</title>
+  <meta name="description" content="SimDron es una plataforma argentina de simulación inmersiva para entrenamiento con sistemas remotos autónomos: vuelo, sensores, escenarios, Mission Control y operación XR standalone sobre Meta Quest." />
+  <meta name="theme-color" content="#060707" />
   <meta name="robots" content="index,follow,max-image-preview:large" />
   <link rel="canonical" href="https://mpiccolidev.github.io/SimDron/" />
   <link rel="icon" type="image/png" href="assets/simdron-favicon.png" />
@@ -13,13 +13,13 @@
 
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="es_AR" />
-  <meta property="og:title" content="SimDron — Entrenamiento sintético para operaciones UAS" />
-  <meta property="og:description" content="Vuelo inmersivo, Mission Control, sensores, escenarios 3D y entrenamiento multioperador sobre una plataforma XR optimizada para Meta Quest." />
+  <meta property="og:title" content="SimDron — Sistema de Simulación de Vehículos Autónomos" />
+  <meta property="og:description" content="Simulación inmersiva, perfiles de aeronave, sensores, entornos 3D y Mission Control para entrenamiento individual y colectivo." />
   <meta property="og:url" content="https://mpiccolidev.github.io/SimDron/" />
   <meta property="og:image" content="https://mpiccolidev.github.io/SimDron/assets/og-simdron.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="SimDron — Entrenamiento sintético para operaciones UAS" />
-  <meta name="twitter:description" content="Simulación inmersiva, Mission Control y entrenamiento táctico con sistemas remotos autónomos." />
+  <meta name="twitter:title" content="SimDron — Sistema de Simulación de Vehículos Autónomos" />
+  <meta name="twitter:description" content="Vuelo inmersivo, sensores, escenarios, Mission Control y operación XR standalone." />
   <meta name="twitter:image" content="https://mpiccolidev.github.io/SimDron/assets/og-simdron.jpg" />
 
   <script type="application/ld+json">
@@ -29,333 +29,349 @@
     "name": "SimDron",
     "applicationCategory": "SimulationApplication",
     "operatingSystem": "Meta Quest",
-    "description": "Plataforma de simulación inmersiva para entrenamiento y ensayo de misiones con sistemas remotos autónomos.",
+    "description": "Plataforma de simulación inmersiva de sistemas remotos autónomos, desarrollada en Unity y optimizada para dispositivos VR standalone.",
     "url": "https://mpiccolidev.github.io/SimDron/",
     "author": { "@type": "Person", "name": "Mauro Iván Piccoli" }
   }
   </script>
-
-  <script type="module" src="https://unpkg.com/@google/model-viewer@4.3.1/dist/model-viewer.min.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Saltar al contenido</a>
 
-  <header class="site-header">
-    <div class="shell nav-wrap">
+  <header class="site-header" id="top">
+    <div class="shell header-row">
       <a class="brand" href="#top" aria-label="SimDron, inicio">
         <img src="assets/simdron-logo.png" alt="SimDron by CYS" />
       </a>
-
-      <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="navMenu" aria-label="Abrir navegación">
+      <button class="menu-toggle" id="menuToggle" aria-controls="mainNav" aria-expanded="false" aria-label="Abrir navegación">
         <span></span><span></span><span></span>
       </button>
-
-      <nav class="nav-menu" id="navMenu" aria-label="Principal">
+      <nav class="main-nav" id="mainNav" aria-label="Principal">
         <a href="#sistema">Sistema</a>
         <a href="#plataformas">Plataformas</a>
-        <a href="#vuelo3d">Vuelo 3D</a>
+        <a href="#demostrador">Demostrador</a>
         <a href="#mission-control">Mission Control</a>
         <a href="#cartografia">Cartografía</a>
-        <a class="nav-github" href="https://github.com/mpiccolidev/SimDron" target="_blank" rel="noopener">GitHub ↗</a>
+        <a href="#media">Media</a>
+        <a class="github-link" href="https://github.com/mpiccolidev/SimDron" target="_blank" rel="noopener">GitHub ↗</a>
       </nav>
     </div>
   </header>
 
   <main id="main">
-    <section class="hero" id="top">
-      <div class="shell hero-grid">
-        <div class="hero-copy">
-          <div class="eyebrow"><span class="pulse-dot"></span>Synthetic training · XR · UAS</div>
-          <h1>ENTRENAMIENTO SINTÉTICO PARA <span>OPERACIONES CON SISTEMAS REMOTOS AUTÓNOMOS</span></h1>
-          <p class="lead">SimDron integra vuelo inmersivo, dinámica configurable, sensores, planificación y control de misión en una plataforma optimizada para Meta Quest 3/3S y entrenamiento colectivo con Mission Control.</p>
+    <section class="hero">
+      <div class="hero-grid shell">
+        <div class="hero-copy reveal">
+          <div class="eyebrow"><span></span>SIMULATION SYSTEM / ARGENTINA</div>
+          <h1>SISTEMA DE SIMULACIÓN DE <em>VEHÍCULOS AUTÓNOMOS</em></h1>
+          <p class="hero-lead">SimDron combina vuelo inmersivo, físicas configurables, sensores, escenarios geográficos y supervisión de misión para representar operaciones con sistemas remotos autónomos dentro de un entorno XR standalone.</p>
           <div class="hero-actions">
-            <a class="btn btn-primary" href="#sistema">Explorar capacidades</a>
-            <a class="btn btn-ghost" href="#plataformas">Ver plataformas</a>
+            <a class="btn primary" href="#sistema">Explorar sistema</a>
+            <button class="btn ghost" data-open-demo>Demostrador de vuelo</button>
           </div>
-          <div class="hero-tags" aria-label="Capacidades destacadas">
-            <span>Standalone XR</span><span>FPV</span><span>ISR / SRR</span><span>Multioperador</span><span>Instructor Hub</span>
+          <div class="hero-meta">
+            <span>UNITY</span><span>META QUEST 3 / 3S</span><span>FPV</span><span>ISR / SRR</span><span>MISSION CONTROL</span>
           </div>
         </div>
 
-        <div class="hero-visual tactical-frame">
-          <img src="assets/hero.webp" alt="Interfaz de operación de SimDron durante una sesión de vuelo" />
-          <div class="frame-corner tl"></div><div class="frame-corner tr"></div><div class="frame-corner bl"></div><div class="frame-corner br"></div>
-          <div class="hero-overlay">
-            <span>SIMULATION ENVIRONMENT</span>
-            <strong>VR + MISSION CONTROL</strong>
-          </div>
-        </div>
+        <figure class="hero-media reveal" data-delay="80">
+          <img src="assets/hero.webp" alt="Interfaz de operación de SimDron en un entorno de simulación" />
+          <figcaption>
+            <span>LIVE SIMULATION</span>
+            <b>FLIGHT / TELEMETRY / SENSOR FEED</b>
+          </figcaption>
+        </figure>
       </div>
 
-      <div class="shell capability-strip" aria-label="Resumen del sistema">
-        <div><b>01</b><span>Vuelo inmersivo</span></div>
-        <div><b>02</b><span>Sensores y enlaces</span></div>
-        <div><b>03</b><span>Escenarios tácticos</span></div>
-        <div><b>04</b><span>Instrucción colectiva</span></div>
-      </div>
-    </section>
-
-    <section class="section" id="sistema">
-      <div class="shell">
-        <div class="section-heading">
-          <div class="section-index">01 / SISTEMA</div>
-          <h2>DE LA OPERACIÓN INDIVIDUAL AL ENSAYO DE MISIÓN.</h2>
-          <p>La plataforma combina simulación de vuelo, sensores, entorno, automatización y supervisión del instructor para representar tareas operativas dentro de un mismo ecosistema.</p>
-        </div>
-
-        <div class="dossier-list" data-accordion-group>
-          <article class="dossier is-open">
-            <button class="dossier-trigger" aria-expanded="true">
-              <span class="dossier-code">FLT</span>
-              <span class="dossier-title">Piloting & flight dynamics</span>
-              <span class="dossier-plus">+</span>
-            </button>
-            <div class="dossier-panel">
-              <div class="dossier-inner">
-                <p>Perfiles de vuelo diferenciados, modos ACRO / ANGLE / HORIZON, respuesta configurable, parámetros de física y compatibilidad con gamepad, controladores RC y perfiles HID.</p>
-                <div class="micro-tags"><span>ACRO</span><span>ANGLE</span><span>HORIZON</span><span>PID</span><span>MODE 2</span></div>
-              </div>
-            </div>
-          </article>
-
-          <article class="dossier">
-            <button class="dossier-trigger" aria-expanded="false">
-              <span class="dossier-code">ISR</span>
-              <span class="dossier-title">Reconocimiento, sensores y observación</span>
-              <span class="dossier-plus">+</span>
-            </button>
-            <div class="dossier-panel">
-              <div class="dossier-inner">
-                <p>Cámaras configurables, gimbal, FOV, visualización RGB/IR, telemetría, seguimiento y perfiles orientados a reconocimiento de corto alcance y observación.</p>
-                <div class="micro-tags"><span>RGB</span><span>IR</span><span>GIMBAL</span><span>FOV</span><span>TRACK</span></div>
-              </div>
-            </div>
-          </article>
-
-          <article class="dossier">
-            <button class="dossier-trigger" aria-expanded="false">
-              <span class="dossier-code">C2</span>
-              <span class="dossier-title">Mission Control & instructor workflow</span>
-              <span class="dossier-plus">+</span>
-            </button>
-            <div class="dossier-panel">
-              <div class="dossier-inner">
-                <p>Supervisión multiusuario, vistas de cámara, telemetría, mapa táctico, waypoints, estados de operación y herramientas para coordinar ejercicios individuales o colectivos.</p>
-                <div class="micro-tags"><span>LIVE</span><span>MAP</span><span>WALL</span><span>WAYPOINTS</span><span>TELEMETRY</span></div>
-              </div>
-            </div>
-          </article>
-
-          <article class="dossier">
-            <button class="dossier-trigger" aria-expanded="false">
-              <span class="dossier-code">ENV</span>
-              <span class="dossier-title">Entorno, navegación y efectos de sistema</span>
-              <span class="dossier-plus">+</span>
-            </button>
-            <div class="dossier-panel">
-              <div class="dossier-inner">
-                <p>Escenarios 3D extensos, iluminación, viento, navegación, enlace, autonomía, RTH, IA y configuración de plataforma para construir ejercicios con distintos niveles de complejidad.</p>
-                <div class="micro-tags"><span>WIND</span><span>LINK</span><span>RTH</span><span>AI</span><span>DAY / NIGHT</span></div>
-              </div>
-            </div>
-          </article>
-        </div>
+      <div class="shell system-strip reveal" data-delay="130">
+        <div><span>01</span><b>Flight dynamics</b><small>ACRO · ANGLE · HORIZON</small></div>
+        <div><span>02</span><b>Mission systems</b><small>VLOS · BLOS · ELOS · FPV</small></div>
+        <div><span>03</span><b>Sensor stack</b><small>RGB · IR · THERMAL · GIMBAL</small></div>
+        <div><span>04</span><b>Instructor / C2</b><small>MAP · WALL · TELEMETRY</small></div>
       </div>
     </section>
 
-    <section class="section platforms-section" id="plataformas">
+    <section class="section intro-section" id="sistema">
+      <div class="shell intro-grid">
+        <div class="section-marker reveal">01 / SYSTEM</div>
+        <div class="intro-statement reveal" data-delay="50">
+          <h2>UN ENTORNO SINTÉTICO PARA REPRESENTAR VUELO, PLATAFORMA Y MISIÓN.</h2>
+          <p>SimDron es una plataforma de simulación basada en realidad virtual, físicas de vuelo y entornos 3D interactivos. El sistema permite recrear diferentes condiciones de vuelo, configuraciones de aeronave, escenarios geográficos y situaciones operativas dentro de una misma experiencia inmersiva.</p>
+        </div>
+      </div>
+
+      <div class="shell capability-matrix reveal" data-delay="100">
+        <article>
+          <div class="cap-head"><span>FLT</span><b>Flight</b></div>
+          <p>Multirrotor, físicas personalizables, viento, ACRO / ANGLE / HORIZON, modos de control 1–4 y gamepad.</p>
+          <div class="tag-row"><span>PID</span><span>MODE 2</span><span>WIND</span><span>RTH</span></div>
+        </article>
+        <article>
+          <div class="cap-head"><span>MSN</span><b>Mission</b></div>
+          <p>VLOS, BLOS, ELOS y FPV; batería, autonomía, conectividad, degradación de señal, payload y fibra óptica.</p>
+          <div class="tag-row"><span>LINK</span><span>PAYLOAD</span><span>FIBER</span><span>AI</span></div>
+        </article>
+        <article>
+          <div class="cap-head"><span>ISR</span><b>Sensors</b></div>
+          <p>Múltiples configuraciones de cámara, control de gimbal y FOV, cámaras RGB, IR y térmicas y perfiles de reconocimiento.</p>
+          <div class="tag-row"><span>RGB</span><span>IR</span><span>FLIR</span><span>TRACK</span></div>
+        </article>
+        <article>
+          <div class="cap-head"><span>ENV</span><b>Environment</b></div>
+          <p>Terrenos y escenarios a gran escala, clima e iluminación dinámica, vegetación, estructuras y competition gates.</p>
+          <div class="tag-row"><span>TERRAIN</span><span>WEATHER</span><span>DAY/NIGHT</span><span>GATES</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section platform-section" id="plataformas">
       <div class="shell">
-        <div class="section-heading split">
+        <div class="section-head reveal">
           <div>
-            <div class="section-index">02 / PLATAFORMAS</div>
+            <div class="section-marker">02 / PLATFORM LIBRARY</div>
             <h2>PERFILES DE AERONAVE PARA DIFERENTES TAREAS.</h2>
           </div>
-          <p>Los perfiles modifican la experiencia de vuelo, sensores, prestaciones y configuración de la plataforma sin convertir la interfaz en un selector genérico de vehículos.</p>
+          <p>Cada perfil puede modificar comportamiento, autonomía, sensores, cámaras y capacidad de carga. La plataforma mantiene una interfaz común sin reducir las diferencias entre aeronaves.</p>
         </div>
 
-        <div class="platform-grid">
-          <article class="platform-card">
-            <div class="platform-image"><img src="assets/rtf.webp" alt="Perfil RTF" loading="lazy" /></div>
-            <div class="platform-meta"><span>RTF</span><small>General purpose</small></div>
-          </article>
-          <article class="platform-card featured">
-            <div class="platform-image"><img src="assets/fpv-profile.webp" alt="Perfil FPV" loading="lazy" /></div>
-            <div class="platform-meta"><span>FPV</span><small>First person view</small></div>
-          </article>
-          <article class="platform-card">
-            <div class="platform-image"><img src="assets/mini.webp" alt="Perfil Mini" loading="lazy" /></div>
-            <div class="platform-meta"><span>MINI</span><small>Compact platform</small></div>
-          </article>
-          <article class="platform-card">
-            <div class="platform-image"><img src="assets/pro.webp" alt="Perfil Pro" loading="lazy" /></div>
-            <div class="platform-meta"><span>PRO</span><small>Advanced sensor platform</small></div>
-          </article>
-          <article class="platform-card">
-            <div class="platform-image"><img src="assets/hs.webp" alt="Perfil HS" loading="lazy" /></div>
-            <div class="platform-meta"><span>HS</span><small>High-speed profile</small></div>
-          </article>
-          <article class="platform-card">
-            <div class="platform-image"><img src="assets/srr.webp" alt="Perfil SRR basado en Matrice 4T" loading="lazy" /></div>
-            <div class="platform-meta"><span>SRR</span><small>Matrice 4T · Short Range Recon</small></div>
-          </article>
+        <div class="platform-showcase reveal" data-delay="70">
+          <div class="platform-stage">
+            <div class="stage-grid" aria-hidden="true"></div>
+            <img id="platformImage" src="assets/fpv-profile.webp" alt="Perfil FPV de SimDron" />
+            <div class="platform-index" id="platformIndex">02 / 06</div>
+          </div>
+          <div class="platform-data">
+            <div class="platform-kicker" id="platformKicker">FIRST PERSON VIEW</div>
+            <h3 id="platformName">FPV</h3>
+            <p id="platformDescription">Perfil orientado a operación inmersiva en primera persona, maniobra directa y entrenamiento de respuesta manual.</p>
+            <dl id="platformSpecs">
+              <div><dt>CONTROL</dt><dd>ACRO / ANGLE / HORIZON</dd></div>
+              <div><dt>VIEW</dt><dd>FPV</dd></div>
+              <div><dt>INPUT</dt><dd>MODE 1–4 / GAMEPAD</dd></div>
+            </dl>
+            <div class="platform-tabs" role="tablist" aria-label="Perfiles de aeronave">
+              <button data-platform="rtf" role="tab">RTF</button>
+              <button data-platform="fpv" role="tab" class="active" aria-selected="true">FPV</button>
+              <button data-platform="mini" role="tab">MINI</button>
+              <button data-platform="pro" role="tab">PRO</button>
+              <button data-platform="hs" role="tab">HS</button>
+              <button data-platform="srr" role="tab">SRR</button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="section model-section" id="vuelo3d">
-      <div class="shell model-grid">
-        <div>
-          <div class="section-index">03 / FLIGHT MODEL</div>
-          <h2>MODELOS DE VUELO, VISUALIZADOS EN 3D.</h2>
-          <p class="section-copy">El modelo puede rotarse con mouse o touch. Los controles ACRO, ANGLE y HORIZON ejecutan una demostración visual conceptual del comportamiento de actitud; la dinámica real se calcula dentro del simulador.</p>
-
-          <div class="mode-controls" role="group" aria-label="Demostración de modos de vuelo">
-            <button class="mode-btn active" data-mode="acro">ACRO</button>
-            <button class="mode-btn" data-mode="angle">ANGLE</button>
-            <button class="mode-btn" data-mode="horizon">HORIZON</button>
+    <section class="section demo-section" id="demostrador">
+      <div class="shell demo-grid">
+        <div class="demo-copy reveal">
+          <div class="section-marker">03 / FLIGHT CONTROL DEMONSTRATOR</div>
+          <h2>MODE 2. CONTROLES VISIBLES. COMPORTAMIENTO COMPARABLE.</h2>
+          <p>Una demostración interactiva simplificada permite comparar la lógica de control de ACRO, ANGLE y HORIZON utilizando el mismo esquema Mode 2 del simulador.</p>
+          <div class="mode2-diagram" aria-label="Controles Mode 2">
+            <div>
+              <b>STICK L</b>
+              <span>W / S — THROTTLE</span>
+              <span>A / D — YAW</span>
+            </div>
+            <div>
+              <b>STICK R</b>
+              <span>↑ / ↓ — PITCH</span>
+              <span>← / → — ROLL</span>
+            </div>
           </div>
-
-          <div class="mode-brief" id="modeBrief" aria-live="polite">
-            <strong>ACRO</strong>
-            <span>Control directo de velocidad angular. La actitud no se autonivela al soltar el mando.</span>
-          </div>
-
-          <div class="mode-instrument">
-            <span>BANK DEMO</span>
-            <b id="bankReadout">000°</b>
+          <div class="demo-mode-copy">
+            <div><span>ACRO</span><p>El mando actúa sobre tasas de rotación. Sin auto-nivelado.</p></div>
+            <div><span>ANGLE</span><p>La aeronave se inclina para trasladarse y la inclinación reduce el componente vertical del empuje.</p></div>
+            <div><span>HORIZON</span><p>Traslación similar a ANGLE con compensación vertical para mantener altura según el mando de throttle.</p></div>
           </div>
         </div>
 
-        <div class="viewer-shell tactical-frame">
-          <model-viewer id="droneViewer"
-            src="assets/fpv-drone.glb"
-            poster="assets/model-poster.jpg"
-            alt="Modelo 3D interactivo de un dron FPV de SimDron"
-            camera-controls
-            touch-action="pan-y"
-            auto-rotate
-            auto-rotate-delay="1400"
-            rotation-per-second="14deg"
-            camera-orbit="35deg 70deg 110%"
-            min-camera-orbit="auto 25deg 70%"
-            max-camera-orbit="auto 155deg 180%"
-            interpolation-decay="90"
-            shadow-intensity="0.85"
-            exposure="0.95">
-          </model-viewer>
-          <div class="viewer-hint">ARRASTRAR PARA ROTAR · RUEDA / PINCH PARA ZOOM</div>
+        <div class="demo-card reveal" data-delay="80">
+          <img src="assets/model-poster.jpg" alt="Vista previa del dron FPV del demostrador 3D" loading="lazy" />
+          <div class="demo-card-overlay">
+            <div><span>INTERACTIVE MODEL</span><b>MODE 2 / ACRO · ANGLE · HORIZON</b></div>
+            <button class="btn primary" data-open-demo>Cargar demostrador · ~27 MB</button>
+          </div>
+          <div class="data-note">El modelo 3D y sus librerías se descargan únicamente al abrir el demostrador.</div>
         </div>
       </div>
     </section>
 
     <section class="section mission-section" id="mission-control">
       <div class="shell">
-        <div class="section-heading split">
+        <div class="section-head reveal">
           <div>
-            <div class="section-index">04 / MISSION CONTROL</div>
-            <h2>INSTRUCCIÓN COLECTIVA Y SUPERVISIÓN EN TIEMPO REAL.</h2>
+            <div class="section-marker">04 / INSTRUCTOR & C2</div>
+            <h2>MISSION CONTROL PARA SUPERVISIÓN INDIVIDUAL Y COLECTIVA.</h2>
           </div>
-          <p>El instructor puede trabajar sobre el estado del ejercicio, mapa, cámaras y telemetría desde una estación central, mientras múltiples operadores mantienen su propia experiencia de vuelo.</p>
+          <p>La estación de instructor reúne mapa, telemetría, estados, vistas de cámara y herramientas de coordinación para observar y conducir ejercicios con múltiples operadores.</p>
         </div>
 
-        <div class="mission-layout">
-          <figure class="media-card media-main">
-            <img src="assets/mission-control.webp" alt="Vista WALL de SimDron Mission Control" loading="lazy" />
-            <figcaption><b>WALL</b><span>Vista multioperador y supervisión de aula</span></figcaption>
+        <div class="mission-composition reveal" data-delay="60">
+          <figure class="mission-primary">
+            <img src="assets/mission-control.webp" alt="Vista Wall de SimDron Mission Control" loading="lazy" />
+            <figcaption><span>WALL / LIVE</span><b>SUPERVISIÓN MULTIOPERADOR</b></figcaption>
           </figure>
           <div class="mission-side">
-            <figure class="media-card">
-              <img src="assets/srr-ui.webp" alt="Interfaz de sensor y reconocimiento SRR" loading="lazy" />
-              <figcaption><b>SRR</b><span>Sensor, telemetría y navegación</span></figcaption>
+            <figure>
+              <img src="assets/srr-ui.webp" alt="Interfaz SRR con sensores y telemetría" loading="lazy" />
+              <figcaption><span>SRR / SENSOR</span><b>RECONOCIMIENTO</b></figcaption>
             </figure>
-            <div class="mission-points">
-              <div><b>01</b><span>Mapa táctico y waypoints</span></div>
-              <div><b>02</b><span>Telemetría por operador</span></div>
-              <div><b>03</b><span>Vistas FPV / SRR / instructor</span></div>
-              <div><b>04</b><span>Control y seguimiento del ejercicio</span></div>
+            <div class="mission-specs">
+              <div><span>MAP</span><b>WAYPOINTS / SYMBOLS</b></div>
+              <div><span>LIVE</span><b>VIDEO / TELEMETRY</b></div>
+              <div><span>AI</span><b>AUTO / TRACK / RTH</b></div>
+              <div><span>CTRL</span><b>INDIVIDUAL / GROUP</b></div>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section cartography-section" id="cartografia">
-      <div class="shell">
-        <div class="section-heading split">
-          <div>
-            <div class="section-index">05 / CARTOGRAFÍA</div>
-            <h2>ESCENARIOS Y TERRENO COMO PARTE DEL EJERCICIO.</h2>
-          </div>
-          <p>Las vistas pesadas se cargan sólo cuando el usuario abre la sección, para mantener rápida la página principal y permitir ampliar la biblioteca de mapas más adelante.</p>
-        </div>
-
-        <div class="map-expander" id="mapExpander">
-          <button class="map-toggle" id="mapToggle" aria-expanded="false" aria-controls="mapPanel">
-            <span><small>MAP LIBRARY</small><b>VER CARTOGRAFÍA Y ENTORNOS</b></span>
-            <span class="map-plus">+</span>
-          </button>
-          <div class="map-panel" id="mapPanel">
-            <div class="map-panel-inner">
-              <div class="map-copy">
-                <span class="map-label">URBAN TRAINING AREA</span>
-                <h3>Entorno urbano modular</h3>
-                <p>Ejemplo de un área de entrenamiento con tejido urbano, infraestructura, espacios abiertos y referencias visuales para navegación, reconocimiento y planificación.</p>
-                <p class="muted">La estructura queda preparada para incorporar nuevas miniaturas de mapas sin cargar los archivos de alta resolución al abrir la página.</p>
-              </div>
-              <figure class="map-frame">
-                <img data-src="assets/urban-map.webp" alt="Vista cenital de un mapa urbano de SimDron" />
-              </figure>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section sensors-section">
+    <section class="section sensor-section">
       <div class="shell sensor-grid">
-        <div class="sensor-copy">
-          <div class="section-index">06 / SENSOR STACK</div>
-          <h2>VUELO, OBSERVACIÓN Y TELEMETRÍA EN UNA MISMA EXPERIENCIA.</h2>
-          <p>SimDron integra representación de sensores, gimbal, campo de visión, modos de cámara y datos de navegación dentro del flujo operativo del usuario.</p>
-          <div class="sensor-specs">
-            <span>RGB / IR</span><span>FOV</span><span>GIMBAL</span><span>AGL / MSL</span><span>LINK</span><span>TRACK</span>
+        <div class="sensor-visual reveal">
+          <img src="assets/sensors.webp" alt="Vista FPV y telemetría del simulador" loading="lazy" />
+          <span>LIVE FEED / FPV</span>
+        </div>
+        <div class="sensor-copy reveal" data-delay="70">
+          <div class="section-marker">05 / SENSOR STACK</div>
+          <h2>OBSERVACIÓN, GIMBAL Y VISUALIZACIÓN MULTIESPECTRAL.</h2>
+          <p>El sistema integra configuraciones de cámara con control de gimbal y FOV, visualización RGB, IR y térmica y perfiles orientados a reconocimiento, seguimiento y observación.</p>
+          <div class="sensor-list">
+            <span>RGB</span><span>IR</span><span>THERMAL</span><span>GIMBAL</span><span>FOV</span><span>TRACK</span><span>SRR</span>
           </div>
         </div>
-        <figure class="media-card sensor-media">
-          <img src="assets/sensors.webp" alt="Interfaz FPV y sensores de SimDron" loading="lazy" />
-          <figcaption><b>OPERATOR VIEW</b><span>Visualización integrada de vuelo y sensor</span></figcaption>
-        </figure>
       </div>
     </section>
 
-    <section class="section development-section" id="desarrollo">
-      <div class="shell dev-grid">
-        <div>
-          <div class="section-index">07 / DEVELOPMENT</div>
-          <h2>DESARROLLO MULTIDISCIPLINARIO.</h2>
-        </div>
-        <div class="dev-card">
-          <div class="dev-name-row">
-            <div>
-              <small>DESARROLLADOR</small>
-              <h3>Mauro Iván Piccoli</h3>
-            </div>
-            <span class="dev-mark">SIM / XR</span>
+    <section class="section map-section" id="cartografia">
+      <div class="shell">
+        <div class="section-head reveal">
+          <div>
+            <div class="section-marker">06 / MAP LIBRARY</div>
+            <h2>ESCENARIOS GEOGRÁFICOS Y TERRENOS A GRAN ESCALA.</h2>
           </div>
-          <p class="dev-role">Technical Lead · Unity / C# · XR & VR · Simulation Systems · 3D / Technical Art</p>
-          <p>Perfil técnico multidisciplinario aplicado a arquitectura de software, físicas de vuelo, herramientas de instructor, IA, interfaces, arte 2D/3D y optimización para hardware standalone.</p>
-          <a class="text-link" href="https://github.com/mpiccolidev/SimDron" target="_blank" rel="noopener">Ver repositorio del proyecto ↗</a>
+          <p>La cartografía se mantiene fuera de la carga inicial. Cada mapa se descarga únicamente cuando el usuario abre su ficha.</p>
         </div>
+
+        <div class="map-library reveal" data-delay="60">
+          <article class="map-item">
+            <button class="map-trigger" aria-expanded="false">
+              <span><small>ENV / 01</small><b>URBAN TRAINING AREA</b></span>
+              <span class="map-action">VIEW MAP +</span>
+            </button>
+            <div class="map-content">
+              <div class="map-inner">
+                <div class="map-copy">
+                  <span>1 KM² / URBAN</span>
+                  <h3>Entorno urbano modular</h3>
+                  <p>Escenario de gran escala con sectores residenciales, infraestructura, vías de circulación, espacios abiertos y puntos de referencia para navegación y planificación.</p>
+                </div>
+                <figure class="map-frame">
+                  <img data-src="assets/urban-map.webp" alt="Vista ortográfica del entorno urbano de SimDron" />
+                </figure>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section media-section" id="media">
+      <div class="shell">
+        <div class="section-head reveal">
+          <div>
+            <div class="section-marker">07 / MEDIA</div>
+            <h2>SIMULACIÓN EN EJECUCIÓN.</h2>
+          </div>
+          <p>Los videos se cargan bajo demanda: la página muestra una vista previa y crea el reproductor de YouTube únicamente después de una interacción.</p>
+        </div>
+
+        <div class="video-grid reveal" data-delay="60">
+          <button class="video-card" data-youtube="AUZP7HLaWsk" aria-label="Reproducir Map Combat FPV">
+            <img data-youtube-thumb="AUZP7HLaWsk" alt="Map Combat FPV" loading="lazy" />
+            <span class="play">▶</span>
+            <span class="video-meta"><small>FIELD FOOTAGE / 01</small><b>MAP COMBAT — FPV</b></span>
+          </button>
+          <button class="video-card" data-youtube="wIAX1A5VP2g" aria-label="Reproducir SimDron Cinemática">
+            <img data-youtube-thumb="wIAX1A5VP2g" alt="SimDron Cinemática" loading="lazy" />
+            <span class="play">▶</span>
+            <span class="video-meta"><small>VISUAL / 02</small><b>SIMDRON CINEMÁTICA</b></span>
+          </button>
+          <button class="video-card video-wide" data-youtube="7dkbl4AgmLE" aria-label="Reproducir SimDron Pitch Short 2026">
+            <img data-youtube-thumb="7dkbl4AgmLE" alt="SimDron Pitch Short 2026" loading="lazy" />
+            <span class="play">▶</span>
+            <span class="video-meta"><small>OVERVIEW / 03</small><b>SIMDRON — PITCH SHORT 2026</b></span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section dev-section">
+      <div class="shell dev-grid">
+        <div class="section-marker reveal">08 / DEVELOPMENT</div>
+        <div class="dev-main reveal" data-delay="60">
+          <div class="dev-title-row">
+            <div>
+              <small>DEVELOPER / TECHNICAL LEAD</small>
+              <h2>Mauro Iván Piccoli</h2>
+            </div>
+            <span>ARG / 2026</span>
+          </div>
+          <p class="dev-role">Unity & C# · XR / VR · Simulation Engineering · Flight Systems · AI · Technical Art · 3D · UI / UX</p>
+          <p>El desarrollo integra arquitectura de software, backend y frontend, físicas de vuelo, sistemas de control de aeronaves, inteligencia artificial, integración VR, optimización para dispositivos standalone, diseño de escenarios, arte 2D/3D, audio y herramientas de entrenamiento.</p>
+          <div class="dev-links">
+            <a class="btn ghost" href="https://github.com/mpiccolidev/SimDron" target="_blank" rel="noopener">Ver repositorio ↗</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section disclaimer-section">
+      <div class="shell disclaimer reveal">
+        <span>USO Y ALCANCE</span>
+        <p>SimDron es una herramienta de simulación con fines educativos y de entrenamiento. La simulación no reemplaza la operación real, los procedimientos aplicables ni las recomendaciones de seguridad de los dispositivos de realidad virtual utilizados.</p>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
-    <div class="shell footer-grid">
-      <div class="footer-brand"><img src="assets/simdron-logo.png" alt="SimDron" /><span>Sistema de Simulación de Vehículos Autónomos</span></div>
-      <div class="footer-meta">Desarrollado en Argentina · Unity / XR · <span id="year"></span></div>
+    <div class="shell footer-row">
+      <img src="assets/simdron-logo.png" alt="SimDron" />
+      <div><span>SISTEMA DE SIMULACIÓN DE VEHÍCULOS AUTÓNOMOS</span><small>© <span id="year"></span> Mauro Iván Piccoli</small></div>
+      <a href="#top">TOP ↑</a>
     </div>
   </footer>
+
+  <div class="video-modal" id="videoModal" aria-hidden="true">
+    <div class="modal-backdrop" data-close-video></div>
+    <div class="video-dialog" role="dialog" aria-modal="true" aria-label="Video">
+      <button class="modal-close" data-close-video aria-label="Cerrar video">×</button>
+      <div class="video-frame" id="videoFrame"></div>
+    </div>
+  </div>
+
+  <div class="flight-modal" id="flightModal" aria-hidden="true">
+    <div class="flight-shell" role="dialog" aria-modal="true" aria-label="Demostrador de vuelo SimDron">
+      <div class="flight-loading" id="flightLoading">
+        <img src="assets/model-poster.jpg" alt="Vista previa del demostrador" />
+        <div class="flight-loading-copy">
+          <small>INTERACTIVE FLIGHT DEMONSTRATOR</small>
+          <h2>MODE 2 / 3D</h2>
+          <p>Esta acción descarga el modelo 3D (~27 MB) y las librerías necesarias. En una conexión móvil puede consumir una cantidad significativa de datos.</p>
+          <div class="flight-loading-actions">
+            <button class="btn primary" id="confirmFlightLoad">Cargar ahora</button>
+            <button class="btn ghost" data-close-flight>Cancelar</button>
+          </div>
+          <span class="connection-note" id="connectionNote"></span>
+        </div>
+      </div>
+      <div id="flightReactRoot"></div>
+      <button class="flight-close" data-close-flight aria-label="Cerrar demostrador">×</button>
+    </div>
+  </div>
 
   <script src="script.js" defer></script>
 </body>

@@ -1,0 +1,17 @@
+SimDron Web v4 — despliegue en GitHub Pages
+
+Subir/reemplazar en la raíz del repositorio:
+- index.html
+- styles.css
+- script.js
+- flight-demo.js
+- assets/
+- googlea395ebbf2d8c8604.html (conserva la verificación de Google)
+
+No borrar README.md.
+
+Notas de carga:
+- El GLB (~27 MB) NO se descarga al entrar a la página.
+- React, ReactDOM y <model-viewer> se cargan desde CDN solamente después de confirmar el demostrador 3D.
+- El mapa urbano se carga al desplegar Cartografía.
+- Los iframes de YouTube se crean solamente al pulsar Play.
