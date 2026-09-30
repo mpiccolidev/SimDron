@@ -244,3 +244,85 @@
     }
   });
 })();
+
+// v4.5 progressive disclosure layer
+(() => {
+  const $ = (s, root = document) => root.querySelector(s);
+  const $$ = (s, root = document) => [...root.querySelectorAll(s)];
+
+  const techData = {
+    unity: ['CORE / UNITY', 'REAL-TIME SIMULATION', 'Motor principal del sistema para físicas, lógica de simulación, UI, cámaras, escenas y despliegue multiplataforma.'],
+    quest: ['XR / STANDALONE', 'META QUEST 3 / 3S', 'Ejecución standalone optimizada para VR, con interacción inmersiva, gamepad y operación sin una PC de vuelo conectada durante la sesión.'],
+    fpv: ['FLT / FPV', 'FIRST PERSON VIEW', 'Vuelo en primera persona con dinámica configurable, telemetría, OSD, perfiles de control y condiciones de enlace representadas dentro del entorno sintético.'],
+    isr: ['ISR / SRR', 'RECON & SENSOR STACK', 'Perfiles de reconocimiento con cámaras RGB, IR y térmicas, gimbal, FOV, observación, seguimiento y herramientas orientadas a ISR/SRR.'],
+    mission: ['C2 / INSTRUCTOR', 'MISSION CONTROL', 'Planificación, supervisión multioperador, telemetría, mapa, estados de misión y revisión posterior desde la estación de instructor.']
+  };
+  const techPanel = $('#heroTechDetail');
+  $$('[data-tech-detail]').forEach(btn => btn.addEventListener('click', () => {
+    const key = btn.dataset.techDetail;
+    const data = techData[key];
+    if (!data || !techPanel) return;
+    const wasActive = btn.classList.contains('active');
+    $$('[data-tech-detail]').forEach(b => b.classList.remove('active'));
+    if (wasActive) {
+      techPanel.classList.remove('open');
+      techPanel.setAttribute('aria-hidden','true');
+      return;
+    }
+    btn.classList.add('active');
+    $('#heroTechCode').textContent = data[0];
+    $('#heroTechTitle').textContent = data[1];
+    $('#heroTechText').textContent = data[2];
+    techPanel.classList.add('open');
+    techPanel.setAttribute('aria-hidden','false');
+  }));
+
+  const systemData = {
+    flight: ['FLT / 01','FLIGHT DYNAMICS','La capa de vuelo representa distintos niveles de asistencia y respuesta de plataforma sin reducir el entrenamiento a un único comportamiento genérico.',['ACRO / ANGLE / HORIZON','MODE 1–4','WIND / ALTITUDE','RTH / ASSISTED MODES']],
+    mission: ['MSN / 02','MISSION SYSTEMS','La misión incorpora variables que condicionan el empleo de la plataforma y obligan a considerar autonomía, enlace, carga y configuración.',['VLOS / BLOS / ELOS','BATTERY / RANGE','PAYLOAD','RF / FIBER']],
+    sensors: ['ISR / 03','SENSOR STACK','Las cámaras forman parte del problema operacional: observación, identificación, campo de visión, orientación del gimbal y representación multiespectral.',['RGB / IR / THERMAL','GIMBAL','FOV','TRACK / PHOTO']],
+    c2: ['C2 / 04','INSTRUCTOR & MISSION CONTROL','La estación de instructor convierte sesiones individuales en ejercicios coordinados, observables y revisables con múltiples operadores.',['MAP / WAYPOINTS','LIVE WALL','TELEMETRY','SESSION TRACE / AAR']]
+  };
+  const sysPanel = $('#systemDetail');
+  $$('[data-system-detail]').forEach(btn => btn.addEventListener('click', () => {
+    const data = systemData[btn.dataset.systemDetail];
+    if (!data || !sysPanel) return;
+    const wasActive = btn.classList.contains('active');
+    $$('[data-system-detail]').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-expanded','false'); });
+    if (wasActive) {
+      sysPanel.classList.remove('open');
+      sysPanel.setAttribute('aria-hidden','true');
+      return;
+    }
+    btn.classList.add('active');
+    btn.setAttribute('aria-expanded','true');
+    $('#systemDetailCode').textContent = data[0];
+    $('#systemDetailTitle').textContent = data[1];
+    $('#systemDetailText').textContent = data[2];
+    $('#systemDetailPoints').innerHTML = data[3].map(x => `<span>${x}</span>`).join('');
+    sysPanel.classList.add('open');
+    sysPanel.setAttribute('aria-hidden','false');
+  }));
+
+  const toggleCap = card => {
+    const open = card.classList.toggle('expanded');
+    card.setAttribute('aria-expanded', String(open));
+  };
+  $$('[data-expand-card]').forEach(card => {
+    card.addEventListener('click', () => toggleCap(card));
+    card.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleCap(card); }
+    });
+  });
+
+  const devToggle = $('#devToggle');
+  const devDetails = $('#devDetails');
+  devToggle?.addEventListener('click', () => {
+    const open = devToggle.getAttribute('aria-expanded') !== 'true';
+    devToggle.setAttribute('aria-expanded', String(open));
+    devDetails?.classList.toggle('open', open);
+    devDetails?.setAttribute('aria-hidden', String(!open));
+    const label = $('.dev-toggle-action', devToggle);
+    if (label) label.childNodes[0].nodeValue = open ? 'OCULTAR DEVELOPMENT ' : 'VER DEVELOPMENT ';
+  });
+})();
