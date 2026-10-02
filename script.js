@@ -245,22 +245,42 @@
   });
 })();
 
-// v4.5 progressive disclosure layer
+// v4.7 progressive disclosure layer — overview first, visual depth on demand
 (() => {
   const $ = (s, root = document) => root.querySelector(s);
   const $$ = (s, root = document) => [...root.querySelectorAll(s)];
 
   const techData = {
-    unity: ['CORE / UNITY', 'REAL-TIME SIMULATION', 'Motor principal del sistema para físicas, lógica de simulación, UI, cámaras, escenas y despliegue multiplataforma.'],
-    quest: ['XR / STANDALONE', 'META QUEST 3 / 3S', 'Ejecución standalone optimizada para VR, con interacción inmersiva, gamepad y operación sin una PC de vuelo conectada durante la sesión.'],
-    fpv: ['FLT / FPV', 'FIRST PERSON VIEW', 'Vuelo en primera persona con dinámica configurable, telemetría, OSD, perfiles de control y condiciones de enlace representadas dentro del entorno sintético.'],
-    isr: ['ISR / SRR', 'RECON & SENSOR STACK', 'Perfiles de reconocimiento con cámaras RGB, IR y térmicas, gimbal, FOV, observación, seguimiento y herramientas orientadas a ISR/SRR.'],
-    mission: ['C2 / INSTRUCTOR', 'MISSION CONTROL', 'Planificación, supervisión multioperador, telemetría, mapa, estados de misión y revisión posterior desde la estación de instructor.']
+    unity: {
+      code:'CORE / UNITY', title:'REAL-TIME SIMULATION',
+      text:'Motor principal del sistema para físicas, lógica de simulación, UI, cámaras, escenas, IA y despliegue multiplataforma.',
+      facts:['PHYSICS','AI / AUTOMATION','3D SCENARIOS','TOOLS / UI']
+    },
+    quest: {
+      code:'XR / STANDALONE', title:'META QUEST 3 / 3S',
+      text:'Ejecución standalone optimizada para VR, con interacción inmersiva, gamepad y operación sin una PC de vuelo conectada durante la sesión.',
+      facts:['STANDALONE VR','GAMEPAD / VR INPUT','BLUETOOTH KEYBOARD','ON-SCREEN MANUAL']
+    },
+    fpv: {
+      code:'FLT / FPV', title:'FIRST PERSON VIEW',
+      text:'Vuelo en primera persona con dinámica configurable, telemetría, OSD y perfiles de control. La configuración puede sumar payloads, fibra óptica y degradación de enlace dentro del entorno simulado.',
+      facts:['FLIGHT PRESETS','PAYLOAD','FIBER','ECM / LINK']
+    },
+    isr: {
+      code:'ISR / SRR', title:'RECON & SENSOR STACK',
+      text:'Perfiles de reconocimiento con cámaras RGB, IR y térmicas, gimbal, FOV, seguimiento y gradientes térmicos diferenciados para tareas ISR/SRR.',
+      facts:['RGB / IR / THERMAL','GIMBAL / FOV','TRACK / PHOTO','THERMAL GRADIENTS']
+    },
+    mission: {
+      code:'C2 / INSTRUCTOR', title:'MISSION CONTROL',
+      text:'Planificación, supervisión multioperador, telemetría, capas de información y revisión posterior desde la estación de instructor.',
+      facts:['UP TO 10 VISORS','OFFLINE Wi‑Fi LAN','CONTACT LIBRARY','DEBRIEF / AAR']
+    }
   };
+
   const techPanel = $('#heroTechDetail');
   $$('[data-tech-detail]').forEach(btn => btn.addEventListener('click', () => {
-    const key = btn.dataset.techDetail;
-    const data = techData[key];
+    const data = techData[btn.dataset.techDetail];
     if (!data || !techPanel) return;
     const wasActive = btn.classList.contains('active');
     $$('[data-tech-detail]').forEach(b => b.classList.remove('active'));
@@ -270,20 +290,271 @@
       return;
     }
     btn.classList.add('active');
-    $('#heroTechCode').textContent = data[0];
-    $('#heroTechTitle').textContent = data[1];
-    $('#heroTechText').textContent = data[2];
+    $('#heroTechCode').textContent = data.code;
+    $('#heroTechTitle').textContent = data.title;
+    $('#heroTechText').textContent = data.text;
+    const facts = $('#heroTechFacts');
+    if (facts) facts.innerHTML = data.facts.map(x => `<span>${x}</span>`).join('');
     techPanel.classList.add('open');
     techPanel.setAttribute('aria-hidden','false');
   }));
 
+  const G = (src, caption, alt = caption) => ({src, caption, alt});
+
   const systemData = {
-    flight: ['FLT / 01','FLIGHT DYNAMICS','La capa de vuelo representa distintos niveles de asistencia y respuesta de plataforma sin reducir el entrenamiento a un único comportamiento genérico.',['ACRO / ANGLE / HORIZON','MODE 1–4','WIND / ALTITUDE','RTH / ASSISTED MODES']],
-    mission: ['MSN / 02','MISSION SYSTEMS','La misión incorpora variables que condicionan el empleo de la plataforma y obligan a considerar autonomía, enlace, carga y configuración.',['VLOS / BLOS / ELOS','BATTERY / RANGE','PAYLOAD','RF / FIBER']],
-    sensors: ['ISR / 03','SENSOR STACK','Las cámaras forman parte del problema operacional: observación, identificación, campo de visión, orientación del gimbal y representación multiespectral.',['RGB / IR / THERMAL','GIMBAL','FOV','TRACK / PHOTO']],
-    c2: ['C2 / 04','INSTRUCTOR & MISSION CONTROL','La estación de instructor convierte sesiones individuales en ejercicios coordinados, observables y revisables con múltiples operadores.',['MAP / WAYPOINTS','LIVE WALL','TELEMETRY','SESSION TRACE / AAR']]
+    flight: {
+      code:'FLT / 01', title:'FLIGHT DYNAMICS',
+      text:'La capa de vuelo representa distintos niveles de asistencia y respuesta de plataforma sin reducir el entrenamiento a un único comportamiento genérico.',
+      points:['ACRO / ANGLE / HORIZON','MODE 1–4','WIND / ALTITUDE','RTH / ASSISTED MODES'],
+      subtopics:[
+        {
+          label:'PRESETS', code:'FLT / PRESET', title:'Perfiles y ajuste de plataforma',
+          text:'Los perfiles permiten cambiar respuesta, asistencia y parámetros físicos para representar plataformas y tareas distintas dentro de una interfaz común.',
+          facts:['FLIGHT PRESETS','PHYSICS','PLATFORM TUNING','ASSISTED / MANUAL'],
+          gallery:[
+            G('assets/flight-profile-tuning.webp','PHYSICS / PROFILE TUNING','Panel de ajustes físicos y plataforma en SimDron'),
+            G('assets/flight-routes-composite.webp','ASSISTED FLIGHT OVERVIEW','Rutas asistidas y telemetría de vuelo')
+          ]
+        },
+        {
+          label:'ASSISTED', code:'FLT / ASSIST', title:'Vuelo asistido y navegación',
+          text:'La misma capa puede combinar control manual con asistencia de altura, rutas, waypoints, navegación automatizada y retorno según el perfil seleccionado.',
+          facts:['ALTITUDE HOLD','WAYPOINTS','RTH','ROUTE LOGIC'],
+          gallery:[
+            G('assets/flight-routes-composite.webp','ASSISTED ROUTES / OVERVIEW','Vista combinada de rutas asistidas'),
+            G('assets/flight-routes-3d.webp','3D ROUTE / TERRAIN','Ruta asistida sobre terreno 3D'),
+            G('assets/flight-routes-map.webp','MAP ROUTE / TELEMETRY','Ruta y telemetría sobre mapa')
+          ]
+        },
+        {
+          label:'INPUT', code:'FLT / INPUT', title:'Múltiples esquemas de entrada',
+          text:'El entrenamiento puede adaptarse a gamepad, controladores VR y teclado Bluetooth manteniendo esquemas de sticks y perfiles de control coherentes entre modalidades.',
+          facts:['MODE 1–4','GAMEPAD','VR INPUT','BLUETOOTH KEYBOARD'],
+          gallery:[G('assets/flight-keyboard.webp','BLUETOOTH KEYBOARD / UI','Uso de teclado Bluetooth dentro del entorno XR')]
+        }
+      ]
+    },
+    mission: {
+      code:'MSN / 02', title:'MISSION SYSTEMS',
+      text:'La misión incorpora variables que condicionan el empleo de la plataforma y obligan a considerar autonomía, enlace, carga, configuración y efectos del entorno.',
+      points:['VLOS / BLOS / ELOS','BATTERY / RANGE','PAYLOAD','RF / FIBER'],
+      subtopics:[
+        {
+          label:'PAYLOAD', code:'MSN / PAYLOAD', title:'Configuración de payload',
+          text:'Las configuraciones de carga permiten representar montajes y restricciones de plataforma dentro del mismo flujo de operación, manteniendo físicas, telemetría y estado de misión integrados.',
+          facts:['LOADOUT PRESETS','RACKS / LOADS','FIBER CONFIG','PLATFORM STATE'],
+          gallery:[
+            G('assets/mission-payload-close.webp','PAYLOAD / PLATFORM','Configuración de carga sobre plataforma FPV'),
+            G('assets/mission-payload-ui.webp','PAYLOAD / IN-SIM CONFIG','Selección de carga dentro de la simulación'),
+            G('assets/mission-payload-night.webp','PAYLOAD / LOW LIGHT','Operación de payload en condición nocturna')
+          ]
+        },
+        {
+          label:'LINK / ECM', code:'MSN / LINK', title:'Enlace y degradación',
+          text:'El enlace puede degradarse para representar pérdida de calidad, interferencia y contramedidas electrónicas, alterando la continuidad y la percepción de la operación.',
+          facts:['RF LINK','DEGRADATION','ECM EFFECTS','FIBER OPTION']
+        },
+        {
+          label:'MULTI-UAV', code:'MSN / MULTI', title:'Automatización y múltiples actores',
+          text:'El sistema puede escalar desde una sola aeronave hacia escenarios con varias plataformas, activos autónomos y oposición controlada por IA.',
+          facts:['SWARM','COORDINATION','AUTONOMOUS SYSTEMS','OPFOR AI'],
+          gallery:[
+            G('assets/mission-swarm.webp','MULTI-UAV / SWARM','Enjambre de plataformas en un mismo escenario'),
+            G('assets/mission-autonomous.webp','AUTONOMOUS SYSTEMS','Familiarización con distintas tecnologías autónomas'),
+            G('assets/mission-ai-opfor.webp','AI / OPFOR','Actores terrestres y comportamiento de oposición en escenario')
+          ]
+        }
+      ]
+    },
+    sensors: {
+      code:'ISR / 03', title:'SENSOR STACK',
+      text:'Las cámaras forman parte del problema operacional: observación, identificación, campo de visión, orientación del gimbal y representación multiespectral.',
+      points:['RGB / IR / THERMAL','GIMBAL','FOV','TRACK / PHOTO'],
+      subtopics:[
+        {
+          label:'EO / IR', code:'ISR / EO-IR', title:'Visualización multiespectral',
+          text:'RGB, IR y térmica pueden utilizarse dentro de la misma lógica de observación, con cambios de visualización y parámetros de cámara según el perfil.',
+          facts:['RGB','IR','THERMAL','SENSOR PROFILES']
+        },
+        {
+          label:'THERMAL', code:'ISR / THERMAL', title:'Gradientes térmicos diferenciados',
+          text:'La representación térmica incorpora gradientes que separan materiales, volúmenes y fuentes para ofrecer una lectura de escena distinta de la cámara visible.',
+          facts:['MATERIAL RESPONSE','CONTRAST','HEAT SOURCES','THERMAL VIEW'],
+          gallery:[G('assets/sensor-thermal-industrial.webp','THERMAL / INDUSTRIAL SCENE','Escena industrial con gradiente térmico')]
+        },
+        {
+          label:'RECON', code:'ISR / RECON', title:'Reconocimiento y seguimiento',
+          text:'Gimbal, FOV, tracking, fotografía y perfiles SRR concentran herramientas orientadas a observación, búsqueda y seguimiento dentro de la simulación.',
+          facts:['GIMBAL','FOV','TRACK','SRR / PHOTO']
+        }
+      ]
+    },
+    c2: {
+      code:'C2 / 04', title:'INSTRUCTOR & MISSION CONTROL',
+      text:'La estación de instructor convierte sesiones individuales en ejercicios coordinados, observables y revisables con múltiples operadores.',
+      points:['MAP / WAYPOINTS','LIVE WALL','TELEMETRY','SESSION TRACE / AAR'],
+      subtopics:[
+        {
+          label:'MULTI-VISOR', code:'C2 / MULTI', title:'Ejercicios multioperador',
+          text:'Mission Control puede reunir varios visores sobre una misma sesión, compartir información por red local y dar al instructor una vista consolidada del ejercicio.',
+          facts:['UP TO 10 VISORS','OFFLINE LAN','LIVE WALL','SHARED EXERCISE'],
+          gallery:[G('assets/c2-mission-authoring.webp','MISSION CONTROL / LIVE EXERCISE','Mission Control durante la construcción y seguimiento de una misión')]
+        },
+        {
+          label:'AUTHORING', code:'C2 / AUTHOR', title:'Construcción y conducción de misión',
+          text:'El instructor puede combinar rutas, capas de información, contactos, objetivos y estados del ejercicio para preparar y conducir escenarios de distinta complejidad.',
+          facts:['MISSION GENERATOR','INFORMATION LAYERS','CONTACT LIBRARY','WAYPOINTS'],
+          gallery:[
+            G('assets/c2-mission-authoring.webp','MISSION AUTHORING','Construcción y seguimiento de una misión'),
+            G('assets/c2-contact-library.webp','CONTACT LIBRARY','Biblioteca visual de contactos para escenarios'),
+            G('assets/flight-routes-map.webp','ROUTES / TRACE','Rutas y trazado sobre mapa')
+          ]
+        },
+        {
+          label:'INSTRUCTION', code:'C2 / TRAIN', title:'Herramientas de instrucción',
+          text:'La experiencia suma asistencia al alumno, checking de prevuelo, configuración de plataforma y espacios de familiarización para acompañar preparación y ejecución.',
+          facts:['STUDENT ASSIST','PREFLIGHT','CONFIGURATION','FAMILIARIZATION'],
+          gallery:[
+            G('assets/c2-basics-lab.webp','BASIC SYSTEMS / LAB','Escena de familiarización con sistemas y componentes'),
+            G('assets/c2-preflight-hangar.webp','PREFLIGHT / HANGAR','Entorno de prevuelo e instrucción en hangar'),
+            G('assets/flight-profile-tuning.webp','PLATFORM CONFIG','Configuración física y de perfil de vuelo')
+          ]
+        },
+        {
+          label:'DEBRIEF', code:'C2 / AAR', title:'Trazado y debriefing',
+          text:'La sesión puede conservar información de la ejecución para revisar lo ocurrido y convertir la actividad en feedback útil para instructor y alumnos.',
+          facts:['SESSION TRACE','DEBRIEFING','AAR','FEEDBACK'],
+          gallery:[G('assets/flight-routes-map.webp','TRACE / TELEMETRY','Trazado de ruta y telemetría para revisión')]
+        }
+      ]
+    },
+    environment: {
+      code:'ENV / 05', title:'SYNTHETIC ENVIRONMENT',
+      text:'El entorno no funciona como fondo decorativo: modifica visibilidad, referencias visuales, navegación y lectura del escenario mediante clima, iluminación y geografía.',
+      points:['WEATHER / SMOKE','DAY / NIGHT','WATER / VISIBILITY','TRAINING SCENARIOS'],
+      subtopics:[
+        {
+          label:'WEATHER', code:'ENV / WEATHER', title:'Atmósfera y condiciones de visibilidad',
+          text:'Humo, cobertura nubosa, agua y variaciones de visibilidad permiten modificar la lectura del entorno y las referencias disponibles durante el ejercicio.',
+          facts:['CLOUD COVER','SMOKE','WATER','VISIBILITY'],
+          gallery:[
+            G('assets/env-smoke-weather.webp','SMOKE / VISIBILITY','Humo y visibilidad degradada en entorno urbano'),
+            G('assets/env-clouds-compare.webp','PROCEDURAL CLOUDS','Comparación de condiciones de nubosidad'),
+            G('assets/env-water.webp','WATER / ENVIRONMENT','Curso de agua dentro del entorno de simulación')
+          ]
+        },
+        {
+          label:'LIGHTING', code:'ENV / LIGHT', title:'Iluminación y ciclo visual',
+          text:'Distintos cielos y condiciones lumínicas cambian contraste, orientación y percepción del terreno sin alterar la lógica base de la misión.',
+          facts:['DAY','SUNSET','NIGHT','OVERCAST'],
+          gallery:[
+            G('assets/env-skyboxes-grid.webp','SKYBOX LIBRARY','Conjunto de condiciones de cielo'),
+            G('assets/env-sky-day.webp','DAY / CLEAR','Condición diurna clara'),
+            G('assets/env-sky-sunset.webp','SUNSET','Atardecer de alto contraste'),
+            G('assets/env-sky-evening.webp','EVENING','Transición de iluminación al anochecer'),
+            G('assets/env-sky-overcast.webp','OVERCAST','Cielo cubierto y baja iluminación'),
+            G('assets/env-sky-moon.webp','NIGHT / MOON','Noche con iluminación lunar'),
+            G('assets/env-sky-milkyway.webp','NIGHT / MILKY WAY','Condición nocturna con cielo estrellado')
+          ]
+        },
+        {
+          label:'SCENARIOS', code:'ENV / SCENE', title:'Entornos de entrenamiento',
+          text:'La biblioteca combina escenarios urbanos, rurales, industriales y geográficos para que la tarea cambie junto con el terreno y las referencias disponibles.',
+          facts:['HANGAR','FOB / ALTIPLANO','PATAGONIA','URBAN / INDUSTRIAL'],
+          gallery:[
+            G('assets/env-scene-hangar.webp','HANGAR / TRAINING','Entorno de hangar y área de instrucción'),
+            G('assets/env-scene-fob.webp','FOB / ALTIPLANO','Escenario FOB en región de altura'),
+            G('assets/env-scene-netroad.webp','NETROAD / PATAGONIA','Escenario patagónico con red vial y edificaciones')
+          ]
+        }
+      ]
+    }
   };
+
   const sysPanel = $('#systemDetail');
+  const sysTabs = $('#systemDetailTabs');
+  const deep = $('#systemDeep');
+  const deepVisual = $('#systemDeepVisual');
+  const deepImg = $('#systemDeepImage');
+  const deepCaption = $('#systemDeepCaption');
+  const deepGallery = $('#systemDeepGallery');
+
+  const clearGallery = () => {
+    if (!deepGallery) return;
+    deepGallery.innerHTML = '';
+    deepGallery.hidden = true;
+  };
+
+  const setDeepVisual = (item, activeButton = null) => {
+    if (!item || !deepVisual || !deepImg) return;
+    deepVisual.hidden = false;
+    deepVisual.classList.add('swapping');
+    const preload = new Image();
+    const apply = () => {
+      deepImg.src = item.src;
+      deepImg.alt = item.alt || item.caption || '';
+      if (deepCaption) deepCaption.textContent = item.caption || '';
+      if (deepGallery) $$('button', deepGallery).forEach(b => b.classList.toggle('active', b === activeButton));
+      requestAnimationFrame(() => deepVisual.classList.remove('swapping'));
+    };
+    preload.onload = apply;
+    preload.onerror = apply;
+    preload.src = item.src;
+  };
+
+  const renderGallery = gallery => {
+    clearGallery();
+    if (!gallery?.length || !deepGallery) return;
+    deepGallery.hidden = false;
+    gallery.forEach((item, index) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.setAttribute('aria-label', item.caption || `Imagen ${index + 1}`);
+      if (index === 0) b.classList.add('active');
+      const img = document.createElement('img');
+      img.src = item.src;
+      img.alt = item.alt || item.caption || '';
+      img.loading = 'lazy';
+      const label = document.createElement('span');
+      label.textContent = item.caption || `VIEW ${index + 1}`;
+      b.append(img, label);
+      b.addEventListener('click', () => setDeepVisual(item, b));
+      deepGallery.appendChild(b);
+    });
+    setDeepVisual(gallery[0], deepGallery.firstElementChild);
+  };
+
+  const closeDeep = () => {
+    if (!deep) return;
+    deep.classList.remove('open');
+    deep.setAttribute('aria-hidden','true');
+    if (sysTabs) $$('button', sysTabs).forEach(b => b.classList.remove('active'));
+    clearGallery();
+  };
+
+  const showSubtopic = (sub, button) => {
+    if (!deep || !sub) return;
+    if (sysTabs) $$('button', sysTabs).forEach(b => b.classList.toggle('active', b === button));
+    $('#systemDeepCode').textContent = sub.code;
+    $('#systemDeepTitle').textContent = sub.title;
+    $('#systemDeepText').textContent = sub.text;
+    $('#systemDeepFacts').innerHTML = sub.facts.map(x => `<span>${x}</span>`).join('');
+
+    if (sub.gallery?.length) {
+      renderGallery(sub.gallery);
+    } else if (sub.image && deepImg && deepVisual) {
+      clearGallery();
+      setDeepVisual({src:sub.image, caption:sub.caption || sub.title, alt:sub.title});
+    } else {
+      clearGallery();
+      if (deepVisual) deepVisual.hidden = true;
+      if (deepImg) deepImg.removeAttribute('src');
+    }
+
+    deep.classList.add('open');
+    deep.setAttribute('aria-hidden','false');
+  };
+
   $$('[data-system-detail]').forEach(btn => btn.addEventListener('click', () => {
     const data = systemData[btn.dataset.systemDetail];
     if (!data || !sysPanel) return;
@@ -292,14 +563,25 @@
     if (wasActive) {
       sysPanel.classList.remove('open');
       sysPanel.setAttribute('aria-hidden','true');
+      closeDeep();
       return;
     }
     btn.classList.add('active');
     btn.setAttribute('aria-expanded','true');
-    $('#systemDetailCode').textContent = data[0];
-    $('#systemDetailTitle').textContent = data[1];
-    $('#systemDetailText').textContent = data[2];
-    $('#systemDetailPoints').innerHTML = data[3].map(x => `<span>${x}</span>`).join('');
+    $('#systemDetailCode').textContent = data.code;
+    $('#systemDetailTitle').textContent = data.title;
+    $('#systemDetailText').textContent = data.text;
+    $('#systemDetailPoints').innerHTML = data.points.map(x => `<span>${x}</span>`).join('');
+    if (sysTabs) {
+      sysTabs.innerHTML = data.subtopics.map((x,i) => `<button type="button" data-sub-index="${i}">${x.label}<i>+</i></button>`).join('');
+      $$('button', sysTabs).forEach(b => b.addEventListener('click', () => {
+        const i = Number(b.dataset.subIndex);
+        const isActive = b.classList.contains('active');
+        if (isActive) { closeDeep(); return; }
+        showSubtopic(data.subtopics[i], b);
+      }));
+    }
+    closeDeep();
     sysPanel.classList.add('open');
     sysPanel.setAttribute('aria-hidden','false');
   }));
