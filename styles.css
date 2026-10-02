@@ -336,3 +336,26 @@ h1{font-size:clamp(3.25rem,6.3vw,6.7rem);max-width:9.2ch;margin-top:24px}h1 em{f
   .cap-card.expanded{min-height:420px}.cap-extra>div{grid-template-columns:70px 1fr}
   .dev-toggle{padding:20px 0}.dev-toggle-copy b{font-size:1.55rem}.dev-toggle-action{font-size:.55rem}.dev-details.open{padding-top:28px}.dev-skill-grid{grid-template-columns:1fr}.dev-skill-grid article{min-height:0}.dev-overview h3{font-size:2.7rem}
 }
+
+
+/* v4.5d — autoría visible para contexto de búsqueda, sin dominar la identidad del producto */
+.hero-byline {
+  margin: -10px 0 24px;
+  color: #8e9494;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  letter-spacing: 0.075em;
+  text-transform: uppercase;
+}
+.hero-byline strong {
+  color: #c9cece;
+  font-weight: 650;
+}
+@media (max-width: 720px) {
+  .hero-byline {
+    margin-top: -4px;
+    margin-bottom: 20px;
+    font-size: 0.66rem;
+    letter-spacing: 0.055em;
+  }
+}
