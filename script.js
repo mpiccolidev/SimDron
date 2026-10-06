@@ -363,6 +363,17 @@
             G('assets/mission-autonomous.webp','AUTONOMOUS SYSTEMS','Familiarización con distintas tecnologías autónomas'),
             G('assets/mission-ai-opfor.webp','AI / OPFOR','Actores terrestres y comportamiento de oposición en escenario')
           ]
+        },
+        {
+          label:'TACTICAL FLOW', code:'MSN / EMPLOYMENT', title:'Secuencia de empleo coordinado',
+          text:'La simulación permite representar un flujo completo entre reconocimiento, preparación de la plataforma FPV, conducción manual y observación posterior del resultado, manteniendo cada rol dentro del mismo escenario de entrenamiento.',
+          facts:['01 SRR / RECON','02 FPV / DEPLOY','03 ACRO / PILOT','04 SRR / BDA'],
+          gallery:[
+            G('assets/mission-employment-01-srr.webp','01 / SRR — TARGET ACQUISITION','El dron SRR busca y confirma un blanco de oportunidad dentro del escenario simulado.'),
+            G('assets/mission-employment-02-fpv-deploy.webp','02 / FPV — DEPLOYMENT','La plataforma FPV es emplazada y configurada de acuerdo con la tarea antes del despegue.'),
+            G('assets/mission-employment-03-acro.webp','03 / FPV — MANUAL ACRO','El piloto conduce manualmente el FPV en modo ACRO mediante vista en primera persona.'),
+            G('assets/mission-employment-04-bda.webp','04 / SRR — EFFECTS OBSERVATION','Tras el impacto, el SRR permanece en observación para registrar el efecto y apoyar la revisión posterior.')
+          ]
         }
       ]
     },
