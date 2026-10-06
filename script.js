@@ -374,6 +374,16 @@
             G('assets/mission-employment-03-acro.webp','03 / FPV — MANUAL ACRO','El piloto conduce manualmente el FPV en modo ACRO mediante vista en primera persona.'),
             G('assets/mission-employment-04-bda.webp','04 / SRR — EFFECTS OBSERVATION','Tras el impacto, el SRR permanece en observación para registrar el efecto y apoyar la revisión posterior.')
           ]
+        },
+        {
+          label:'C-UAS', code:'MSN / C-UAS', title:'C-UAS Familiarization',
+          text:'Módulo defensivo orientado a familiarizar al alumno con la amenaza de UAS de baja cota y con distintos tipos de respuesta dentro de un escenario simulado. El foco está en reconocer la situación, seleccionar un medio disponible y comprender las limitaciones de cada respuesta, no en una mecánica de shooter.',
+          facts:['THREAT RECOGNITION','NON-KINETIC / JAMMING','KINETIC RESPONSE','MOBILE DEFENSE'],
+          gallery:[
+            G('assets/cuas-equipment.webp','C-UAS / EQUIPMENT','Medios simulados disponibles dentro del escenario para prácticas de familiarización defensiva.'),
+            G('assets/cuas-jamming.webp','NON-KINETIC / ELECTRONIC INTERFERENCE','Dispositivo portátil de interferencia electrónica para representar una medida C-UAS no cinética.'),
+            G('assets/cuas-kinetic.webp','KINETIC / CLOSE-RANGE RESPONSE','Respuesta cinética simulada de corto alcance frente a una amenaza aérea dentro del entorno de entrenamiento.')
+          ]
         }
       ]
     },
