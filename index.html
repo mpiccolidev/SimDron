@@ -99,11 +99,11 @@
       </div>
 
       <div class="shell system-strip reveal" data-delay="130">
-        <button type="button" class="system-tile" data-system-detail="flight" aria-expanded="false"><span>01</span><b>Flight dynamics</b><small>ACRO · ANGLE · HORIZON</small><i>+</i></button>
-        <button type="button" class="system-tile" data-system-detail="mission" aria-expanded="false"><span>02</span><b>Mission systems</b><small>VLOS · BLOS · ELOS · FPV</small><i>+</i></button>
-        <button type="button" class="system-tile" data-system-detail="sensors" aria-expanded="false"><span>03</span><b>Sensor stack</b><small>RGB · IR · THERMAL · GIMBAL</small><i>+</i></button>
-        <button type="button" class="system-tile" data-system-detail="c2" aria-expanded="false"><span>04</span><b>Instructor / C2</b><small>MAP · WALL · TELEMETRY</small><i>+</i></button>
-        <button type="button" class="system-tile" data-system-detail="environment" aria-expanded="false"><span>05</span><b>Environment</b><small>WEATHER · LIGHTING · SCENARIOS</small><i>+</i></button>
+        <button type="button" class="system-tile" data-system-detail="flight" aria-expanded="false"><span>01</span><b>Flight dynamics</b><small>ACRO · ANGLE · HORIZON</small><i>OPEN +</i></button>
+        <button type="button" class="system-tile" data-system-detail="mission" aria-expanded="false"><span>02</span><b>Mission systems</b><small>VLOS · BLOS · ELOS · FPV</small><i>OPEN +</i></button>
+        <button type="button" class="system-tile" data-system-detail="sensors" aria-expanded="false"><span>03</span><b>Sensor stack</b><small>RGB · IR · THERMAL · GIMBAL</small><i>OPEN +</i></button>
+        <button type="button" class="system-tile" data-system-detail="c2" aria-expanded="false"><span>04</span><b>Instructor / C2</b><small>MAP · WALL · TELEMETRY</small><i>OPEN +</i></button>
+        <button type="button" class="system-tile" data-system-detail="environment" aria-expanded="false"><span>05</span><b>Environment</b><small>WEATHER · LIGHTING · SCENARIOS</small><i>OPEN +</i></button>
       </div>
       <div class="shell system-detail" id="systemDetail" aria-hidden="true">
         <div class="system-detail-code" id="systemDetailCode">FLT / 01</div>
@@ -122,6 +122,7 @@
             <figure class="system-deep-visual" id="systemDeepVisual" hidden>
               <img id="systemDeepImage" alt="" loading="lazy" />
               <figcaption id="systemDeepCaption"></figcaption>
+              <button type="button" class="image-zoom" id="deepImageZoom" aria-label="Ampliar imagen técnica">AMPLIAR ↗</button>
             </figure>
             <div class="system-deep-gallery" id="systemDeepGallery" hidden aria-label="Galería técnica"></div>
           </div>
@@ -140,25 +141,25 @@
 
       <div class="shell capability-matrix reveal" data-delay="100">
         <article class="cap-card" data-expand-card tabindex="0" role="button" aria-expanded="false">
-          <div class="cap-head"><span>FLT</span><b>Flight</b><i>+</i></div>
+          <div class="cap-head"><span>FLT</span><b>Flight</b><i>DETAIL +</i></div>
           <p>Multirrotor, físicas personalizables, viento, ACRO / ANGLE / HORIZON, modos de control 1–4 y gamepad.</p>
           <div class="tag-row"><span>PID</span><span>MODE 2</span><span>WIND</span><span>RTH</span></div>
           <div class="cap-extra"><div><b>DINÁMICA</b><span>Parámetros de masa, drag, respuesta angular y control configurables por perfil.</span></div><div><b>CONTROL</b><span>Esquemas Mode 1–4, gamepad, mandos VR y perfiles específicos de plataforma.</span></div><div><b>PRESETS</b><span>Perfiles de vuelo preparados para cambiar rápidamente el comportamiento y la asistencia según la tarea.</span></div><div><b>ASISTENCIA</b><span>Altitude Hold, navegación asistida, rutas y Return to Home según configuración.</span></div><div><b>INPUT</b><span>Compatibilidad con gamepad, controladores VR y teclado Bluetooth para distintas modalidades de instrucción.</span></div></div>
         </article>
         <article class="cap-card" data-expand-card tabindex="0" role="button" aria-expanded="false">
-          <div class="cap-head"><span>MSN</span><b>Mission</b><i>+</i></div>
+          <div class="cap-head"><span>MSN</span><b>Mission</b><i>DETAIL +</i></div>
           <p>VLOS, BLOS, ELOS y FPV; batería, autonomía, conectividad, degradación de señal, payload y fibra óptica.</p>
           <div class="tag-row"><span>LINK</span><span>PAYLOAD</span><span>FIBER</span><span>AI</span><span>C-UAS</span></div>
           <div class="cap-extra"><div><b>ENLACE</b><span>Representación de alcance, degradación y condiciones de conectividad durante la misión.</span></div><div><b>ECM</b><span>Degradación visual y de enlace asociada a escenarios con contramedidas electrónicas activas.</span></div><div><b>ENERGÍA</b><span>Batería, autonomía y variables de plataforma integradas al estado operativo.</span></div><div><b>PAYLOAD</b><span>Configuraciones de carga, racks, fibra óptica y sistemas auxiliares adaptables al perfil de entrenamiento.</span></div><div><b>MULTI-UAV</b><span>Automatización y coordinación de múltiples plataformas para ejercicios de mayor complejidad.</span></div><div><b>EMPLEO</b><span>Flujo coordinado entre reconocimiento SRR, preparación FPV, conducción manual y observación posterior al impacto dentro del entorno simulado.</span></div><div><b>C-UAS</b><span>Familiarización defensiva frente a amenazas UAS de baja cota mediante reconocimiento de la amenaza, medidas no cinéticas y respuesta cinética simulada.</span></div></div>
         </article>
         <article class="cap-card" data-expand-card tabindex="0" role="button" aria-expanded="false">
-          <div class="cap-head"><span>ISR</span><b>Sensors</b><i>+</i></div>
+          <div class="cap-head"><span>ISR</span><b>Sensors</b><i>DETAIL +</i></div>
           <p>Múltiples configuraciones de cámara, control de gimbal y FOV, cámaras RGB, IR y térmicas y perfiles de reconocimiento.</p>
           <div class="tag-row"><span>RGB</span><span>IR</span><span>FLIR</span><span>TRACK</span></div>
           <div class="cap-extra"><div><b>EO / IR</b><span>Visualización diurna, infrarroja y térmica con parámetros de cámara configurables.</span></div><div><b>THERMAL</b><span>Gradientes térmicos diferenciados para reforzar lectura de escena y contraste entre materiales y fuentes.</span></div><div><b>GIMBAL</b><span>Control de pitch/yaw, FOV y observación estabilizada para perfiles de reconocimiento.</span></div><div><b>SEGUIMIENTO</b><span>Herramientas de track, fotografía y apoyo a tareas ISR/SRR dentro del entorno simulado.</span></div></div>
         </article>
         <article class="cap-card" data-expand-card tabindex="0" role="button" aria-expanded="false">
-          <div class="cap-head"><span>ENV</span><b>Environment</b><i>+</i></div>
+          <div class="cap-head"><span>ENV</span><b>Environment</b><i>DETAIL +</i></div>
           <p>Terrenos y escenarios a gran escala, clima e iluminación dinámica, vegetación, estructuras y competition gates.</p>
           <div class="tag-row"><span>TERRAIN</span><span>WEATHER</span><span>DAY/NIGHT</span><span>GATES</span></div>
           <div class="cap-extra"><div><b>ESCALA</b><span>Escenarios amplios con referencias geográficas, áreas urbanas, industriales y rurales.</span></div><div><b>CIELO</b><span>Skyboxes, variaciones diurnas/nocturnas y efectos procedurales de cielo para cambiar lectura y visibilidad del entorno.</span></div><div><b>AGUA</b><span>Cursos de agua y superficies ambientales integradas como parte de la escena de entrenamiento.</span></div><div><b>CONDICIONES</b><span>Iluminación, viento y variaciones ambientales para ampliar el rango de situaciones de entrenamiento.</span></div><div><b>INTERACCIÓN</b><span>Estructuras, obstáculos, zonas de precisión y recorridos preparados para diferentes tareas.</span></div></div>
@@ -287,18 +288,36 @@
       </div>
     </section>
 
-    <section class="section sensor-section">
-      <div class="shell sensor-grid">
-        <div class="sensor-visual reveal">
-          <img src="assets/sensors.webp" alt="Vista FPV y telemetría del simulador" loading="lazy" />
-          <span>LIVE FEED / FPV</span>
+    <section class="section sensor-section" id="sensores">
+      <div class="shell">
+        <div class="section-head reveal sensor-head">
+          <div>
+            <div class="section-marker">05 / SENSOR & ISR STACK</div>
+            <h2>SENSOREO, RECONOCIMIENTO Y OBSERVACIÓN MULTIESPECTRAL.</h2>
+          </div>
+          <p>La capacidad diferencial no está sólo en volar la plataforma: SimDron integra observación, identificación, control de gimbal, FOV, seguimiento y distintas representaciones del sensor dentro del mismo entorno táctico.</p>
         </div>
-        <div class="sensor-copy reveal" data-delay="70">
-          <div class="section-marker">05 / SENSOR STACK</div>
-          <h2>OBSERVACIÓN, GIMBAL Y VISUALIZACIÓN MULTIESPECTRAL.</h2>
-          <p>El sistema integra configuraciones de cámara con control de gimbal y FOV, visualización RGB, IR y térmica y perfiles orientados a reconocimiento, seguimiento y observación.</p>
-          <div class="sensor-list">
-            <span>RGB</span><span>IR</span><span>THERMAL</span><span>GIMBAL</span><span>FOV</span><span>TRACK</span><span>SRR</span>
+
+        <div class="sensor-explorer reveal" data-delay="60">
+          <figure class="sensor-stage" id="sensorStage">
+            <img id="sensorStageImage" src="assets/sensors.webp" alt="Vista RGB FPV con OSD y telemetría" loading="lazy" />
+            <figcaption><span id="sensorStageCode">RGB / FPV</span><b id="sensorStageCaption">LIVE FEED / TELEMETRY</b></figcaption>
+            <button type="button" class="image-zoom" id="sensorImageZoom" aria-label="Ampliar vista de sensor">AMPLIAR ↗</button>
+          </figure>
+
+          <div class="sensor-console">
+            <div class="sensor-readout">
+              <span id="sensorReadoutCode">ISR / RGB</span>
+              <h3 id="sensorReadoutTitle">RGB / FPV + OSD</h3>
+              <p id="sensorReadoutText">Vista visible integrada con OSD y telemetría para navegación, observación y control de la plataforma.</p>
+              <div class="sensor-facts" id="sensorFacts"><span>RGB FEED</span><span>OSD / TELEMETRY</span><span>FOV</span><span>CAMERA FPS</span></div>
+            </div>
+            <div class="sensor-selector" role="tablist" aria-label="Vistas y funciones de sensor">
+              <button class="active" type="button" data-sensor-view="rgb" role="tab" aria-selected="true"><span>01</span><b>RGB / FPV</b><small>Vista directa + OSD</small><i>SELECTED</i></button>
+              <button type="button" data-sensor-view="srr" role="tab" aria-selected="false"><span>02</span><b>SRR / GIMBAL</b><small>Reconocimiento y cámara orientable</small><i>OPEN →</i></button>
+              <button type="button" data-sensor-view="thermal" role="tab" aria-selected="false"><span>03</span><b>THERMAL / IR</b><small>Lectura multiespectral</small><i>OPEN →</i></button>
+              <button type="button" data-sensor-view="track" role="tab" aria-selected="false"><span>04</span><b>TRACK / OBSERVATION</b><small>Seguimiento y evaluación</small><i>OPEN →</i></button>
+            </div>
           </div>
         </div>
       </div>
@@ -316,9 +335,10 @@
 
         <div class="map-browser reveal" data-delay="60">
           <div class="map-feature" data-map-feature>
-            <figure class="map-feature-visual">
+            <figure class="map-feature-visual" id="mapFeatureVisual">
               <img src="assets/map-urban-detail.webp" alt="Vista general del entorno Urban de SimDron" draggable="false" />
               <figcaption><span data-map-tier>INTERMEDIATE / 05</span><b data-map-title>URBAN</b></figcaption>
+              <button type="button" class="image-zoom" id="mapImageZoom" aria-label="Ampliar preview del mapa">AMPLIAR MAPA ↗</button>
             </figure>
             <div class="map-feature-copy">
               <span data-map-code>URBAN / BUILT ENVIRONMENT</span>
@@ -448,6 +468,22 @@
       <a href="#top">TOP ↑</a>
     </div>
   </footer>
+
+  <div class="image-modal" id="imageModal" aria-hidden="true">
+    <div class="image-modal-backdrop" data-close-image></div>
+    <div class="image-dialog" role="dialog" aria-modal="true" aria-label="Visor de imágenes SimDron">
+      <div class="image-dialog-head">
+        <div><span id="imageModalIndex">VIEW 01 / 01</span><b id="imageModalTitle">SIMDRON</b></div>
+        <button type="button" class="image-dialog-close" data-close-image aria-label="Cerrar visor">×</button>
+      </div>
+      <div class="image-dialog-stage">
+        <button type="button" class="image-nav prev" id="imagePrev" aria-label="Imagen anterior">‹</button>
+        <img id="imageModalImage" alt="" />
+        <button type="button" class="image-nav next" id="imageNext" aria-label="Imagen siguiente">›</button>
+      </div>
+      <div class="image-dialog-caption" id="imageModalCaption"></div>
+    </div>
+  </div>
 
   <div class="video-modal" id="videoModal" aria-hidden="true">
     <div class="modal-backdrop" data-close-video></div>

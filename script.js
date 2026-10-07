@@ -580,7 +580,11 @@
     const data = systemData[btn.dataset.systemDetail];
     if (!data || !sysPanel) return;
     const wasActive = btn.classList.contains('active');
-    $$('[data-system-detail]').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-expanded','false'); });
+    $$('[data-system-detail]').forEach(b => {
+      b.classList.remove('active');
+      b.setAttribute('aria-expanded','false');
+      const cue = $('i', b); if (cue) cue.textContent = 'OPEN +';
+    });
     if (wasActive) {
       sysPanel.classList.remove('open');
       sysPanel.setAttribute('aria-hidden','true');
@@ -589,12 +593,13 @@
     }
     btn.classList.add('active');
     btn.setAttribute('aria-expanded','true');
+    const activeCue = $('i', btn); if (activeCue) activeCue.textContent = 'CLOSE ×';
     $('#systemDetailCode').textContent = data.code;
     $('#systemDetailTitle').textContent = data.title;
     $('#systemDetailText').textContent = data.text;
     $('#systemDetailPoints').innerHTML = data.points.map(x => `<span>${x}</span>`).join('');
     if (sysTabs) {
-      sysTabs.innerHTML = data.subtopics.map((x,i) => `<button type="button" data-sub-index="${i}">${x.label}<i>+</i></button>`).join('');
+      sysTabs.innerHTML = data.subtopics.map((x,i) => `<button type="button" data-sub-index="${i}"><span>${String(i+1).padStart(2,'0')}</span><b>${x.label}</b><small>ABRIR DETALLE</small><i>+</i></button>`).join('');
       $$('button', sysTabs).forEach(b => b.addEventListener('click', () => {
         const i = Number(b.dataset.subIndex);
         const isActive = b.classList.contains('active');
@@ -610,6 +615,8 @@
   const toggleCap = card => {
     const open = card.classList.toggle('expanded');
     card.setAttribute('aria-expanded', String(open));
+    const cue = $('.cap-head i', card);
+    if (cue) cue.textContent = open ? 'CLOSE ×' : 'DETAIL +';
   };
   $$('[data-expand-card]').forEach(card => {
     card.addEventListener('click', () => toggleCap(card));
@@ -627,5 +634,160 @@
     devDetails?.setAttribute('aria-hidden', String(!open));
     const label = $('.dev-toggle-action', devToggle);
     if (label) label.childNodes[0].nodeValue = open ? 'OCULTAR DEVELOPMENT ' : 'VER DEVELOPMENT ';
+  });
+})();
+
+
+// v5.0 — tactical UX: clear interaction hierarchy, sensor explorer and image viewer.
+(() => {
+  const $ = (s, root = document) => root.querySelector(s);
+  const $$ = (s, root = document) => [...root.querySelectorAll(s)];
+
+  const sensorData = {
+    rgb: {
+      src:'assets/sensors.webp', code:'ISR / RGB', stage:'RGB / FPV', caption:'LIVE FEED / TELEMETRY',
+      title:'RGB / FPV + OSD',
+      text:'Vista visible integrada con OSD y telemetría para navegación, observación, orientación y control de la plataforma.',
+      facts:['RGB FEED','OSD / TELEMETRY','FOV','CAMERA FPS']
+    },
+    srr: {
+      src:'assets/srr-ui.webp', code:'ISR / SRR', stage:'SRR / GIMBAL', caption:'RECON / SENSOR CONTROL',
+      title:'SRR / GIMBAL CONTROL',
+      text:'El perfil de reconocimiento concentra control de gimbal, FOV, captura y visualización del sensor para búsqueda y observación desde una plataforma dedicada.',
+      facts:['GIMBAL PITCH','FOV','PHOTO','SRR PROFILE']
+    },
+    thermal: {
+      src:'assets/sensor-thermal-industrial.webp', code:'ISR / THERMAL', stage:'THERMAL / IR', caption:'MULTISPECTRAL VIEW',
+      title:'VISUALIZACIÓN TÉRMICA',
+      text:'La representación térmica separa materiales, volúmenes y fuentes mediante gradientes diferenciados para ofrecer una lectura de escena distinta de la cámara visible.',
+      facts:['THERMAL VIEW','MATERIAL RESPONSE','CONTRAST','HEAT SOURCES']
+    },
+    track: {
+      src:'assets/mission-employment-01-srr.webp', code:'ISR / OBSERVATION', stage:'TRACK / OBSERVATION', caption:'RECON / EFFECT ASSESSMENT',
+      title:'SEGUIMIENTO Y OBSERVACIÓN',
+      text:'Reconocimiento, seguimiento y observación pueden integrarse al ciclo de misión para localizar referencias, mantener un punto de interés y registrar resultados para revisión posterior.',
+      facts:['RECON','TRACK','PHOTO','POST-MISSION REVIEW']
+    }
+  };
+
+  let sensorKey = 'rgb';
+  const sensorImg = $('#sensorStageImage');
+  const sensorStage = $('#sensorStage');
+  const sensorButtons = $$('[data-sensor-view]');
+
+  const setSensor = key => {
+    const data = sensorData[key];
+    if (!data || !sensorImg) return;
+    sensorKey = key;
+    sensorButtons.forEach(b => {
+      const active = b.dataset.sensorView === key;
+      b.classList.toggle('active', active);
+      b.setAttribute('aria-selected', String(active));
+      const cue = $('i', b); if (cue) cue.textContent = active ? 'SELECTED' : 'OPEN →';
+    });
+    sensorStage?.classList.add('swapping');
+    const preload = new Image();
+    const apply = () => {
+      sensorImg.src = data.src;
+      sensorImg.alt = data.title;
+      $('#sensorStageCode').textContent = data.stage;
+      $('#sensorStageCaption').textContent = data.caption;
+      $('#sensorReadoutCode').textContent = data.code;
+      $('#sensorReadoutTitle').textContent = data.title;
+      $('#sensorReadoutText').textContent = data.text;
+      $('#sensorFacts').innerHTML = data.facts.map(x => `<span>${x}</span>`).join('');
+      requestAnimationFrame(() => sensorStage?.classList.remove('swapping'));
+    };
+    preload.onload = apply; preload.onerror = apply; preload.src = data.src;
+  };
+  sensorButtons.forEach(b => b.addEventListener('click', () => setSensor(b.dataset.sensorView)));
+
+  // Lightweight image viewer. It reuses already-loaded web previews; no extra library.
+  const modal = $('#imageModal');
+  const modalImg = $('#imageModalImage');
+  const modalTitle = $('#imageModalTitle');
+  const modalCaption = $('#imageModalCaption');
+  const modalIndex = $('#imageModalIndex');
+  const prev = $('#imagePrev');
+  const next = $('#imageNext');
+  let items = [];
+  let current = 0;
+
+  const paint = () => {
+    if (!items.length) return;
+    current = (current + items.length) % items.length;
+    const item = items[current];
+    modalImg.src = item.src;
+    modalImg.alt = item.alt || item.title || '';
+    modalTitle.textContent = item.title || 'SIMDRON';
+    modalCaption.textContent = item.caption || item.alt || '';
+    modalIndex.textContent = `VIEW ${String(current+1).padStart(2,'0')} / ${String(items.length).padStart(2,'0')}`;
+    const multi = items.length > 1;
+    prev.hidden = !multi; next.hidden = !multi;
+  };
+
+  const openViewer = (gallery, index = 0) => {
+    items = gallery.filter(x => x?.src);
+    if (!items.length) return;
+    current = Math.max(0, Math.min(index, items.length - 1));
+    paint();
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden','false');
+    document.body.classList.add('modal-open');
+  };
+  const closeViewer = () => {
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden','true');
+    modalImg.removeAttribute('src');
+    document.body.classList.remove('modal-open');
+  };
+  const deepItems = () => {
+    const buttons = $$('#systemDeepGallery button');
+    if (buttons.length) return buttons.map(b => ({
+      src: $('img', b)?.getAttribute('src'),
+      title: $('span', b)?.textContent || 'TECHNICAL VIEW',
+      caption: $('img', b)?.alt || ''
+    }));
+    const img = $('#systemDeepImage');
+    return img?.getAttribute('src') ? [{src:img.getAttribute('src'), title:$('#systemDeepCaption')?.textContent || 'TECHNICAL VIEW', caption:img.alt || ''}] : [];
+  };
+
+  const openDeep = () => {
+    const gallery = deepItems();
+    const buttons = $$('#systemDeepGallery button');
+    const active = buttons.findIndex(b => b.classList.contains('active'));
+    openViewer(gallery, active >= 0 ? active : 0);
+  };
+  $('#deepImageZoom')?.addEventListener('click', openDeep);
+  $('#systemDeepImage')?.addEventListener('click', openDeep);
+
+  const openMap = () => {
+    const img = $('.map-feature-visual img');
+    if (!img) return;
+    openViewer([{
+      src: img.getAttribute('src'),
+      title: $('[data-map-title]')?.textContent || 'MAP PREVIEW',
+      caption: $('[data-map-description]')?.textContent || img.alt
+    }]);
+  };
+  $('#mapImageZoom')?.addEventListener('click', openMap);
+  $('.map-feature-visual img')?.addEventListener('click', openMap);
+
+  const openSensor = () => {
+    const keys = Object.keys(sensorData);
+    const gallery = keys.map(k => ({src:sensorData[k].src, title:sensorData[k].title, caption:sensorData[k].text, alt:sensorData[k].title}));
+    openViewer(gallery, Math.max(0, keys.indexOf(sensorKey)));
+  };
+  $('#sensorImageZoom')?.addEventListener('click', openSensor);
+  sensorImg?.addEventListener('click', openSensor);
+
+  $$('[data-close-image]').forEach(el => el.addEventListener('click', closeViewer));
+  prev?.addEventListener('click', () => { current -= 1; paint(); });
+  next?.addEventListener('click', () => { current += 1; paint(); });
+  document.addEventListener('keydown', e => {
+    if (!modal?.classList.contains('open')) return;
+    if (e.key === 'Escape') closeViewer();
+    if (e.key === 'ArrowLeft') { current -= 1; paint(); }
+    if (e.key === 'ArrowRight') { current += 1; paint(); }
   });
 })();
