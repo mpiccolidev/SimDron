@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+  <meta name="description" content="Canal externo de soporte técnico de SimDron. Formulario local que prepara un correo de soporte sin almacenar datos en el sitio web.">
+  <title>SimDron | External Support</title>
+  <style>
+    :root{--bg:#101010;--panel:#181919;--panel2:#202121;--line:#3d4242;--text:#fff;--muted:#b7bebe;--accent:#fcc800;--max:920px}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    a{color:var(--accent);text-underline-offset:3px}
+    button,input,select,textarea{font:inherit}
+    button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+    .shell{width:min(calc(100% - 34px),var(--max));margin:auto}
+    header{border-bottom:1px solid #303333;background:#121313}
+    .top{min-height:84px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .brand{color:#fff;text-decoration:none;font-weight:900;font-size:1.48rem;letter-spacing:.08em}.brand span{color:var(--accent)}
+    .status{font:800 .68rem ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--accent);letter-spacing:.1em}
+    main{padding:58px 0 80px}
+    .eyebrow{color:var(--accent);font:800 .72rem ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.16em}
+    h1{font-size:clamp(2.5rem,7vw,5.6rem);line-height:.94;letter-spacing:-.045em;margin:12px 0 18px}
+    .lead{max-width:760px;color:#d3d8d8;font-size:1.03rem}
+    .security-note{margin:28px 0 34px;border:1px solid #4b4f4f;border-left:4px solid var(--accent);background:var(--panel);padding:18px 20px;color:#d5dada}
+    .security-note strong{color:#fff}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .field{display:grid;gap:7px}
+    .field.full{grid-column:1/-1}
+    label{font-weight:800;font-size:.75rem;letter-spacing:.045em;text-transform:uppercase}
+    label small{display:block;margin-top:3px;color:#8f9898;font-weight:500;text-transform:none;letter-spacing:0}
+    input,select,textarea{width:100%;border:1px solid var(--line);background:#0d0e0e;color:#fff;padding:12px 13px;border-radius:0}
+    textarea{min-height:150px;resize:vertical}
+    select{min-height:47px}
+    .consent{grid-column:1/-1;display:flex;gap:10px;align-items:flex-start;border-top:1px solid #303333;padding-top:18px;color:#c1c8c8;font-size:.88rem}
+    .consent input{width:auto;margin-top:3px}
+    .hp{position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;overflow:hidden!important}
+    .actions{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:9px;margin-top:4px}
+    .btn{cursor:pointer;border:1px solid #5b6262;background:#121414;color:#fff;padding:12px 15px;font-weight:850;letter-spacing:.04em}
+    .btn.primary{background:var(--accent);border-color:var(--accent);color:#111}
+    .btn:hover{border-color:var(--accent)}
+    .feedback{grid-column:1/-1;min-height:1.4em;color:#9da7a7;font-size:.84rem}
+    .feedback.error{color:#ffbf8f}.feedback.ok{color:#9df3af}
+    .mailbox{margin-top:22px;color:#929b9b;font-size:.84rem}
+    .mailbox code{color:#d9dddd}
+    footer{border-top:1px solid #303333;padding:26px 0;color:#9ba3a3;font-size:.8rem}
+    footer .shell{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+    @media(max-width:680px){main{padding-top:40px}.grid{grid-template-columns:1fr}.field.full,.consent,.actions,.feedback{grid-column:auto}.top{min-height:72px}.status{display:none}.actions{display:grid}.btn{width:100%}}
+  </style>
+</head>
+<body>
+<header>
+  <div class="shell top">
+    <a class="brand" href="./" aria-label="Volver a SimDron">SIM<span>DRON</span></a>
+    <div class="status">EXTERNAL SUPPORT / TEXT ONLY</div>
+  </div>
+</header>
+
+<main class="shell">
+  <div class="eyebrow">SUPPORT / TECHNICAL ASSISTANCE</div>
+  <h1>External Support</h1>
+  <p class="lead">Este formulario prepara un correo técnico para VRLab CYS. <strong>No hay un servidor de tickets detrás de esta página, no se aceptan adjuntos y el sitio no envía el mensaje automáticamente.</strong> El correo se abre en tu propio cliente y solo se transmite si decidís enviarlo.</p>
+
+  <div class="security-note">
+    <strong>Información sensible.</strong> No incluyas información clasificada, operativa, ubicaciones sensibles, credenciales, contraseñas, direcciones IP públicas, claves de licencia completas ni datos personales innecesarios. Para identificar un contexto institucional alcanza con una referencia general.
+  </div>
+
+  <form id="supportForm" novalidate>
+    <div class="grid">
+      <div class="field">
+        <label for="topic">Tipo de consulta</label>
+        <select id="topic" required>
+          <option value="">Seleccionar…</option>
+          <option>Aplicación / funcionamiento</option>
+          <option>Activación / licencia</option>
+          <option>Meta Quest / rendimiento</option>
+          <option>Mission Control / LAN</option>
+          <option>Controles / input</option>
+          <option>Actualización / instalación</option>
+          <option>Otro</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="platform">Plataforma</label>
+        <select id="platform" required>
+          <option value="">Seleccionar…</option>
+          <option>Meta Quest 3 / 3S</option>
+          <option>Meta Quest 2</option>
+          <option>Mission Control / PC</option>
+          <option>Web / documentación</option>
+          <option>Otro</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="version">Versión / build <small>Ej.: 1.0.233 o build 233</small></label>
+        <input id="version" maxlength="80" autocomplete="off" placeholder="Versión visible en SimDron">
+      </div>
+
+      <div class="field">
+        <label for="role">Tipo de usuario</label>
+        <select id="role">
+          <option>Usuario institucional</option>
+          <option>Instructor</option>
+          <option>Soporte técnico / IT</option>
+          <option>Evaluador / demostración</option>
+          <option>Otro</option>
+        </select>
+      </div>
+
+      <div class="field full">
+        <label for="org">Organización / referencia general <small>Opcional. Evitá nombres de unidades, despliegues o datos operativos si no son necesarios para resolver el problema.</small></label>
+        <input id="org" maxlength="120" autocomplete="organization" placeholder="Ej.: institución / área técnica / laboratorio">
+      </div>
+
+      <div class="field full">
+        <label for="issue">Qué ocurre <small>Describí el problema y qué esperabas que ocurriera.</small></label>
+        <textarea id="issue" maxlength="1800" required placeholder="Descripción técnica del problema…"></textarea>
+      </div>
+
+      <div class="field full">
+        <label for="steps">Cómo reproducirlo <small>Opcional. Pasos breves, sin datos sensibles.</small></label>
+        <textarea id="steps" maxlength="900" placeholder="1. Abrir…&#10;2. Seleccionar…&#10;3. Ocurre…"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="frequency">Frecuencia</label>
+        <select id="frequency">
+          <option>Siempre</option>
+          <option>Intermitente</option>
+          <option>Ocurrió una vez</option>
+          <option>No determinado</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="contact">Nombre / función <small>Opcional. No hace falta poner teléfono.</small></label>
+        <input id="contact" maxlength="100" autocomplete="name" placeholder="Referencia de contacto">
+      </div>
+
+      <div class="hp" aria-hidden="true">
+        <label for="website">Website</label>
+        <input id="website" tabindex="-1" autocomplete="off">
+      </div>
+
+      <label class="consent">
+        <input type="checkbox" id="safe" required>
+        <span>Confirmo que el texto no contiene información clasificada, credenciales, datos operativos sensibles ni adjuntos. Entiendo que al continuar se abrirá mi aplicación de correo y que nada se envía hasta que confirme el mensaje.</span>
+      </label>
+
+      <div class="actions">
+        <button class="btn primary" type="submit">Preparar correo de soporte ↗</button>
+        <button class="btn" type="button" id="copyBtn">Copiar solicitud</button>
+        <a class="btn" href="./">Volver a SimDron</a>
+      </div>
+
+      <div id="feedback" class="feedback" role="status" aria-live="polite"></div>
+    </div>
+  </form>
+
+  <p class="mailbox">Destino de soporte: <code>vrlab.cys@gmail.com</code>. Para privacidad y eliminación de datos, consultar la <a href="./privacy.html">Política de privacidad</a>.</p>
+</main>
+
+<footer>
+  <div class="shell">
+    <span>SimDron · External Support</span>
+    <span><a href="./privacy.html">Privacidad / Privacy</a> · <a href="./terms.html">Términos / Terms</a></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+  const form = document.getElementById('supportForm');
+  const feedback = document.getElementById('feedback');
+  const copyBtn = document.getElementById('copyBtn');
+  const target = ['vrlab.cys','gmail.com'].join('@');
+
+  const get = id => document.getElementById(id).value.trim();
+
+  function compose(){
+    return [
+      'SIMDRON — EXTERNAL SUPPORT',
+      '',
+      'Tipo: ' + get('topic'),
+      'Plataforma: ' + get('platform'),
+      'Versión/build: ' + (get('version') || 'No informado'),
+      'Tipo de usuario: ' + get('role'),
+      'Organización/referencia: ' + (get('org') || 'No informada'),
+      'Frecuencia: ' + get('frequency'),
+      'Nombre/función: ' + (get('contact') || 'No informado'),
+      '',
+      'PROBLEMA',
+      get('issue'),
+      '',
+      'PASOS PARA REPRODUCIR',
+      get('steps') || 'No informados',
+      '',
+      'Nota: solicitud preparada desde la página pública External Support de SimDron.'
+    ].join('\n');
+  }
+
+  function validate(){
+    feedback.className = 'feedback';
+    if (get('website')) {
+      feedback.textContent = 'Solicitud descartada.';
+      feedback.classList.add('error');
+      return false;
+    }
+    if (!get('topic') || !get('platform') || !get('issue')) {
+      feedback.textContent = 'Completá tipo de consulta, plataforma y descripción del problema.';
+      feedback.classList.add('error');
+      return false;
+    }
+    if (!document.getElementById('safe').checked) {
+      feedback.textContent = 'Confirmá primero el aviso sobre información sensible.';
+      feedback.classList.add('error');
+      return false;
+    }
+    return true;
+  }
+
+  function rateAllowed(){
+    const now = Date.now();
+    const key = 'simdronSupportPrepareTimes';
+    let times = [];
+    try { times = JSON.parse(localStorage.getItem(key) || '[]').filter(Number.isFinite); } catch(e) {}
+    times = times.filter(t => now - t < 86400000);
+    const lastTen = times.filter(t => now - t < 600000);
+    if (lastTen.length >= 3 || times.length >= 10) return false;
+    times.push(now);
+    try { localStorage.setItem(key, JSON.stringify(times)); } catch(e) {}
+    return true;
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if (!validate()) return;
+    if (!rateAllowed()) {
+      feedback.textContent = 'Demasiados intentos desde este navegador. Esperá unos minutos antes de preparar otra solicitud.';
+      feedback.className = 'feedback error';
+      return;
+    }
+    const subject = 'SimDron Support - ' + get('topic') + ' - ' + (get('version') || 'sin version');
+    const body = compose();
+    const url = 'mailto:' + target + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    feedback.textContent = 'Abriendo tu cliente de correo. Revisá el contenido antes de enviarlo.';
+    feedback.className = 'feedback ok';
+    window.location.href = url;
+  });
+
+  copyBtn.addEventListener('click', async function(){
+    if (!validate()) return;
+    const text = compose() + '\n\nDestino: ' + target;
+    try {
+      await navigator.clipboard.writeText(text);
+      feedback.textContent = 'Solicitud copiada. Podés pegarla manualmente en un correo a ' + target + '.';
+      feedback.className = 'feedback ok';
+    } catch(e) {
+      feedback.textContent = 'No se pudo copiar automáticamente. Seleccioná el texto de los campos y envialo manualmente a ' + target + '.';
+      feedback.className = 'feedback error';
+    }
+  });
+}());
+</script>
+</body>
+</html>
