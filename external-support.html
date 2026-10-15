@@ -6,7 +6,8 @@
   <meta name="color-scheme" content="dark">
   <meta name="robots" content="noindex,nofollow,noarchive">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
-  <meta name="description" content="Canal externo de soporte técnico de SimDron. Formulario local que prepara un correo de soporte sin almacenar datos en el sitio web.">
+  <link rel="icon" type="image/png" href="assets/simdron-favicon.png">
+  <meta name="description" content="Canal externo de soporte técnico de SimDron. Formulario local que prepara un correo o copia una solicitud sin almacenar datos en el sitio web.">
   <title>SimDron | External Support</title>
   <style>
     :root{--bg:#101010;--panel:#181919;--panel2:#202121;--line:#3d4242;--text:#fff;--muted:#b7bebe;--accent:#fcc800;--max:920px}
@@ -19,7 +20,10 @@
     .shell{width:min(calc(100% - 34px),var(--max));margin:auto}
     header{border-bottom:1px solid #303333;background:#121313}
     .top{min-height:84px;display:flex;align-items:center;justify-content:space-between;gap:20px}
-    .brand{color:#fff;text-decoration:none;font-weight:900;font-size:1.48rem;letter-spacing:.08em}.brand span{color:var(--accent)}
+    .brand-wrap{display:flex;align-items:center;gap:14px;min-width:0}
+    .brand{display:inline-flex;align-items:center;text-decoration:none}
+    .brand img{display:block;width:170px;max-width:44vw;height:auto}
+    .brand-sub{font:700 .62rem ui-monospace,SFMono-Regular,Menlo,monospace;color:#bfc7c7;letter-spacing:.12em}
     .status{font:800 .68rem ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--accent);letter-spacing:.1em}
     main{padding:58px 0 80px}
     .eyebrow{color:var(--accent);font:800 .72rem ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.16em}
@@ -27,6 +31,10 @@
     .lead{max-width:760px;color:#d3d8d8;font-size:1.03rem}
     .security-note{margin:28px 0 34px;border:1px solid #4b4f4f;border-left:4px solid var(--accent);background:var(--panel);padding:18px 20px;color:#d5dada}
     .security-note strong{color:#fff}
+    .modes{display:flex;flex-wrap:wrap;gap:10px;margin:24px 0 24px}
+    .mode-btn{cursor:pointer;border:1px solid #555d5d;background:#121414;color:#d7dddd;padding:12px 14px;font-weight:800;letter-spacing:.04em;min-width:170px;text-align:center}
+    .mode-btn.active{background:var(--accent);border-color:var(--accent);color:#111;box-shadow:0 0 0 1px rgba(252,200,0,.15) inset}
+    .mode-help{margin:-8px 0 24px;color:#aab3b3;font-size:.9rem}
     .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
     .field{display:grid;gap:7px}
     .field.full{grid-column:1/-1}
@@ -44,17 +52,20 @@
     .btn:hover{border-color:var(--accent)}
     .feedback{grid-column:1/-1;min-height:1.4em;color:#9da7a7;font-size:.84rem}
     .feedback.error{color:#ffbf8f}.feedback.ok{color:#9df3af}
+    .quick-mail{grid-column:1/-1;display:none;border:1px solid #484f4f;background:#111313;padding:14px 16px;color:#d2d8d8;font-size:.88rem}
+    .quick-mail.show{display:block}
+    .quick-mail a{font-weight:800}
     .mailbox{margin-top:22px;color:#929b9b;font-size:.84rem}
     .mailbox code{color:#d9dddd}
     footer{border-top:1px solid #303333;padding:26px 0;color:#9ba3a3;font-size:.8rem}
     footer .shell{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
-    @media(max-width:680px){main{padding-top:40px}.grid{grid-template-columns:1fr}.field.full,.consent,.actions,.feedback{grid-column:auto}.top{min-height:72px}.status{display:none}.actions{display:grid}.btn{width:100%}}
+    @media(max-width:680px){main{padding-top:40px}.grid{grid-template-columns:1fr}.field.full,.consent,.actions,.feedback,.quick-mail{grid-column:auto}.top{min-height:72px}.brand img{width:138px;max-width:48vw}.brand-sub,.status{display:none}.actions{display:grid}.btn,.mode-btn{width:100%}}
   </style>
 </head>
 <body>
 <header>
   <div class="shell top">
-    <a class="brand" href="./" aria-label="Volver a SimDron">SIM<span>DRON</span></a>
+    <div class="brand-wrap"><a class="brand" href="./" aria-label="Volver a SimDron"><img src="assets/simdron-logo.png" alt="SimDron"></a><div class="brand-sub">VRLAB · EXTERNAL SUPPORT</div></div>
     <div class="status">EXTERNAL SUPPORT / TEXT ONLY</div>
   </div>
 </header>
@@ -62,11 +73,19 @@
 <main class="shell">
   <div class="eyebrow">SUPPORT / TECHNICAL ASSISTANCE</div>
   <h1>External Support</h1>
-  <p class="lead">Este formulario prepara un correo técnico para VRLab CYS. <strong>No hay un servidor de tickets detrás de esta página, no se aceptan adjuntos y el sitio no envía el mensaje automáticamente.</strong> El correo se abre en tu propio cliente y solo se transmite si decidís enviarlo.</p>
+  <p class="lead">Este formulario organiza una consulta para VRLab CYS. <strong>No hay un servidor de tickets detrás de esta página, no se aceptan adjuntos y el sitio no envía el mensaje automáticamente.</strong> Podés abrir tu aplicación de correo o copiar la solicitud manualmente.</p>
 
   <div class="security-note">
     <strong>Información sensible.</strong> No incluyas información clasificada, operativa, ubicaciones sensibles, credenciales, contraseñas, direcciones IP públicas, claves de licencia completas ni datos personales innecesarios. Para identificar un contexto institucional alcanza con una referencia general.
   </div>
+
+  <div class="modes" role="tablist" aria-label="Tipo principal de solicitud">
+    <button class="mode-btn active" type="button" data-mode="general" role="tab" aria-selected="true">Consulta general</button>
+    <button class="mode-btn" type="button" data-mode="incident" role="tab" aria-selected="false">Incidente técnico</button>
+    <button class="mode-btn" type="button" data-mode="suggestion" role="tab" aria-selected="false">Sugerencia / necesidad</button>
+  </div>
+  <p class="mode-help" id="modeHelp">Canal para consultas generales de uso, instalación, compatibilidad o dudas operativas.</p>
+
 
   <form id="supportForm" novalidate>
     <div class="grid">
@@ -74,12 +93,12 @@
         <label for="topic">Tipo de consulta</label>
         <select id="topic" required>
           <option value="">Seleccionar…</option>
-          <option>Aplicación / funcionamiento</option>
+          <option>Consulta general</option>
           <option>Activación / licencia</option>
-          <option>Meta Quest / rendimiento</option>
+          <option>Instalación / actualización</option>
+          <option>Meta Quest / compatibilidad</option>
           <option>Mission Control / LAN</option>
-          <option>Controles / input</option>
-          <option>Actualización / instalación</option>
+          <option>Sugerencias / necesidades</option>
           <option>Otro</option>
         </select>
       </div>
@@ -118,13 +137,13 @@
       </div>
 
       <div class="field full">
-        <label for="issue">Qué ocurre <small>Describí el problema y qué esperabas que ocurriera.</small></label>
-        <textarea id="issue" maxlength="1800" required placeholder="Descripción técnica del problema…"></textarea>
+        <label for="issue" id="issueLabel">Consulta o descripción <small id="issueHint">Describí brevemente tu consulta, necesidad o situación.</small></label>
+        <textarea id="issue" maxlength="1800" required placeholder="Describí tu consulta o necesidad…"></textarea>
       </div>
 
       <div class="field full">
-        <label for="steps">Cómo reproducirlo <small>Opcional. Pasos breves, sin datos sensibles.</small></label>
-        <textarea id="steps" maxlength="900" placeholder="1. Abrir…&#10;2. Seleccionar…&#10;3. Ocurre…"></textarea>
+        <label for="steps" id="stepsLabel">Detalles adicionales <small id="stepsHint">Opcional. Pasos, contexto o aclaraciones, sin datos sensibles.</small></label>
+        <textarea id="steps" maxlength="900" placeholder="Agregá contexto, pasos o aclaraciones…"></textarea>
       </div>
 
       <div class="field">
@@ -153,11 +172,12 @@
       </label>
 
       <div class="actions">
-        <button class="btn primary" type="submit">Preparar correo de soporte ↗</button>
+        <button class="btn primary" type="button" id="openMailBtn">Abrir app de correo ↗</button>
         <button class="btn" type="button" id="copyBtn">Copiar solicitud</button>
         <a class="btn" href="./">Volver a SimDron</a>
       </div>
 
+      <div id="quickMail" class="quick-mail" role="note">Si no se abre tu aplicación de correo, podés <a id="mailFallback" href="#">hacer clic aquí</a> o copiar la solicitud manualmente.</div>
       <div id="feedback" class="feedback" role="status" aria-live="polite"></div>
     </div>
   </form>
@@ -175,17 +195,90 @@
 <script>
 (function(){
   'use strict';
-  const form = document.getElementById('supportForm');
   const feedback = document.getElementById('feedback');
   const copyBtn = document.getElementById('copyBtn');
+  const openMailBtn = document.getElementById('openMailBtn');
+  const mailFallback = document.getElementById('mailFallback');
+  const quickMail = document.getElementById('quickMail');
   const target = ['vrlab.cys','gmail.com'].join('@');
+  const modeButtons = Array.from(document.querySelectorAll('[data-mode]'));
+  const topic = document.getElementById('topic');
+  const issue = document.getElementById('issue');
+  const steps = document.getElementById('steps');
+  const issueLabel = document.getElementById('issueLabel');
+  const issueHint = document.getElementById('issueHint');
+  const stepsLabel = document.getElementById('stepsLabel');
+  const stepsHint = document.getElementById('stepsHint');
+  const modeHelp = document.getElementById('modeHelp');
+  let currentMode = 'general';
 
   const get = id => document.getElementById(id).value.trim();
+
+  const MODE_CONFIG = {
+    general: {
+      help: 'Canal para consultas generales de uso, instalación, compatibilidad o dudas operativas.',
+      topics: ['Consulta general','Activación / licencia','Instalación / actualización','Meta Quest / compatibilidad','Mission Control / LAN','Otro'],
+      issueLabel: 'Consulta o descripción',
+      issueHint: 'Describí brevemente tu consulta, necesidad o situación.',
+      issuePlaceholder: 'Describí tu consulta o necesidad…',
+      stepsLabel: 'Detalles adicionales',
+      stepsHint: 'Opcional. Pasos, contexto o aclaraciones, sin datos sensibles.',
+      stepsPlaceholder: 'Agregá contexto, pasos o aclaraciones…'
+    },
+    incident: {
+      help: 'Canal para incidentes técnicos o comportamientos no esperados. Evita la palabra “catástrofe”: alcanza con describir el incidente.',
+      topics: ['Incidente técnico general','Rendimiento / FPS','Crash / bloqueo','Controles / input','Visual / UI','Red local / Mission Control','Instalación / actualización','Otro'],
+      issueLabel: 'Qué ocurre',
+      issueHint: 'Describí el incidente y qué esperabas que ocurriera.',
+      issuePlaceholder: 'Descripción técnica del incidente…',
+      stepsLabel: 'Cómo reproducirlo',
+      stepsHint: 'Opcional. Pasos breves para intentar reproducir el problema, sin datos sensibles.',
+      stepsPlaceholder: '1. Abrir…
+2. Seleccionar…
+3. Ocurre…'
+    },
+    suggestion: {
+      help: 'Canal para escuchar ideas, necesidades de entrenamiento, mejoras funcionales o requerimientos detectados por usuarios e instructores.',
+      topics: ['Sugerencia funcional','Necesidad de entrenamiento','Mejora de interfaz','Nuevo escenario / contenido','Nuevo sensor / sistema','Integración / Mission Control','Otro'],
+      issueLabel: 'Idea o necesidad',
+      issueHint: 'Contanos qué haría falta, para qué sirve y a quién beneficiaría.',
+      issuePlaceholder: 'Describí la idea, mejora o necesidad detectada…',
+      stepsLabel: 'Contexto de uso',
+      stepsHint: 'Opcional. Comentá en qué entrenamiento, flujo o situación sería útil.',
+      stepsPlaceholder: 'Ejemplo de uso, contexto operativo o valor esperado…'
+    }
+  };
+
+  function renderTopics(mode, keepValue){
+    const cfg = MODE_CONFIG[mode];
+    const current = keepValue ? topic.value : '';
+    topic.innerHTML = '<option value="">Seleccionar…</option>' + cfg.topics.map(t => '<option>' + t + '</option>').join('');
+    if (keepValue && cfg.topics.includes(current)) topic.value = current;
+  }
+
+  function setMode(mode){
+    currentMode = mode;
+    const cfg = MODE_CONFIG[mode];
+    modeButtons.forEach(btn => {
+      const active = btn.dataset.mode === mode;
+      btn.classList.toggle('active', active);
+      btn.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+    renderTopics(mode, false);
+    modeHelp.textContent = cfg.help;
+    issueLabel.childNodes[0].nodeValue = cfg.issueLabel + ' ';
+    issueHint.textContent = cfg.issueHint;
+    issue.placeholder = cfg.issuePlaceholder;
+    stepsLabel.childNodes[0].nodeValue = cfg.stepsLabel + ' ';
+    stepsHint.textContent = cfg.stepsHint;
+    steps.placeholder = cfg.stepsPlaceholder;
+  }
 
   function compose(){
     return [
       'SIMDRON — EXTERNAL SUPPORT',
       '',
+      'Canal principal: ' + ({general:'Consulta general', incident:'Incidente técnico', suggestion:'Sugerencia / necesidad'}[currentMode]),
       'Tipo: ' + get('topic'),
       'Plataforma: ' + get('platform'),
       'Versión/build: ' + (get('version') || 'No informado'),
@@ -194,25 +287,27 @@
       'Frecuencia: ' + get('frequency'),
       'Nombre/función: ' + (get('contact') || 'No informado'),
       '',
-      'PROBLEMA',
+      (currentMode === 'suggestion' ? 'IDEA / NECESIDAD' : currentMode === 'general' ? 'CONSULTA' : 'INCIDENTE'),
       get('issue'),
       '',
-      'PASOS PARA REPRODUCIR',
+      (currentMode === 'incident' ? 'PASOS / CONTEXTO' : 'DETALLES ADICIONALES'),
       get('steps') || 'No informados',
       '',
       'Nota: solicitud preparada desde la página pública External Support de SimDron.'
-    ].join('\n');
+    ].join('
+');
   }
 
   function validate(){
     feedback.className = 'feedback';
+    quickMail.classList.remove('show');
     if (get('website')) {
       feedback.textContent = 'Solicitud descartada.';
       feedback.classList.add('error');
       return false;
     }
     if (!get('topic') || !get('platform') || !get('issue')) {
-      feedback.textContent = 'Completá tipo de consulta, plataforma y descripción del problema.';
+      feedback.textContent = 'Completá canal, tipo de consulta, plataforma y descripción principal.';
       feedback.classList.add('error');
       return false;
     }
@@ -237,34 +332,60 @@
     return true;
   }
 
-  form.addEventListener('submit', function(e){
-    e.preventDefault();
+  function buildMailto(){
+    const subjectPrefix = currentMode === 'suggestion' ? 'Suggestion' : currentMode === 'incident' ? 'Technical incident' : 'Support';
+    const subject = 'SimDron ' + subjectPrefix + ' - ' + get('topic') + ' - ' + (get('version') || 'sin version');
+    return 'mailto:' + target + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(compose());
+  }
+
+  function openMail(){
     if (!validate()) return;
     if (!rateAllowed()) {
       feedback.textContent = 'Demasiados intentos desde este navegador. Esperá unos minutos antes de preparar otra solicitud.';
       feedback.className = 'feedback error';
       return;
     }
-    const subject = 'SimDron Support - ' + get('topic') + ' - ' + (get('version') || 'sin version');
-    const body = compose();
-    const url = 'mailto:' + target + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-    feedback.textContent = 'Abriendo tu cliente de correo. Revisá el contenido antes de enviarlo.';
+    const url = buildMailto();
+    mailFallback.href = url;
+    quickMail.classList.add('show');
+    feedback.textContent = 'Intentando abrir tu aplicación de correo. Si no sucede nada, usá el enlace alternativo o copiá la solicitud.';
     feedback.className = 'feedback ok';
-    window.location.href = url;
-  });
+
+    // Método 1: enlace temporal, suele ser más confiable que submit.
+    const a = document.createElement('a');
+    a.href = url;
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => { a.remove(); }, 0);
+
+    // Método 2: fallback extra.
+    setTimeout(() => {
+      try { window.location.href = url; } catch(e) {}
+    }, 120);
+  }
+
+  modeButtons.forEach(btn => btn.addEventListener('click', () => setMode(btn.dataset.mode)));
+  openMailBtn.addEventListener('click', openMail);
 
   copyBtn.addEventListener('click', async function(){
     if (!validate()) return;
-    const text = compose() + '\n\nDestino: ' + target;
+    const text = compose() + '
+
+Destino: ' + target;
     try {
       await navigator.clipboard.writeText(text);
       feedback.textContent = 'Solicitud copiada. Podés pegarla manualmente en un correo a ' + target + '.';
       feedback.className = 'feedback ok';
+      mailFallback.href = buildMailto();
+      quickMail.classList.add('show');
     } catch(e) {
       feedback.textContent = 'No se pudo copiar automáticamente. Seleccioná el texto de los campos y envialo manualmente a ' + target + '.';
       feedback.className = 'feedback error';
     }
   });
+
+  setMode('general');
 }());
 </script>
 </body>

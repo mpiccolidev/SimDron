@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark">
+  <link rel="icon" type="image/png" href="assets/simdron-favicon.png">
   <meta name="description" content="Política de privacidad de SimDron y SimDron Mission Control. Información sobre el tratamiento de datos, comunicaciones locales y eliminación de registros.">
   <title>SimDron | Política de privacidad / Privacy Policy</title>
   <style>
@@ -16,9 +17,10 @@
     .shell { max-width:var(--max); margin:0 auto; padding:0 24px; }
     .top { border-bottom:1px solid #303030; background:#131313; }
     .top .shell { display:flex; align-items:center; justify-content:space-between; gap:22px; min-height:88px; }
-    .brand { color:#fff; text-decoration:none; font-weight:900; font-size:1.65rem; letter-spacing:.09em; line-height:1; }
-    .brand span { color:var(--accent); }
-    .brand-sub { font-size:.64rem; font-weight:600; color:var(--muted); letter-spacing:.15em; margin-top:8px; line-height:1.3; }
+    .brand-wrap{display:flex;align-items:center;gap:14px;min-width:0}
+    .brand { display:inline-flex; align-items:center; text-decoration:none; }
+    .brand img { display:block; width:170px; max-width:42vw; height:auto; }
+    .brand-sub { font-size:.64rem; font-weight:600; color:var(--muted); letter-spacing:.15em; line-height:1.3; }
     .lang { display:flex; gap:5px; border:1px solid #484848; border-radius:7px; padding:4px; background:#242424; }
     .lang button { cursor:pointer; background:transparent; border:0; color:#ccc; border-radius:4px; font-size:.77rem; font-weight:800; letter-spacing:.06em; padding:9px 12px; }
     .lang button[aria-pressed="true"] { background:var(--accent); color:#101010; }
@@ -51,15 +53,15 @@
     footer { padding:29px 0 34px; border-top:1px solid #303030; color:#b9b9b9; font-size:.82rem; }
     footer .shell { display:flex; justify-content:space-between; flex-wrap:wrap; gap:14px; }
     [hidden] { display:none !important; }
-    @media (max-width:650px) { .top .shell { min-height:80px; } .brand { font-size:1.32rem; } .brand-sub { font-size:.55rem; } main { padding-top:42px; } .toc ol { columns:1; } .lang button { padding:8px 10px; } }
+    @media (max-width:650px) { .top .shell { min-height:80px; } .brand img { width:138px; max-width:46vw; } .brand-sub { font-size:.55rem; } main { padding-top:42px; } .toc ol { columns:1; } .lang button { padding:8px 10px; } }
     @media print { body { background:#fff; color:#111; } a { color:#111; } .top,.lang,.toc,footer { display:none; } .lead { background:#eee; } h1,h2,strong { color:#111; } .policy-section { break-inside:avoid; } }
   </style>
 </head>
 <body>
   <header class="top">
     <div class="shell">
-      <div>
-        <a class="brand" href="./" aria-label="SimDron, volver al sitio principal">SIM<span>DRON</span></a>
+      <div class="brand-wrap">
+        <a class="brand" href="./" aria-label="SimDron, volver al sitio principal"><img src="assets/simdron-logo.png" alt="SimDron"></a>
         <div class="brand-sub">SISTEMA DE SIMULACIÓN · ARGENTINA</div>
       </div>
       <div class="lang" role="group" aria-label="Idioma / Language">
