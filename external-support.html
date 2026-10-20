@@ -52,8 +52,9 @@
     .btn:hover{border-color:var(--accent)}
     .feedback{grid-column:1/-1;min-height:1.4em;color:#9da7a7;font-size:.84rem}
     .feedback.error{color:#ffbf8f}.feedback.ok{color:#9df3af}
-    .quick-mail{grid-column:1/-1;display:none;border:1px solid #484f4f;background:#111313;padding:14px 16px;color:#d2d8d8;font-size:.88rem}
-    .quick-mail.show{display:block}
+    .ticket-preview{grid-column:1/-1;display:grid;gap:8px;margin-top:2px}
+    .ticket-preview label{color:#dfe4e4}
+    .ticket-preview textarea{min-height:220px;background:#0b0c0c;color:#dbe0e0;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.78rem;line-height:1.45}
     .quick-mail a{font-weight:800}
     .mailbox{margin-top:22px;color:#929b9b;font-size:.84rem}
     .mailbox code{color:#d9dddd}
@@ -73,7 +74,7 @@
 <main class="shell">
   <div class="eyebrow">SUPPORT / TECHNICAL ASSISTANCE</div>
   <h1>External Support</h1>
-  <p class="lead">Este formulario organiza una consulta para VRLab CYS. <strong>No hay un servidor de tickets detrás de esta página, no se aceptan adjuntos y el sitio no envía el mensaje automáticamente.</strong> Podés abrir tu aplicación de correo o copiar la solicitud manualmente.</p>
+  <p class="lead">Este formulario organiza una consulta para VRLab CYS. <strong>No hay un servidor de tickets detrás de esta página, no se aceptan adjuntos y el sitio no envía información automáticamente.</strong> Podés exportar la solicitud como TXT o copiarla para enviarla manualmente por correo.</p>
 
   <div class="security-note">
     <strong>Información sensible.</strong> No incluyas información clasificada, operativa, ubicaciones sensibles, credenciales, contraseñas, direcciones IP públicas, claves de licencia completas ni datos personales innecesarios. Para identificar un contexto institucional alcanza con una referencia general.
@@ -171,13 +172,17 @@
         <span>Confirmo que el texto no contiene información clasificada, credenciales, datos operativos sensibles ni adjuntos. Entiendo que al continuar se abrirá mi aplicación de correo y que nada se envía hasta que confirme el mensaje.</span>
       </label>
 
+      <div class="ticket-preview">
+        <label for="ticketPreview">Vista previa de la solicitud <small>Se actualiza con lo que escribís. Si tu navegador bloquea el portapapeles, podés seleccionar el texto manualmente desde aquí.</small></label>
+        <textarea id="ticketPreview" readonly aria-label="Vista previa de la solicitud"></textarea>
+      </div>
+
       <div class="actions">
-        <button class="btn primary" type="button" id="openMailBtn">Abrir app de correo ↗</button>
+        <button class="btn primary" type="button" id="exportBtn">Exportar TXT ↓</button>
         <button class="btn" type="button" id="copyBtn">Copiar solicitud</button>
         <a class="btn" href="./">Volver a SimDron</a>
       </div>
 
-      <div id="quickMail" class="quick-mail" role="note">Si no se abre tu aplicación de correo, podés <a id="mailFallback" href="#">hacer clic aquí</a> o copiar la solicitud manualmente.</div>
       <div id="feedback" class="feedback" role="status" aria-live="polite"></div>
     </div>
   </form>
@@ -195,12 +200,11 @@
 <script>
 (function(){
   'use strict';
+
   const feedback = document.getElementById('feedback');
   const copyBtn = document.getElementById('copyBtn');
-  const openMailBtn = document.getElementById('openMailBtn');
-  const mailFallback = document.getElementById('mailFallback');
-  const quickMail = document.getElementById('quickMail');
-  const target = ['vrlab.cys','gmail.com'].join('@');
+  const exportBtn = document.getElementById('exportBtn');
+  const preview = document.getElementById('ticketPreview');
   const modeButtons = Array.from(document.querySelectorAll('[data-mode]'));
   const topic = document.getElementById('topic');
   const issue = document.getElementById('issue');
@@ -210,9 +214,15 @@
   const stepsLabel = document.getElementById('stepsLabel');
   const stepsHint = document.getElementById('stepsHint');
   const modeHelp = document.getElementById('modeHelp');
+  const form = document.getElementById('supportForm');
+  const target = 'vrlab.cys@gmail.com';
+
   let currentMode = 'general';
 
-  const get = id => document.getElementById(id).value.trim();
+  const get = id => {
+    const el = document.getElementById(id);
+    return el ? String(el.value || '').trim() : '';
+  };
 
   const MODE_CONFIG = {
     general: {
@@ -226,166 +236,195 @@
       stepsPlaceholder: 'Agregá contexto, pasos o aclaraciones…'
     },
     incident: {
-      help: 'Canal para incidentes técnicos o comportamientos no esperados. Evita la palabra “catástrofe”: alcanza con describir el incidente.',
+      help: 'Canal para comportamientos no esperados o incidentes técnicos.',
       topics: ['Incidente técnico general','Rendimiento / FPS','Crash / bloqueo','Controles / input','Visual / UI','Red local / Mission Control','Instalación / actualización','Otro'],
       issueLabel: 'Qué ocurre',
       issueHint: 'Describí el incidente y qué esperabas que ocurriera.',
       issuePlaceholder: 'Descripción técnica del incidente…',
       stepsLabel: 'Cómo reproducirlo',
       stepsHint: 'Opcional. Pasos breves para intentar reproducir el problema, sin datos sensibles.',
-      stepsPlaceholder: '1. Abrir…
-2. Seleccionar…
-3. Ocurre…'
+      stepsPlaceholder: '1. Abrir…\\n2. Seleccionar…\\n3. Ocurre…'
     },
     suggestion: {
       help: 'Canal para escuchar ideas, necesidades de entrenamiento, mejoras funcionales o requerimientos detectados por usuarios e instructores.',
       topics: ['Sugerencia funcional','Necesidad de entrenamiento','Mejora de interfaz','Nuevo escenario / contenido','Nuevo sensor / sistema','Integración / Mission Control','Otro'],
       issueLabel: 'Idea o necesidad',
-      issueHint: 'Contanos qué haría falta, para qué sirve y a quién beneficiaría.',
+      issueHint: 'Contanos qué haría falta, para qué serviría y a quién beneficiaría.',
       issuePlaceholder: 'Describí la idea, mejora o necesidad detectada…',
       stepsLabel: 'Contexto de uso',
       stepsHint: 'Opcional. Comentá en qué entrenamiento, flujo o situación sería útil.',
-      stepsPlaceholder: 'Ejemplo de uso, contexto operativo o valor esperado…'
+      stepsPlaceholder: 'Ejemplo de uso, contexto o valor esperado…'
     }
   };
 
-  function renderTopics(mode, keepValue){
-    const cfg = MODE_CONFIG[mode];
-    const current = keepValue ? topic.value : '';
-    topic.innerHTML = '<option value="">Seleccionar…</option>' + cfg.topics.map(t => '<option>' + t + '</option>').join('');
-    if (keepValue && cfg.topics.includes(current)) topic.value = current;
+  function setLabelText(labelEl, mainText, hintEl, hintText) {
+    if (!labelEl) return;
+    const first = Array.from(labelEl.childNodes).find(n => n.nodeType === Node.TEXT_NODE);
+    if (first) first.nodeValue = mainText + ' ';
+    if (hintEl) hintEl.textContent = hintText;
   }
 
-  function setMode(mode){
+  function renderTopics(mode) {
+    const cfg = MODE_CONFIG[mode];
+    topic.innerHTML = '<option value="">Seleccionar…</option>' +
+      cfg.topics.map(t => '<option>' + t + '</option>').join('');
+  }
+
+  function setMode(mode) {
     currentMode = mode;
     const cfg = MODE_CONFIG[mode];
+
     modeButtons.forEach(btn => {
       const active = btn.dataset.mode === mode;
       btn.classList.toggle('active', active);
       btn.setAttribute('aria-selected', active ? 'true' : 'false');
     });
-    renderTopics(mode, false);
+
+    renderTopics(mode);
     modeHelp.textContent = cfg.help;
-    issueLabel.childNodes[0].nodeValue = cfg.issueLabel + ' ';
-    issueHint.textContent = cfg.issueHint;
+    setLabelText(issueLabel, cfg.issueLabel, issueHint, cfg.issueHint);
     issue.placeholder = cfg.issuePlaceholder;
-    stepsLabel.childNodes[0].nodeValue = cfg.stepsLabel + ' ';
-    stepsHint.textContent = cfg.stepsHint;
+    setLabelText(stepsLabel, cfg.stepsLabel, stepsHint, cfg.stepsHint);
     steps.placeholder = cfg.stepsPlaceholder;
+    updatePreview();
   }
 
-  function compose(){
+  function modeTitle() {
+    if (currentMode === 'incident') return 'INCIDENTE TÉCNICO';
+    if (currentMode === 'suggestion') return 'SUGERENCIA / NECESIDAD';
+    return 'CONSULTA GENERAL';
+  }
+
+  function compose() {
     return [
       'SIMDRON — EXTERNAL SUPPORT',
+      'Destino sugerido: ' + target,
       '',
-      'Canal principal: ' + ({general:'Consulta general', incident:'Incidente técnico', suggestion:'Sugerencia / necesidad'}[currentMode]),
-      'Tipo: ' + get('topic'),
-      'Plataforma: ' + get('platform'),
+      'CANAL',
+      modeTitle(),
+      '',
+      'Tipo: ' + (get('topic') || 'No seleccionado'),
+      'Plataforma: ' + (get('platform') || 'No seleccionada'),
       'Versión/build: ' + (get('version') || 'No informado'),
-      'Tipo de usuario: ' + get('role'),
+      'Tipo de usuario: ' + (get('role') || 'No informado'),
       'Organización/referencia: ' + (get('org') || 'No informada'),
-      'Frecuencia: ' + get('frequency'),
+      'Frecuencia: ' + (get('frequency') || 'No determinada'),
       'Nombre/función: ' + (get('contact') || 'No informado'),
       '',
-      (currentMode === 'suggestion' ? 'IDEA / NECESIDAD' : currentMode === 'general' ? 'CONSULTA' : 'INCIDENTE'),
-      get('issue'),
+      currentMode === 'suggestion' ? 'IDEA / NECESIDAD' : (currentMode === 'incident' ? 'INCIDENTE' : 'CONSULTA'),
+      get('issue') || '(sin completar)',
       '',
-      (currentMode === 'incident' ? 'PASOS / CONTEXTO' : 'DETALLES ADICIONALES'),
+      currentMode === 'incident' ? 'PASOS / CONTEXTO' : 'DETALLES ADICIONALES',
       get('steps') || 'No informados',
       '',
       'Nota: solicitud preparada desde la página pública External Support de SimDron.'
-    ].join('
-');
+    ].join('\n');
   }
 
-  function validate(){
+  function updatePreview() {
+    preview.value = compose();
+  }
+
+  function validate() {
     feedback.className = 'feedback';
-    quickMail.classList.remove('show');
+
     if (get('website')) {
       feedback.textContent = 'Solicitud descartada.';
       feedback.classList.add('error');
       return false;
     }
+
     if (!get('topic') || !get('platform') || !get('issue')) {
-      feedback.textContent = 'Completá canal, tipo de consulta, plataforma y descripción principal.';
+      feedback.textContent = 'Completá tipo de consulta, plataforma y descripción principal.';
       feedback.classList.add('error');
       return false;
     }
+
     if (!document.getElementById('safe').checked) {
       feedback.textContent = 'Confirmá primero el aviso sobre información sensible.';
       feedback.classList.add('error');
       return false;
     }
+
     return true;
   }
 
-  function rateAllowed(){
-    const now = Date.now();
-    const key = 'simdronSupportPrepareTimes';
-    let times = [];
-    try { times = JSON.parse(localStorage.getItem(key) || '[]').filter(Number.isFinite); } catch(e) {}
-    times = times.filter(t => now - t < 86400000);
-    const lastTen = times.filter(t => now - t < 600000);
-    if (lastTen.length >= 3 || times.length >= 10) return false;
-    times.push(now);
-    try { localStorage.setItem(key, JSON.stringify(times)); } catch(e) {}
-    return true;
-  }
-
-  function buildMailto(){
-    const subjectPrefix = currentMode === 'suggestion' ? 'Suggestion' : currentMode === 'incident' ? 'Technical incident' : 'Support';
-    const subject = 'SimDron ' + subjectPrefix + ' - ' + get('topic') + ' - ' + (get('version') || 'sin version');
-    return 'mailto:' + target + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(compose());
-  }
-
-  function openMail(){
+  async function copyTicket() {
+    updatePreview();
     if (!validate()) return;
-    if (!rateAllowed()) {
-      feedback.textContent = 'Demasiados intentos desde este navegador. Esperá unos minutos antes de preparar otra solicitud.';
-      feedback.className = 'feedback error';
-      return;
-    }
-    const url = buildMailto();
-    mailFallback.href = url;
-    quickMail.classList.add('show');
-    feedback.textContent = 'Intentando abrir tu aplicación de correo. Si no sucede nada, usá el enlace alternativo o copiá la solicitud.';
-    feedback.className = 'feedback ok';
 
-    // Método 1: enlace temporal, suele ser más confiable que submit.
+    const text = preview.value;
+
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+      } else {
+        preview.removeAttribute('readonly');
+        preview.focus();
+        preview.select();
+        const ok = document.execCommand('copy');
+        preview.setAttribute('readonly', '');
+        if (!ok) throw new Error('copy-failed');
+      }
+
+      feedback.textContent = 'Solicitud copiada. Pegala en un correo a ' + target + '.';
+      feedback.className = 'feedback ok';
+    } catch (e) {
+      preview.removeAttribute('readonly');
+      preview.focus();
+      preview.select();
+      feedback.textContent = 'El navegador no permitió copiar automáticamente. El texto quedó seleccionado: mantené pulsado y elegí Copiar.';
+      feedback.className = 'feedback error';
+      setTimeout(() => preview.setAttribute('readonly', ''), 1500);
+    }
+  }
+
+  function safeFilePart(value) {
+    return String(value || 'ticket')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-zA-Z0-9_-]+/g, '-')
+      .replace(/^-+|-+$/g, '')
+      .slice(0, 40) || 'ticket';
+  }
+
+  function exportTxt() {
+    updatePreview();
+    if (!validate()) return;
+
+    const blob = new Blob([preview.value], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
+    const now = new Date();
+    const stamp =
+      now.getFullYear().toString() +
+      String(now.getMonth() + 1).padStart(2, '0') +
+      String(now.getDate()).padStart(2, '0') + '-' +
+      String(now.getHours()).padStart(2, '0') +
+      String(now.getMinutes()).padStart(2, '0');
+
     a.href = url;
-    a.style.display = 'none';
+    a.download = 'SimDron-Support-' + safeFilePart(modeTitle()) + '-' + stamp + '.txt';
     document.body.appendChild(a);
     a.click();
-    setTimeout(() => { a.remove(); }, 0);
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1500);
 
-    // Método 2: fallback extra.
-    setTimeout(() => {
-      try { window.location.href = url; } catch(e) {}
-    }, 120);
+    feedback.textContent = 'TXT generado. Adjuntalo o copiá su contenido en un correo a ' + target + '.';
+    feedback.className = 'feedback ok';
   }
 
-  modeButtons.forEach(btn => btn.addEventListener('click', () => setMode(btn.dataset.mode)));
-  openMailBtn.addEventListener('click', openMail);
-
-  copyBtn.addEventListener('click', async function(){
-    if (!validate()) return;
-    const text = compose() + '
-
-Destino: ' + target;
-    try {
-      await navigator.clipboard.writeText(text);
-      feedback.textContent = 'Solicitud copiada. Podés pegarla manualmente en un correo a ' + target + '.';
-      feedback.className = 'feedback ok';
-      mailFallback.href = buildMailto();
-      quickMail.classList.add('show');
-    } catch(e) {
-      feedback.textContent = 'No se pudo copiar automáticamente. Seleccioná el texto de los campos y envialo manualmente a ' + target + '.';
-      feedback.className = 'feedback error';
-    }
+  modeButtons.forEach(btn => {
+    btn.addEventListener('click', () => setMode(btn.dataset.mode));
   });
 
+  form.addEventListener('input', updatePreview);
+  form.addEventListener('change', updatePreview);
+  copyBtn.addEventListener('click', copyTicket);
+  exportBtn.addEventListener('click', exportTxt);
+
   setMode('general');
+  updatePreview();
 }());
 </script>
 </body>
