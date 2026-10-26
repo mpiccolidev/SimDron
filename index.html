@@ -349,16 +349,26 @@
 
         <div class="map-browser reveal" data-delay="60">
           <div class="map-feature" data-map-feature>
-            <figure class="map-feature-visual" id="mapFeatureVisual">
-              <img src="assets/map-urban-detail.webp" alt="Vista general del entorno Urban de SimDron" draggable="false" />
-              <figcaption><span data-map-tier>INTERMEDIATE / 05</span><b data-map-title>URBAN</b></figcaption>
-              <button type="button" class="image-zoom" id="mapImageZoom" aria-label="Ampliar preview del mapa">AMPLIAR MAPA ↗</button>
-            </figure>
+            <div class="map-feature-visual" id="mapFeatureVisual">
+              <div class="map-feature-tag"><span data-map-tier>INTERMEDIATE / 05</span><b data-map-title>URBAN</b></div>
+              <div class="map-feature-compare">
+                <figure class="map-pane primary">
+                  <img id="mapFeatureImage3d" src="assets/scenario-urban.webp" alt="Vista 3D del entorno Urban de SimDron" draggable="false" />
+                  <figcaption><span>VISTA 3D / PERSPECTIVA</span><b>ENTORNO OPERACIONAL</b></figcaption>
+                  <button type="button" class="image-zoom map-zoom-btn" id="mapImageZoom3d" aria-label="Ampliar vista 3D">AMPLIAR 3D ↗</button>
+                </figure>
+                <figure class="map-pane secondary">
+                  <img id="mapFeatureImage2d" src="assets/map-urban-detail.webp" alt="Mapa 2D del entorno Urban de SimDron" draggable="false" />
+                  <figcaption><span>MAPA 2D / CARTOGRAFÍA</span><b>PLANEAMIENTO Y REFERENCIAS</b></figcaption>
+                  <button type="button" class="image-zoom map-zoom-btn" id="mapImageZoom2d" aria-label="Ampliar mapa 2D">AMPLIAR 2D ↗</button>
+                </figure>
+              </div>
+            </div>
             <div class="map-feature-copy">
               <span data-map-code>URBAN / BUILT ENVIRONMENT</span>
               <h3 data-map-heading>Entorno urbano modular</h3>
               <p data-map-description>Área urbana de mayor densidad para navegación, reconocimiento, coordinación y planificación de ejercicios sobre un tejido construido complejo.</p>
-              <small>PREVIEW PÚBLICA · RESOLUCIÓN WEB</small>
+              <small>VISTA 3D + MAPA 2D · PREVIEW PÚBLICA · RESOLUCIÓN WEB</small>
             </div>
           </div>
 

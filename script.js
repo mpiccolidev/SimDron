@@ -90,33 +90,63 @@
   // Cartography browser. Public map assets are deliberately web-resolution previews.
   const mapFeature = $('[data-map-feature]');
   if (mapFeature) {
-    const featureImg = $('.map-feature-visual img', mapFeature);
+    const featureImg3d = $('#mapFeatureImage3d', mapFeature);
+    const featureImg2d = $('#mapFeatureImage2d', mapFeature);
     const featureTier = $('[data-map-tier]', mapFeature);
     const featureTitle = $('[data-map-title]', mapFeature);
     const featureCode = $('[data-map-code]', mapFeature);
     const featureHeading = $('[data-map-heading]', mapFeature);
     const featureDescription = $('[data-map-description]', mapFeature);
 
+    const mapVisuals = {
+      'POLYGON / STRUCT': { view3d:'assets/scenario-polygon.webp', view2d:'assets/map-struct-preview.webp' },
+      'HANGAR': { view3d:'assets/scenario-hangar.webp', view2d:'assets/map-hangar-preview.webp' },
+      'FIELD': { view3d:'assets/scenario-field.webp', view2d:'assets/map-field-preview.webp' },
+      'FOREST': { view3d:'assets/scenario-forest.webp', view2d:'assets/map-forest-preview.webp' },
+      'INDUSTRIAL': { view3d:'assets/scenario-industrial.webp', view2d:'assets/map-industrial-preview.webp' },
+      'URBAN': { view3d:'assets/scenario-urban.webp', view2d:'assets/map-urban-detail.webp' },
+      'MOUNTAIN': { view3d:'assets/scenario-mountain.webp', view2d:'assets/map-mountain-preview.webp' },
+      'TRENCH': { view3d:'assets/scenario-trench.webp', view2d:'assets/map-trench-preview.webp' },
+      'AIRBASE': { view3d:'assets/map-airbase-preview.webp', view2d:'assets/map-airbase-preview.webp' },
+      'DECK': { view3d:'assets/map-deck-preview.webp', view2d:'assets/map-deck-preview.webp' },
+      'DESERT': { view3d:'assets/map-desert-preview.webp', view2d:'assets/map-desert-preview.webp' },
+      'COAST': { view3d:'assets/map-coast-preview.webp', view2d:'assets/map-coast-preview.webp' },
+      'FOB': { view3d:'assets/map-fob-preview.webp', view2d:'assets/map-fob-preview.webp' },
+      'COMBAT': { view3d:'assets/map-combat-preview.webp', view2d:'assets/map-combat-preview.webp' },
+      'NETROAD': { view3d:'assets/map-netroad-preview.webp', view2d:'assets/map-netroad-preview.webp' }
+    };
+
     $$('.map-card').forEach(card => card.addEventListener('click', () => {
       $$('.map-card').forEach(c => c.classList.remove('active'));
       card.classList.add('active');
 
-      const nextSrc = card.dataset.mapSrc;
+      const title = card.dataset.mapTitle;
+      const visuals = mapVisuals[title] || { view3d: card.dataset.mapSrc, view2d: card.dataset.mapSrc };
       const swap = () => {
-        featureImg.src = nextSrc;
-        featureImg.alt = `Vista general del entorno ${card.dataset.mapTitle} de SimDron`;
+        if (featureImg3d) {
+          featureImg3d.src = visuals.view3d;
+          featureImg3d.alt = `Vista 3D del entorno ${title} de SimDron`;
+        }
+        if (featureImg2d) {
+          featureImg2d.src = visuals.view2d;
+          featureImg2d.alt = `Mapa 2D del entorno ${title} de SimDron`;
+        }
         featureTier.textContent = card.dataset.mapTier;
-        featureTitle.textContent = card.dataset.mapTitle;
+        featureTitle.textContent = title;
         featureCode.textContent = card.dataset.mapCode;
         featureHeading.textContent = card.dataset.mapHeading;
         featureDescription.textContent = card.dataset.mapDescription;
         requestAnimationFrame(() => mapFeature.classList.remove('swapping'));
       };
       mapFeature.classList.add('swapping');
-      const preload = new Image();
-      preload.onload = swap;
-      preload.onerror = swap;
-      preload.src = nextSrc;
+      const preload3d = new Image();
+      const preload2d = new Image();
+      let pending = 2;
+      const done = () => { pending -= 1; if (pending <= 0) swap(); };
+      preload3d.onload = done; preload3d.onerror = done;
+      preload2d.onload = done; preload2d.onerror = done;
+      preload3d.src = visuals.view3d;
+      preload2d.src = visuals.view2d;
     }));
 
     // This is only a UI discouragement, not DRM; the real protection is serving
@@ -291,7 +321,11 @@
       text:'Planificación, supervisión multioperador, telemetría, capas de información, automatización y revisión posterior desde la estación de instructor.',
       facts:['UP TO 10 VISORS','OFFLINE Wi-Fi LAN','AUTO / AI','DEBRIEF / AAR'],
       visual:'assets/mission-control-ai.webp',
-      visualCaption:'MISSION CONTROL / AUTO-AI / WAYPOINT ROUTE'
+      visualCaption:'MISSION CONTROL / AUTO-AI / WAYPOINT ROUTE',
+      gallery:[
+        ['assets/c2-mission-authoring.webp','MISSION CONTROL / MULTI-VTX'],
+        ['assets/mission-control-ai.webp','MISSION CONTROL / INSTRUCTOR CONSOLE']
+      ]
     }
   };
 
@@ -473,8 +507,8 @@
           text:'El instructor puede combinar rutas, capas de información, contactos, objetivos y estados del ejercicio para preparar y conducir escenarios de distinta complejidad.',
           facts:['MISSION GENERATOR','INFORMATION LAYERS','CONTACT LIBRARY','WAYPOINTS'],
           gallery:[
-            G('assets/c2-mission-authoring.webp','MISSION AUTHORING','Construcción y seguimiento de una misión'),
-            G('assets/mission-control-ai.webp','AUTO / AI / TACTICAL ROUTE','Mission Control con rutas, modos automáticos y estado de plataforma.'),
+            G('assets/c2-mission-authoring.webp','MULTI-VTX / LIVE WALL','Vista con múltiples visores y seguimiento de ejercicio.'),
+            G('assets/mission-control-ai.webp','INSTRUCTOR CONSOLE / AUTO-AI','Consola de instructor con rutas, modos automáticos y estado de plataforma.'),
             G('assets/c2-contact-library.webp','CONTACT LIBRARY','Biblioteca visual de contactos para escenarios'),
             G('assets/flight-routes-map.webp','ROUTES / TRACE','Rutas y trazado sobre mapa')
           ]
@@ -881,17 +915,21 @@
   $('#deepImageZoom')?.addEventListener('click', openDeep);
   $('#systemDeepImage')?.addEventListener('click', openDeep);
 
-  const openMap = () => {
-    const img = $('.map-feature-visual img');
-    if (!img) return;
-    openViewer([{
-      src: img.getAttribute('src'),
-      title: $('[data-map-title]')?.textContent || 'MAP PREVIEW',
-      caption: $('[data-map-description]')?.textContent || img.alt
-    }]);
+  const openMap = (mode = 'compare') => {
+    const title = $('[data-map-title]')?.textContent || 'MAP PREVIEW';
+    const caption = $('[data-map-description]')?.textContent || title;
+    const img3d = $('#mapFeatureImage3d');
+    const img2d = $('#mapFeatureImage2d');
+    const gallery = [];
+    if (img3d?.getAttribute('src')) gallery.push({ src: img3d.getAttribute('src'), title: `${title} / VISTA 3D`, caption, alt: img3d.alt || title });
+    if (img2d?.getAttribute('src')) gallery.push({ src: img2d.getAttribute('src'), title: `${title} / MAPA 2D`, caption, alt: img2d.alt || title });
+    if (!gallery.length) return;
+    openViewer(gallery, mode === '2d' ? Math.min(1, gallery.length - 1) : 0);
   };
-  $('#mapImageZoom')?.addEventListener('click', openMap);
-  $('.map-feature-visual img')?.addEventListener('click', openMap);
+  $('#mapImageZoom3d')?.addEventListener('click', () => openMap('3d'));
+  $('#mapImageZoom2d')?.addEventListener('click', () => openMap('2d'));
+  $('#mapFeatureImage3d')?.addEventListener('click', () => openMap('3d'));
+  $('#mapFeatureImage2d')?.addEventListener('click', () => openMap('2d'));
 
   const openSensor = () => {
     const keys = Object.keys(sensorData);
