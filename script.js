@@ -100,19 +100,19 @@
 
     const mapVisuals = {
       'POLYGON / STRUCT': { view3d:'assets/scenario-polygon.webp', view2d:'assets/map-struct-preview.webp' },
-      'HANGAR': { view3d:'assets/scenario-hangar.webp', view2d:'assets/map-hangar-preview.webp' },
-      'FIELD': { view3d:'assets/scenario-field.webp', view2d:'assets/map-field-preview.webp' },
-      'FOREST': { view3d:'assets/scenario-forest.webp', view2d:'assets/map-forest-preview.webp' },
+      'HANGAR': { view3d:'assets/scenario-hangar-perspective.webp', view2d:'assets/map-hangar-preview.webp' },
+      'FIELD': { view3d:'assets/scenario-field-perspective.webp', view2d:'assets/map-field-preview.webp' },
+      'FOREST': { view3d:'assets/scenario-forest-perspective.webp', view2d:'assets/map-forest-preview.webp' },
       'INDUSTRIAL': { view3d:'assets/scenario-industrial.webp', view2d:'assets/map-industrial-preview.webp' },
       'URBAN': { view3d:'assets/scenario-urban.webp', view2d:'assets/map-urban-detail.webp' },
       'MOUNTAIN': { view3d:'assets/scenario-mountain.webp', view2d:'assets/map-mountain-preview.webp' },
       'TRENCH': { view3d:'assets/scenario-trench.webp', view2d:'assets/map-trench-preview.webp' },
-      'AIRBASE': { view3d:'assets/map-airbase-preview.webp', view2d:'assets/map-airbase-preview.webp' },
-      'DECK': { view3d:'assets/map-deck-preview.webp', view2d:'assets/map-deck-preview.webp' },
-      'DESERT': { view3d:'assets/map-desert-preview.webp', view2d:'assets/map-desert-preview.webp' },
-      'COAST': { view3d:'assets/map-coast-preview.webp', view2d:'assets/map-coast-preview.webp' },
+      'AIRBASE': { view3d:'assets/scenario-airbase-perspective.webp', view2d:'assets/map-airbase-preview.webp' },
+      'DECK': { view3d:'assets/scenario-deck-perspective.webp', view2d:'assets/map-deck-preview.webp' },
+      'DESERT': { view3d:'assets/scenario-desert-perspective.webp', view2d:'assets/map-desert-preview.webp' },
+      'COAST': { view3d:'assets/scenario-coast-perspective.webp', view2d:'assets/map-coast-preview.webp' },
       'FOB': { view3d:'assets/map-fob-preview.webp', view2d:'assets/map-fob-preview.webp' },
-      'COMBAT': { view3d:'assets/map-combat-preview.webp', view2d:'assets/map-combat-preview.webp' },
+      'COMBAT': { view3d:'assets/scenario-combat-perspective.webp', view2d:'assets/map-combat-preview.webp' },
       'NETROAD': { view3d:'assets/map-netroad-preview.webp', view2d:'assets/map-netroad-preview.webp' }
     };
 
@@ -320,11 +320,13 @@
       code:'C2 / INSTRUCTOR', title:'MISSION CONTROL',
       text:'Planificación, supervisión multioperador, telemetría, capas de información, automatización y revisión posterior desde la estación de instructor.',
       facts:['UP TO 10 VISORS','OFFLINE Wi-Fi LAN','AUTO / AI','DEBRIEF / AAR'],
-      visual:'assets/mission-control-ai.webp',
-      visualCaption:'MISSION CONTROL / AUTO-AI / WAYPOINT ROUTE',
+      sections:[
+        ['01','MULTI-VTX / LIVE WALL','Supervisión simultánea de múltiples alumnos y señales de video durante un ejercicio compartido.'],
+        ['02','INSTRUCTOR / AI','Consola para rutas, modos automáticos, telemetría, estado de plataforma y conducción del ejercicio.']
+      ],
       gallery:[
-        ['assets/c2-mission-authoring.webp','MISSION CONTROL / MULTI-VTX'],
-        ['assets/mission-control-ai.webp','MISSION CONTROL / INSTRUCTOR CONSOLE']
+        ['assets/c2-mission-authoring.webp','MULTI-VTX / LIVE WALL'],
+        ['assets/mission-control-ai.webp','INSTRUCTOR CONSOLE / AUTO-AI']
       ]
     }
   };
@@ -626,6 +628,25 @@
           <b id="presetBrowserName">${presetData[0].name}</b>
           <small>Perfil seleccionable / representación visual</small>
         </div>
+
+        <aside class="preset-tuning" aria-label="Parámetros configurables del perfil">
+          <span>FLIGHT PROFILE / TUNING</span>
+          <h4>VALORES DE AJUSTE</h4>
+          <p>Los presets combinan una plataforma base con parámetros de física ajustables. Los valores mostrados son un ejemplo de configuración del panel, no una ficha técnica fija de cada aeronave.</p>
+          <div class="tuning-grid">
+            <div><small>ANGLE</small><b>15°</b></div>
+            <div><small>PROP.</small><b>0.00</b></div>
+            <div><small>EXP.</small><b>100.00</b></div>
+            <div><small>INERTIA</small><b>98 ms</b></div>
+            <div><small>THRUST</small><b>80</b></div>
+            <div><small>MULTIP.</small><b>LEVEL 5</b></div>
+            <div><small>MASS</small><b>3.84</b></div>
+            <div><small>DRAG</small><b>1.10</b></div>
+            <div><small>ANGULAR</small><b>0.30</b></div>
+          </div>
+          <small class="tuning-note">CONFIGURABLE / PRESET-DEPENDENT</small>
+        </aside>
+
         <div class="preset-selector" role="tablist" aria-label="Presets de aeronave">
           ${presetData.map((p,i) => `<button type="button" class="${i===0?'active':''}" data-preset-index="${i}" role="tab"><span>${p.id}</span><b>${p.name}</b></button>`).join('')}
         </div>

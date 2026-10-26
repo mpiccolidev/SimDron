@@ -812,3 +812,92 @@ h1{font-size:clamp(3.25rem,6.3vw,6.7rem);max-width:9.2ch;margin-top:24px}h1 em{f
   .system-deep.open{max-height:1500px}
   .map-pane{min-height:230px}
 }
+
+
+/* v5.4c — perspectives / Mission Control / preset tuning */
+.preset-browser{
+  grid-template-columns:minmax(300px,1fr) minmax(240px,.72fr) minmax(240px,.72fr) !important;
+  align-items:stretch;
+}
+.preset-stage{min-height:410px}
+.preset-tuning{
+  border:1px solid rgba(255,255,255,.14);
+  background:linear-gradient(180deg,rgba(252,200,0,.045),rgba(255,255,255,.01));
+  padding:18px;
+  min-height:410px;
+}
+.preset-tuning>span{
+  color:var(--accent);font:800 .6rem var(--mono);letter-spacing:.11em
+}
+.preset-tuning h4{
+  margin:8px 0 9px;font-family:var(--display);font-size:1.02rem;letter-spacing:-.01em
+}
+.preset-tuning>p{
+  margin:0 0 16px;color:#9fa8a8;font-size:.72rem;line-height:1.48
+}
+.tuning-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:7px
+}
+.tuning-grid>div{
+  border-left:2px solid #3e4444;background:#0b0d0d;padding:9px 10px;min-width:0
+}
+.tuning-grid small{
+  display:block;color:#798181;font:700 .53rem var(--mono);letter-spacing:.07em
+}
+.tuning-grid b{
+  display:block;margin-top:3px;color:#fff;font:800 .72rem var(--mono)
+}
+.tuning-note{
+  display:block;margin-top:14px;padding-top:10px;border-top:1px solid var(--line);
+  color:#6e7777;font:700 .5rem var(--mono);letter-spacing:.08em
+}
+.preset-selector{max-height:410px}
+
+.map-pane.secondary{
+  background:
+    linear-gradient(rgba(255,255,255,.012),rgba(255,255,255,.012)),
+    #050606
+}
+.map-pane.primary::before,
+.map-pane.secondary::before{
+  position:absolute;top:10px;left:10px;z-index:3;
+  font:800 .5rem var(--mono);letter-spacing:.09em;
+  padding:5px 7px;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.72)
+}
+.map-pane.primary::before{content:'3D / PERSPECTIVE';color:var(--accent)}
+.map-pane.secondary::before{content:'2D / MAP';color:#d1d6d6}
+
+.hero-tech-extra .tech-media-strip figure{
+  cursor:default;
+}
+.hero-tech-extra .tech-media-strip figcaption{
+  min-height:34px;
+}
+.hero-tech-detail.open{
+  max-height:1100px !important;
+}
+
+@media(max-width:1180px){
+  .preset-browser{
+    grid-template-columns:minmax(300px,1fr) minmax(230px,.8fr) !important;
+  }
+  .preset-selector{
+    grid-column:1/-1;
+    display:grid !important;
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    max-height:300px;
+  }
+}
+@media(max-width:760px){
+  .preset-browser{grid-template-columns:1fr !important}
+  .preset-tuning{min-height:0}
+  .preset-selector{
+    grid-column:auto;
+    grid-template-columns:1fr !important;
+    max-height:330px;
+  }
+  .tuning-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:480px){
+  .tuning-grid{grid-template-columns:1fr 1fr}
+}
