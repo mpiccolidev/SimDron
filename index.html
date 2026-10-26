@@ -70,9 +70,11 @@
           <div class="eyebrow"><span></span>SIMULATION SYSTEM / ARGENTINA</div>
           <h1>SISTEMA DE SIMULACIÓN DE <em>VEHÍCULOS AUTÓNOMOS</em></h1>
           <p class="hero-lead">SimDron combina vuelo inmersivo, físicas configurables, sensores, escenarios geográficos y supervisión de misión para representar operaciones con sistemas remotos autónomos dentro de un entorno XR standalone.</p>
+          <div class="hero-doctrine"><span></span><b>PREPARADO PARA LA GUERRA AUTÓNOMA Y EL MULTIDOMINIO</b></div>
           <div class="hero-actions">
             <a class="btn primary" href="#sistema">Explorar sistema</a>
             <button class="btn ghost" data-open-demo>Demostrador de vuelo</button>
+            <a class="btn ghost pitch-doc-btn" href="assets/SimDRON_Pitch_B2B_Espanol.pdf" download="SimDRON_Pitch_B2B_Espanol.pdf">Pitch Doc ↓</a>
           </div>
           <a class="meta-official-card" href="https://www.meta.com/es-es/experiences/simulador-inmersivo-de-drones" target="_blank" rel="noopener noreferrer" aria-label="Ver la ficha oficial de SimDron en Meta Horizon">
             <span class="meta-official-signal" aria-hidden="true"></span>
@@ -95,6 +97,7 @@
             <div class="hero-tech-body">
               <p id="heroTechText"></p>
               <div class="hero-tech-facts" id="heroTechFacts"></div>
+              <div class="hero-tech-extra" id="heroTechExtra" hidden></div>
             </div>
           </div>
         </div>
@@ -135,6 +138,7 @@
               <button type="button" class="image-zoom" id="deepImageZoom" aria-label="Ampliar imagen técnica">AMPLIAR ↗</button>
             </figure>
             <div class="system-deep-gallery" id="systemDeepGallery" hidden aria-label="Galería técnica"></div>
+            <div class="system-deep-custom" id="systemDeepCustom" hidden></div>
           </div>
         </div>
       </div>
@@ -362,9 +366,9 @@
             <div class="map-tier-head"><span>BASIC</span><small>FAMILIARIZATION / CONTROL</small></div>
             <div class="map-scroll" aria-label="Escenarios básicos">
               <button class="map-card" data-map-title="DECK" data-map-tier="BASIC / 01" data-map-code="DECK / PRECISION" data-map-heading="Plataforma de precisión" data-map-description="Área compacta para despegue, aterrizaje, aproximación y control fino." data-map-src="assets/map-deck-preview.webp"><img src="assets/map-deck-preview.webp" alt="Mapa Deck" loading="lazy" draggable="false"><span>01</span><b>DECK</b></button>
-              <button class="map-card" data-map-title="POLYGON / STRUCT" data-map-tier="BASIC / 02" data-map-code="STRUCT / GEOMETRY" data-map-heading="Estructuras y pasos" data-map-description="Geometría simple para maniobras de precisión, referencias espaciales y entrenamiento de control." data-map-src="assets/map-struct-preview.webp"><img src="assets/map-struct-preview.webp" alt="Mapa Polygon Struct" loading="lazy" draggable="false"><span>02</span><b>POLYGON</b></button>
-              <button class="map-card" data-map-title="HANGAR" data-map-tier="BASIC / 03" data-map-code="HANGAR / CONFINED" data-map-heading="Operación en espacios confinados" data-map-description="Escenario compacto para aproximaciones, interiores y control próximo a estructuras." data-map-src="assets/map-hangar-preview.webp"><img src="assets/map-hangar-preview.webp" alt="Mapa Hangar" loading="lazy" draggable="false"><span>03</span><b>HANGAR</b></button>
-              <button class="map-card" data-map-title="FIELD" data-map-tier="BASIC / 04" data-map-code="FIELD / OPEN" data-map-heading="Campo abierto" data-map-description="Terreno abierto para navegación básica, circuitos, orientación y transición entre referencias." data-map-src="assets/map-field-preview.webp"><img src="assets/map-field-preview.webp" alt="Mapa Field" loading="lazy" draggable="false"><span>04</span><b>FIELD</b></button>
+              <button class="map-card" data-map-title="POLYGON / STRUCT" data-map-tier="BASIC / 02" data-map-code="STRUCT / GEOMETRY" data-map-heading="Estructuras y pasos" data-map-description="Geometría simple para maniobras de precisión, referencias espaciales y entrenamiento de control." data-map-src="assets/scenario-polygon.webp"><img src="assets/scenario-polygon.webp" alt="Mapa Polygon Struct" loading="lazy" draggable="false"><span>02</span><b>POLYGON</b></button>
+              <button class="map-card" data-map-title="HANGAR" data-map-tier="BASIC / 03" data-map-code="HANGAR / CONFINED" data-map-heading="Operación en espacios confinados" data-map-description="Escenario compacto para aproximaciones, interiores y control próximo a estructuras." data-map-src="assets/scenario-hangar.webp"><img src="assets/scenario-hangar.webp" alt="Mapa Hangar" loading="lazy" draggable="false"><span>03</span><b>HANGAR</b></button>
+              <button class="map-card" data-map-title="FIELD" data-map-tier="BASIC / 04" data-map-code="FIELD / OPEN" data-map-heading="Campo abierto" data-map-description="Terreno abierto para navegación básica, circuitos, orientación y transición entre referencias." data-map-src="assets/scenario-field.webp"><img src="assets/scenario-field.webp" alt="Mapa Field" loading="lazy" draggable="false"><span>04</span><b>FIELD</b></button>
               <button class="map-card" data-map-title="DESERT" data-map-tier="BASIC / 05" data-map-code="DESERT / LOW FEATURE" data-map-heading="Terreno desértico" data-map-description="Entorno de baja densidad visual para orientación, navegación y gestión de referencias escasas." data-map-src="assets/map-desert-preview.webp"><img src="assets/map-desert-preview.webp" alt="Mapa Desert" loading="lazy" draggable="false"><span>05</span><b>DESERT</b></button>
             </div>
           </div>
@@ -374,9 +378,9 @@
             <div class="map-scroll" aria-label="Escenarios intermedios">
               <button class="map-card" data-map-title="COAST" data-map-tier="INTERMEDIATE / 01" data-map-code="COAST / LITTORAL" data-map-heading="Entorno costero" data-map-description="Escenario litoral con contraste tierra-agua y sectores de infraestructura para navegación y observación." data-map-src="assets/map-coast-preview.webp"><img src="assets/map-coast-preview.webp" alt="Mapa Coast" loading="lazy" draggable="false"><span>01</span><b>COAST</b></button>
               <button class="map-card" data-map-title="AIRBASE" data-map-tier="INTERMEDIATE / 02" data-map-code="AIRBASE / INFRASTRUCTURE" data-map-heading="Infraestructura aeronáutica" data-map-description="Pistas, plataformas y sectores operativos para planificación y reconocimiento de infraestructura." data-map-src="assets/map-airbase-preview.webp"><img src="assets/map-airbase-preview.webp" alt="Mapa Airbase" loading="lazy" draggable="false"><span>02</span><b>AIRBASE</b></button>
-              <button class="map-card" data-map-title="FOREST" data-map-tier="INTERMEDIATE / 03" data-map-code="FOREST / VEGETATION" data-map-heading="Entorno forestal" data-map-description="Vegetación densa y referencias discontinuas para navegación, búsqueda y vuelo a baja altura." data-map-src="assets/map-forest-preview.webp"><img src="assets/map-forest-preview.webp" alt="Mapa Forest" loading="lazy" draggable="false"><span>03</span><b>FOREST</b></button>
-              <button class="map-card" data-map-title="INDUSTRIAL" data-map-tier="INTERMEDIATE / 04" data-map-code="INDUSTRIAL / COMPLEX" data-map-heading="Complejo industrial" data-map-description="Infraestructura, patios y corredores para vuelo técnico, observación y operación entre obstáculos." data-map-src="assets/map-industrial-preview.webp"><img src="assets/map-industrial-preview.webp" alt="Mapa Industrial" loading="lazy" draggable="false"><span>04</span><b>INDUSTRIAL</b></button>
-              <button class="map-card active" data-map-title="URBAN" data-map-tier="INTERMEDIATE / 05" data-map-code="URBAN / BUILT ENVIRONMENT" data-map-heading="Entorno urbano modular" data-map-description="Área urbana de mayor densidad para navegación, reconocimiento, coordinación y planificación de ejercicios sobre un tejido construido complejo." data-map-src="assets/map-urban-detail.webp"><img src="assets/map-urban-preview.webp" alt="Mapa Urban" loading="lazy" draggable="false"><span>05</span><b>URBAN</b></button>
+              <button class="map-card" data-map-title="FOREST" data-map-tier="INTERMEDIATE / 03" data-map-code="FOREST / VEGETATION" data-map-heading="Entorno forestal" data-map-description="Vegetación densa y referencias discontinuas para navegación, búsqueda y vuelo a baja altura." data-map-src="assets/scenario-forest.webp"><img src="assets/scenario-forest.webp" alt="Mapa Forest" loading="lazy" draggable="false"><span>03</span><b>FOREST</b></button>
+              <button class="map-card" data-map-title="INDUSTRIAL" data-map-tier="INTERMEDIATE / 04" data-map-code="INDUSTRIAL / COMPLEX" data-map-heading="Complejo industrial" data-map-description="Infraestructura, patios y corredores para vuelo técnico, observación y operación entre obstáculos." data-map-src="assets/scenario-industrial.webp"><img src="assets/scenario-industrial.webp" alt="Mapa Industrial" loading="lazy" draggable="false"><span>04</span><b>INDUSTRIAL</b></button>
+              <button class="map-card active" data-map-title="URBAN" data-map-tier="INTERMEDIATE / 05" data-map-code="URBAN / BUILT ENVIRONMENT" data-map-heading="Entorno urbano modular" data-map-description="Área urbana de mayor densidad para navegación, reconocimiento, coordinación y planificación de ejercicios sobre un tejido construido complejo." data-map-src="assets/map-urban-detail.webp"><img src="assets/scenario-urban.webp" alt="Mapa Urban" loading="lazy" draggable="false"><span>05</span><b>URBAN</b></button>
             </div>
           </div>
 
@@ -384,8 +388,8 @@
             <div class="map-tier-head"><span>ADVANCED</span><small>TACTICAL / COMPLEX OPERATIONS</small></div>
             <div class="map-scroll" aria-label="Escenarios avanzados">
               <button class="map-card" data-map-title="FOB" data-map-tier="ADVANCED / 01" data-map-code="FOB / FORWARD BASE" data-map-heading="Forward operating base" data-map-description="Entorno compuesto para reconocimiento, rutas de aproximación, coordinación y operación sobre múltiples puntos de interés." data-map-src="assets/map-fob-preview.webp"><img src="assets/map-fob-preview.webp" alt="Mapa FOB" loading="lazy" draggable="false"><span>01</span><b>FOB</b></button>
-              <button class="map-card" data-map-title="MOUNTAIN" data-map-tier="ADVANCED / 02" data-map-code="MOUNTAIN / RELIEF" data-map-heading="Terreno de montaña" data-map-description="Relieve marcado y desniveles para navegación, control de altura y planificación sobre terreno complejo." data-map-src="assets/map-mountain-preview.webp"><img src="assets/map-mountain-preview.webp" alt="Mapa Mountain" loading="lazy" draggable="false"><span>02</span><b>MOUNTAIN</b></button>
-              <button class="map-card" data-map-title="TRENCH" data-map-tier="ADVANCED / 03" data-map-code="TRENCH / LINEAR NETWORK" data-map-heading="Red de trincheras" data-map-description="Trazados lineales y posiciones distribuidas para navegación a baja altura y reconocimiento de detalle." data-map-src="assets/map-trench-preview.webp"><img src="assets/map-trench-preview.webp" alt="Mapa Trench" loading="lazy" draggable="false"><span>03</span><b>TRENCH</b></button>
+              <button class="map-card" data-map-title="MOUNTAIN" data-map-tier="ADVANCED / 02" data-map-code="MOUNTAIN / RELIEF" data-map-heading="Terreno de montaña" data-map-description="Relieve marcado y desniveles para navegación, control de altura y planificación sobre terreno complejo." data-map-src="assets/scenario-mountain.webp"><img src="assets/scenario-mountain.webp" alt="Mapa Mountain" loading="lazy" draggable="false"><span>02</span><b>MOUNTAIN</b></button>
+              <button class="map-card" data-map-title="TRENCH" data-map-tier="ADVANCED / 03" data-map-code="TRENCH / LINEAR NETWORK" data-map-heading="Red de trincheras" data-map-description="Trazados lineales y posiciones distribuidas para navegación a baja altura y reconocimiento de detalle." data-map-src="assets/scenario-trench.webp"><img src="assets/scenario-trench.webp" alt="Mapa Trench" loading="lazy" draggable="false"><span>03</span><b>TRENCH</b></button>
               <button class="map-card" data-map-title="COMBAT" data-map-tier="ADVANCED / 04" data-map-code="COMBAT / CONTESTED" data-map-heading="Entorno operacional complejo" data-map-description="Escenario de alta densidad preparado para combinar múltiples actores, objetivos, rutas y efectos de sistema." data-map-src="assets/map-combat-preview.webp"><img src="assets/map-combat-preview.webp" alt="Mapa Combat" loading="lazy" draggable="false"><span>04</span><b>COMBAT</b></button>
               <button class="map-card" data-map-title="NETROAD" data-map-tier="ADVANCED / 05" data-map-code="NETROAD / ROUTE NETWORK" data-map-heading="Red de caminos" data-map-description="Red extendida de rutas y nodos para navegación, seguimiento, reconocimiento y planificación de itinerarios." data-map-src="assets/map-netroad-preview.webp"><img src="assets/map-netroad-preview.webp" alt="Mapa NetRoad" loading="lazy" draggable="false"><span>05</span><b>NETROAD</b></button>
             </div>
@@ -399,12 +403,27 @@
         <div class="section-head reveal">
           <div>
             <div class="section-marker">07 / MEDIA</div>
-            <h2>SIMULACIÓN EN EJECUCIÓN.</h2>
+            <h2>VER SIMDRON EN OPERACIÓN.</h2>
           </div>
-          <p>Los videos se cargan bajo demanda: la página muestra una vista previa y crea el reproductor de YouTube únicamente después de una interacción.</p>
+          <p>El pitch resume la propuesta general. Los videos complementarios y gameplays se mantienen en segundo nivel y se cargan solamente cuando el usuario decide reproducirlos.</p>
         </div>
 
-        <div class="video-grid reveal" data-delay="60">
+        <div class="media-featured reveal" data-delay="40">
+          <button class="video-card video-pitch" data-youtube="7dkbl4AgmLE" aria-label="Reproducir SimDron Pitch Short 2026">
+            <img data-youtube-thumb="7dkbl4AgmLE" alt="SimDron Pitch Short 2026" loading="lazy" />
+            <span class="play">▶</span>
+            <span class="video-meta"><small>PITCH / PRINCIPAL</small><b>SIMDRON — PITCH SHORT 2026</b></span>
+          </button>
+          <div class="media-featured-copy">
+            <span>OVERVIEW / PRODUCT</span>
+            <h3>EL PITCH, PRIMERO.</h3>
+            <p>Una síntesis rápida del sistema, su lógica de entrenamiento y el alcance de la plataforma antes de entrar en ejemplos específicos.</p>
+            <a class="btn ghost" href="assets/SimDRON_Pitch_B2B_Espanol.pdf" download="SimDRON_Pitch_B2B_Espanol.pdf">DESCARGAR PITCH DOC ↓</a>
+          </div>
+        </div>
+
+        <div class="media-subhead"><span>MATERIAL COMPLEMENTARIO</span><small>CINEMÁTICA / ESCENARIOS</small></div>
+        <div class="video-grid video-grid-small reveal" data-delay="70">
           <button class="video-card" data-youtube="AUZP7HLaWsk" aria-label="Reproducir Map Combat FPV">
             <img data-youtube-thumb="AUZP7HLaWsk" alt="Map Combat FPV" loading="lazy" />
             <span class="play">▶</span>
@@ -415,10 +434,59 @@
             <span class="play">▶</span>
             <span class="video-meta"><small>VISUAL / 02</small><b>SIMDRON CINEMÁTICA</b></span>
           </button>
-          <button class="video-card video-wide" data-youtube="7dkbl4AgmLE" aria-label="Reproducir SimDron Pitch Short 2026">
-            <img data-youtube-thumb="7dkbl4AgmLE" alt="SimDron Pitch Short 2026" loading="lazy" />
+        </div>
+
+        <div class="media-subhead gameplay-head"><span>GAMEPLAYS</span><small>CAPACIDADES / PRUEBAS / EMPLEO</small></div>
+        <div class="gameplay-grid reveal" data-delay="90">
+          <button class="video-card gameplay-card" data-youtube="kUUiC0vbcpo" aria-label="Reproducir gameplay 01">
+            <img data-youtube-thumb="kUUiC0vbcpo" alt="SimDron gameplay 01" loading="lazy" />
             <span class="play">▶</span>
-            <span class="video-meta"><small>OVERVIEW / 03</small><b>SIMDRON — PITCH SHORT 2026</b></span>
+            <span class="video-meta"><small>GAMEPLAY / 01</small><b>SIMDRON — FIELD TEST 01</b></span>
+          </button>
+          <button class="video-card gameplay-card" data-youtube="9wdbj5yXZC8" aria-label="Reproducir gameplay 02">
+            <img data-youtube-thumb="9wdbj5yXZC8" alt="SimDron gameplay 02" loading="lazy" />
+            <span class="play">▶</span>
+            <span class="video-meta"><small>GAMEPLAY / 02</small><b>SIMDRON — FIELD TEST 02</b></span>
+          </button>
+          <button class="video-card gameplay-card" data-youtube="MXNgLpwO2GE" aria-label="Reproducir gameplay 03">
+            <img data-youtube-thumb="MXNgLpwO2GE" alt="SimDron gameplay 03" loading="lazy" />
+            <span class="play">▶</span>
+            <span class="video-meta"><small>GAMEPLAY / 03</small><b>SIMDRON — FIELD TEST 03</b></span>
+          </button>
+          <button class="video-card gameplay-card" data-youtube="bzFbfkshJhE" aria-label="Reproducir gameplay 04">
+            <img data-youtube-thumb="bzFbfkshJhE" alt="SimDron gameplay 04" loading="lazy" />
+            <span class="play">▶</span>
+            <span class="video-meta"><small>GAMEPLAY / 04</small><b>SIMDRON — FIELD TEST 04</b></span>
+          </button>
+          <button class="video-card gameplay-card" data-youtube="in6Efl7i_1I" aria-label="Reproducir gameplay 05">
+            <img data-youtube-thumb="in6Efl7i_1I" alt="SimDron gameplay 05" loading="lazy" />
+            <span class="play">▶</span>
+            <span class="video-meta"><small>GAMEPLAY / 05</small><b>SIMDRON — FIELD TEST 05</b></span>
+          </button>
+          <button class="video-card gameplay-card" data-youtube="fb3VLpYzeAA" aria-label="Reproducir gameplay 06">
+            <img data-youtube-thumb="fb3VLpYzeAA" alt="SimDron gameplay 06" loading="lazy" />
+            <span class="play">▶</span>
+            <span class="video-meta"><small>GAMEPLAY / 06</small><b>SIMDRON — FIELD TEST 06</b></span>
+          </button>
+          <button class="video-card gameplay-card" data-youtube="NcYh6ey9J10" aria-label="Reproducir gameplay 07">
+            <img data-youtube-thumb="NcYh6ey9J10" alt="SimDron gameplay 07" loading="lazy" />
+            <span class="play">▶</span>
+            <span class="video-meta"><small>GAMEPLAY / 07</small><b>SIMDRON — FIELD TEST 07</b></span>
+          </button>
+          <button class="video-card gameplay-card" data-youtube="IGQVA5FYbMY" aria-label="Reproducir gameplay 08">
+            <img data-youtube-thumb="IGQVA5FYbMY" alt="SimDron gameplay 08" loading="lazy" />
+            <span class="play">▶</span>
+            <span class="video-meta"><small>GAMEPLAY / 08</small><b>SIMDRON — FIELD TEST 08</b></span>
+          </button>
+          <button class="video-card gameplay-card" data-youtube="Fv9ewpKbzxM" aria-label="Reproducir gameplay 09">
+            <img data-youtube-thumb="Fv9ewpKbzxM" alt="SimDron gameplay 09" loading="lazy" />
+            <span class="play">▶</span>
+            <span class="video-meta"><small>GAMEPLAY / 09</small><b>SIMDRON — FIELD TEST 09</b></span>
+          </button>
+          <button class="video-card gameplay-card" data-youtube="p0kb5JL1Hys" aria-label="Reproducir gameplay 10">
+            <img data-youtube-thumb="p0kb5JL1Hys" alt="SimDron gameplay 10" loading="lazy" />
+            <span class="play">▶</span>
+            <span class="video-meta"><small>GAMEPLAY / 10</small><b>SIMDRON — FIELD TEST 10</b></span>
           </button>
         </div>
       </div>

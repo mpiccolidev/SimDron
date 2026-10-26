@@ -253,13 +253,26 @@
   const techData = {
     unity: {
       code:'CORE / UNITY', title:'REAL-TIME SIMULATION',
-      text:'Motor principal del sistema para físicas, lógica de simulación, UI, cámaras, escenas, IA y despliegue multiplataforma.',
-      facts:['PHYSICS','AI / AUTOMATION','3D SCENARIOS','TOOLS / UI']
+      text:'Unity constituye el núcleo técnico que reúne físicas, lógica de simulación, UI, cámaras, IA, herramientas de instructor y despliegue XR en una misma arquitectura.',
+      facts:['PHYSICS','AI / AUTOMATION','3D SCENARIOS','TOOLS / UI'],
+      visual:'assets/tech-unity-cys-meta.webp',
+      visualCaption:'CYS XR LAB / UNITY / META QUEST'
     },
     quest: {
       code:'XR / STANDALONE', title:'META QUEST 3 / 3S',
-      text:'Ejecución standalone optimizada para VR, con interacción inmersiva, gamepad y operación sin una PC de vuelo conectada durante la sesión.',
-      facts:['STANDALONE VR','GAMEPAD / VR INPUT','BLUETOOTH KEYBOARD','ON-SCREEN MANUAL']
+      text:'La realidad virtual no funciona solo como pantalla: modifica la relación del alumno con el entorno, la percepción FPV y la forma de desplegar el sistema.',
+      facts:['360° IMMERSION','FPV HMD','PORTABLE','COST-EFFICIENT'],
+      sections:[
+        ['01','INMERSIÓN','Comprender el entorno en 360°, moverse naturalmente dentro de él y mantener referencias espaciales mientras se sigue la aeronave.'],
+        ['02','PREPARACIÓN FPV','El HMD reproduce una experiencia de primera persona más cercana al empleo FPV y permite exposición temprana a factores fisiológicos como la cinetosis.'],
+        ['03','PORTABILIDAD','El sistema puede desplegarse con visor Meta Quest, controles y gamepad, reduciendo la dependencia de infraestructura fija.'],
+        ['04','EFICIENCIA DE COSTOS','Menor infraestructura de despliegue sin renunciar al valor inmersivo, favoreciendo instrucción repetible, escalable e iteración rápida.']
+      ],
+      gallery:[
+        ['assets/quest-headset.webp','META QUEST 3 / 3S — HMD'],
+        ['assets/quest-controllers.webp','VR INPUT — CONTROLLERS'],
+        ['assets/flight-keyboard.webp','BLUETOOTH KEYBOARD / XR UI']
+      ]
     },
     fpv: {
       code:'FLT / FPV', title:'FIRST PERSON VIEW',
@@ -269,12 +282,16 @@
     isr: {
       code:'ISR / SRR', title:'RECON & SENSOR STACK',
       text:'Perfiles de reconocimiento con cámaras RGB, IR y térmicas, gimbal, FOV, seguimiento y gradientes térmicos diferenciados para tareas ISR/SRR.',
-      facts:['RGB / IR / THERMAL','GIMBAL / FOV','TRACK / PHOTO','THERMAL GRADIENTS']
+      facts:['RGB / IR / THERMAL','GIMBAL / FOV','TRACK / PHOTO','THERMAL GRADIENTS'],
+      visual:'assets/sensor-isr-srr.webp',
+      visualCaption:'SRR / GIMBAL / RGB + IR'
     },
     mission: {
       code:'C2 / INSTRUCTOR', title:'MISSION CONTROL',
-      text:'Planificación, supervisión multioperador, telemetría, capas de información y revisión posterior desde la estación de instructor.',
-      facts:['UP TO 10 VISORS','OFFLINE Wi‑Fi LAN','CONTACT LIBRARY','DEBRIEF / AAR']
+      text:'Planificación, supervisión multioperador, telemetría, capas de información, automatización y revisión posterior desde la estación de instructor.',
+      facts:['UP TO 10 VISORS','OFFLINE Wi-Fi LAN','AUTO / AI','DEBRIEF / AAR'],
+      visual:'assets/mission-control-ai.webp',
+      visualCaption:'MISSION CONTROL / AUTO-AI / WAYPOINT ROUTE'
     }
   };
 
@@ -295,6 +312,30 @@
     $('#heroTechText').textContent = data.text;
     const facts = $('#heroTechFacts');
     if (facts) facts.innerHTML = data.facts.map(x => `<span>${x}</span>`).join('');
+    const extra = $('#heroTechExtra');
+    if (extra) {
+      extra.innerHTML = '';
+      extra.hidden = true;
+
+      if (data.sections?.length || data.visual || data.gallery?.length) {
+        const blocks = [];
+        if (data.sections?.length) {
+          blocks.push(`<div class="tech-value-grid">${data.sections.map(s => `
+            <article><span>${s[0]}</span><b>${s[1]}</b><p>${s[2]}</p></article>
+          `).join('')}</div>`);
+        }
+        if (data.visual) {
+          blocks.push(`<figure class="tech-visual"><img src="${data.visual}" alt="${data.visualCaption || data.title}" loading="lazy"><figcaption>${data.visualCaption || data.title}</figcaption></figure>`);
+        }
+        if (data.gallery?.length) {
+          blocks.push(`<div class="tech-media-strip">${data.gallery.map(g => `
+            <figure><img src="${g[0]}" alt="${g[1]}" loading="lazy"><figcaption>${g[1]}</figcaption></figure>
+          `).join('')}</div>`);
+        }
+        extra.innerHTML = blocks.join('');
+        extra.hidden = false;
+      }
+    }
     techPanel.classList.add('open');
     techPanel.setAttribute('aria-hidden','false');
   }));
@@ -310,7 +351,8 @@
         {
           label:'PRESETS', code:'FLT / PRESET', title:'Perfiles y ajuste de plataforma',
           text:'Los perfiles permiten cambiar respuesta, asistencia y parámetros físicos para representar plataformas y tareas distintas dentro de una interfaz común.',
-          facts:['FLIGHT PRESETS','PHYSICS','PLATFORM TUNING','ASSISTED / MANUAL'],
+          facts:['16 PRESETS','PHYSICS','PLATFORM TUNING','ASSISTED / MANUAL'],
+          custom:'preset-browser',
           gallery:[
             G('assets/flight-profile-tuning.webp','PHYSICS / PROFILE TUNING','Panel de ajustes físicos y plataforma en SimDron'),
             G('assets/flight-routes-composite.webp','ASSISTED FLIGHT OVERVIEW','Rutas asistidas y telemetría de vuelo')
@@ -352,7 +394,11 @@
         {
           label:'LINK / ECM', code:'MSN / LINK', title:'Enlace y degradación',
           text:'El enlace puede degradarse para representar pérdida de calidad, interferencia y contramedidas electrónicas, alterando la continuidad y la percepción de la operación.',
-          facts:['RF LINK','DEGRADATION','ECM EFFECTS','FIBER OPTION']
+          facts:['RF LINK','DEGRADATION','ECM EFFECTS','FIBER OPTION'],
+          gallery:[
+            G('assets/ecm-hmd-degraded.webp','ECM / DEGRADED VIDEO','Representación visual de degradación del enlace sobre la percepción del piloto.'),
+            G('assets/ecm-hmd-lens.webp','ECM / HMD EFFECT','Efecto visual asociado a interferencia y degradación de señal dentro del entorno simulado.')
+          ]
         },
         {
           label:'MULTI-UAV', code:'MSN / MULTI', title:'Automatización y múltiples actores',
@@ -406,7 +452,8 @@
         {
           label:'RECON', code:'ISR / RECON', title:'Reconocimiento y seguimiento',
           text:'Gimbal, FOV, tracking, fotografía y perfiles SRR concentran herramientas orientadas a observación, búsqueda y seguimiento dentro de la simulación.',
-          facts:['GIMBAL','FOV','TRACK','SRR / PHOTO']
+          facts:['GIMBAL','FOV','TRACK','SRR / PHOTO'],
+          gallery:[G('assets/sensor-isr-srr.webp','ISR / SRR SENSOR UI','Interfaz SRR con gimbal, FOV y visualización RGB + IR.')]
         }
       ]
     },
@@ -427,6 +474,7 @@
           facts:['MISSION GENERATOR','INFORMATION LAYERS','CONTACT LIBRARY','WAYPOINTS'],
           gallery:[
             G('assets/c2-mission-authoring.webp','MISSION AUTHORING','Construcción y seguimiento de una misión'),
+            G('assets/mission-control-ai.webp','AUTO / AI / TACTICAL ROUTE','Mission Control con rutas, modos automáticos y estado de plataforma.'),
             G('assets/c2-contact-library.webp','CONTACT LIBRARY','Biblioteca visual de contactos para escenarios'),
             G('assets/flight-routes-map.webp','ROUTES / TRACE','Rutas y trazado sobre mapa')
           ]
@@ -483,7 +531,14 @@
           text:'La biblioteca combina escenarios urbanos, rurales, industriales y geográficos para que la tarea cambie junto con el terreno y las referencias disponibles.',
           facts:['HANGAR','FOB / ALTIPLANO','PATAGONIA','URBAN / INDUSTRIAL'],
           gallery:[
-            G('assets/env-scene-hangar.webp','HANGAR / TRAINING','Entorno de hangar y área de instrucción'),
+            G('assets/scenario-field.webp','FIELD','Campo de entrenamiento y referencias abiertas'),
+            G('assets/scenario-forest.webp','FOREST','Entorno forestal y navegación entre vegetación'),
+            G('assets/scenario-hangar.webp','HANGAR','Infraestructura de hangar y área de instrucción'),
+            G('assets/scenario-polygon.webp','POLYGON / STRUCT','Entorno estructural para práctica y maniobra'),
+            G('assets/scenario-urban.webp','URBAN','Escenario urbano de alta densidad'),
+            G('assets/scenario-industrial.webp','INDUSTRIAL','Complejo industrial y estructuras de gran escala'),
+            G('assets/scenario-mountain.webp','MOUNTAIN','Entorno de montaña y nieve'),
+            G('assets/scenario-trench.webp','TRENCH','Posiciones, obstáculos y terreno táctico'),
             G('assets/env-scene-fob.webp','FOB / ALTIPLANO','Escenario FOB en región de altura'),
             G('assets/env-scene-netroad.webp','NETROAD / PATAGONIA','Escenario patagónico con red vial y edificaciones')
           ]
@@ -492,6 +547,25 @@
     }
   };
 
+  const presetData = [
+    {id:'01', name:"Mavic 2 Pro / Zoom", image:'assets/preset-01.webp'},
+    {id:'02', name:"Mavic 3 Classic", image:'assets/preset-02.webp'},
+    {id:'03', name:"Mavic 4 Pro", image:'assets/preset-03.webp'},
+    {id:'04', name:"Mini 4 Pro", image:'assets/preset-04.webp'},
+    {id:'05', name:"Matrice 4T", image:'assets/preset-05.webp'},
+    {id:'06', name:"Matrice 350 RTK", image:'assets/preset-06.webp'},
+    {id:'07', name:"Agras T50", image:'assets/preset-07.webp'},
+    {id:'08', name:"FPV 7\" Long Range", image:'assets/preset-08.webp'},
+    {id:'09', name:"FPV 5\" Race", image:'assets/preset-09.webp'},
+    {id:'10', name:"Whoop 65 mm", image:'assets/preset-10.webp'},
+    {id:'11', name:"DJI Avata 2", image:'assets/preset-11.webp'},
+    {id:'12', name:"DJI Neo", image:'assets/preset-12.webp'},
+    {id:'13', name:"Vampire", image:'assets/preset-13.webp'},
+    {id:'14', name:"Skydio X10", image:'assets/preset-14.webp'},
+    {id:'15', name:"DJI Inspire 3", image:'assets/preset-15.webp'},
+    {id:'16', name:"FPV 13\" Long Range", image:'assets/preset-16.webp'}
+  ];
+
   const sysPanel = $('#systemDetail');
   const sysTabs = $('#systemDetailTabs');
   const deep = $('#systemDeep');
@@ -499,6 +573,48 @@
   const deepImg = $('#systemDeepImage');
   const deepCaption = $('#systemDeepCaption');
   const deepGallery = $('#systemDeepGallery');
+  const deepCustom = $('#systemDeepCustom');
+
+  const clearCustom = () => {
+    if (!deepCustom) return;
+    deepCustom.innerHTML = '';
+    deepCustom.hidden = true;
+  };
+
+  const renderPresetBrowser = () => {
+    if (!deepCustom) return;
+    deepCustom.hidden = false;
+    deepCustom.innerHTML = `
+      <div class="preset-browser">
+        <div class="preset-stage">
+          <span id="presetBrowserIndex">PRESET 01 / 16</span>
+          <img id="presetBrowserImage" src="${presetData[0].image}" alt="${presetData[0].name}">
+          <b id="presetBrowserName">${presetData[0].name}</b>
+          <small>Perfil seleccionable / representación visual</small>
+        </div>
+        <div class="preset-selector" role="tablist" aria-label="Presets de aeronave">
+          ${presetData.map((p,i) => `<button type="button" class="${i===0?'active':''}" data-preset-index="${i}" role="tab"><span>${p.id}</span><b>${p.name}</b></button>`).join('')}
+        </div>
+      </div>`;
+    const stageImg = $('#presetBrowserImage', deepCustom);
+    const stageName = $('#presetBrowserName', deepCustom);
+    const stageIndex = $('#presetBrowserIndex', deepCustom);
+    $$('[data-preset-index]', deepCustom).forEach(btn => btn.addEventListener('click', () => {
+      const i = Number(btn.dataset.presetIndex);
+      const p = presetData[i];
+      $$('[data-preset-index]', deepCustom).forEach(b => b.classList.toggle('active', b === btn));
+      stageImg.classList.add('swap');
+      const preload = new Image();
+      preload.onload = () => {
+        stageImg.src = p.image;
+        stageImg.alt = p.name;
+        stageName.textContent = p.name;
+        stageIndex.textContent = `PRESET ${p.id} / 16`;
+        stageImg.classList.remove('swap');
+      };
+      preload.src = p.image;
+    }));
+  };
 
   const clearGallery = () => {
     if (!deepGallery) return;
@@ -551,6 +667,7 @@
     deep.setAttribute('aria-hidden','true');
     if (sysTabs) $$('button', sysTabs).forEach(b => b.classList.remove('active'));
     clearGallery();
+    clearCustom();
   };
 
   const showSubtopic = (sub, button) => {
@@ -561,6 +678,7 @@
     $('#systemDeepText').textContent = sub.text;
     $('#systemDeepFacts').innerHTML = sub.facts.map(x => `<span>${x}</span>`).join('');
 
+    clearCustom();
     if (sub.gallery?.length) {
       renderGallery(sub.gallery);
     } else if (sub.image && deepImg && deepVisual) {
@@ -571,6 +689,8 @@
       if (deepVisual) deepVisual.hidden = true;
       if (deepImg) deepImg.removeAttribute('src');
     }
+
+    if (sub.custom === 'preset-browser') renderPresetBrowser();
 
     deep.classList.add('open');
     deep.setAttribute('aria-hidden','false');
