@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html data-group="simdron" data-page="simdron/9-line-gps" data-root="../" lang="es"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><meta content="light dark" name="color-scheme"/><meta content="Documentación técnica de SimDron y Mission Control, adaptada de los manuales oficiales de octubre de 2026." name="description"/><title>Panel 9-Line y GPS · Documentación SimDron</title><link href="../assets/css/style.css" rel="stylesheet"/></head><body>
+<header class="top"><div class="topin"><button aria-label="Abrir índice" class="btn menu-toggle" id="menu-toggle">☰</button><a class="logo" href="../index.html"><span class="mark">SD</span><span>SIMDRON<small>DOCUMENTACIÓN</small></span></a><nav aria-label="Cambiar manual" class="productnav"><a aria-current="page" href="../simdron/concepto.html">SimDron VR</a><a href="../mission-control/introduccion.html">Mission Control</a></nav><div class="header-actions"><button aria-label="Alternar modo claro u oscuro" class="btn" id="theme-toggle" type="button">☾ <span>Oscuro</span></button><button class="btn" id="open-search" title="Buscar en ambos manuales">⌕ <span>Buscar</span> <span class="kbd">Ctrl K</span></button></div></div></header>
+<div class="layout"><aside class="aside" id="sidebar"><div class="aside-head">Índice · SimDron VR</div><div id="sidebar-contents"></div></aside><main class="main"><div class="content"><div class="crumb"><a href="../index.html">Documentación</a> / <span>SimDron VR</span> / 11 · Configuración</div>
+<div class="chapter-toolbar"><div class="back-to-doc"><span class="chapter-cat">Configuración</span></div><div class="chapter-movement"><a class="chapter-link" href="../simdron/mission-presenter.html" title="Presentador de misiones">‹ Anterior</a><a class="chapter-link" href="../simdron/enemies-ecm.html" title="Enemigos con IA y ECM">Siguiente ›</a></div></div><h1>Panel 9-Line y GPS</h1><div class="meta"><span class="pill version">Build 220+</span><span class="pill">PDF: pp. 145–147</span></div>
+<p class="source-lead">Guía de consulta basada en el manual original. Las páginas del PDF se abren en otra pestaña y las capturas pueden consultarse sin perder tu lugar.</p>
+<section class="page-section" id="p145"><h2 class="pgtitle"><span class="pgnum">PÁGINA 145</span> Panel de configuración - 9 Line</h2>
+<figure class="imagepanel"><a aria-label="Abrir imagen en otra pestaña" class="figure-ext" href="../assets/figures/vr_fig_145.webp" rel="noopener" target="_blank"><img alt="Captura o ilustración original, página 145" decoding="async" loading="lazy" src="../assets/figures/vr_fig_145.webp"/></a><figcaption>Ilustración del manual, página 145. Clic para ampliar en otra pestaña.</figcaption></figure>
+<div class="source-text">
+<p>Panel de configuración - 9 Line</p>
+<p>Debido a nuestra experiencia con el SIPRE - Simulador de Primera Respuesta y Emergencias - ya desde el año 2022 hemos identificado la importancia del uso de drones en el ámbito de las emergencias sanitarias y en la sanidad militar, especialmente para operaciones SAR. Por este motivo SimDron incorpora una falsa radio para indicar el reporte de evacuación OTAN de 9 Líneas</p>
+<p class="minor">9 Line</p>
+<p class="minor">RADIO</p>
+<p>9-LINE MEDEVAC STATUS</p>
+<p class="minor">Call</p>
+<p>1 2 3 &lt;</p>
+<p>4 5 6 &gt;</p>
+<p>7 8 9 A</p>
+<p># 0 * B</p>
+<p class="minor">¿Cómo funciona?</p>
+<p>Botones CALL (ON/OFF): Enciende o apaga la radio. 0–9: Ingresa números según el panel (coordenadas, FQ/ID o selección de opciones) * (Borrar) # (Confirmar/Enviar): Valida lo ingresado y guarda esa línea como confirmada (marca “OK”) &lt; / &gt; (Anterior / Siguiente): Cambia entre paneles del 0 al 9 (circular) A / B (Modo): Cambia el “modo” según el panel: Panel 1: A = MGRS 6 dígitos, B = MGRS 8 dígitos Panel 2: A = editar FQ, B = editar ID</p>
+<p>Mensajes Texto “OK” (confirmación): Cuando una línea queda bien cargada, se marca como OK (o el texto que configures). Mensajes de estado: Si falta algo (por ejemplo “requiere 8 dígitos”), aparece un aviso para corregir antes de confirmar.</p>
+</div>
+<div class="page-reference"><span>Referencia original: PDF · pág. 145</span><a href="https://drive.google.com/file/d/1w37C4RNiu-v0W_yCxjSA9ovbNZsHVcGr/view?usp=drivesdk#page=145" rel="noopener noreferrer" target="_blank">Abrir página del PDF <span aria-hidden="true">↗</span></a></div></section>
+<section class="page-section" id="p146"><h2 class="pgtitle"><span class="pgnum">PÁGINA 146</span> Panel de configuración - 9 Line</h2>
+<div class="source-text">
+<p>Panel de configuración - 9 Line</p>
+<p>Paneles 0 a 9 (Radio 9-Line) Panel 0 — Informe</p>
+<p>Qué muestra: un resumen de las líneas L1 a L9 en una sola línea, separado por “/” Para qué sirve: permite ver de un vistazo qué datos ya están cargados y cuáles faltan Panel 1 — Coordenadas (MGRS)</p>
+<p>Qué se ingresa: solo números de coordenada A / B: selecciona la precisión:</p>
+<p>A: MGRS 6 dígitos (3+3) B: MGRS 8 dígitos (4+4) # (Confirmar): guarda la línea solo si la cantidad de dígitos es la correcta para el modo elegido Panel 2 — FQ e ID FQ: código numérico corto (1 a 3 dígitos) ID: identificador numérico (1 a 10 dígitos) A / B: selecciona qué campo se está editando:</p>
+<p>A: editar FQ B: editar ID # (Confirmar): guarda la línea solo si FQ e ID son válidos Paneles 3 a 9 — Selección de opciones Qué se hace: se elige una opción presionando 1..N (el 0 no se usa) * (Borrar): limpia la selección del panel actual # (Confirmar): guarda la opción seleccionada y marca la línea como confirmada Panel 3: prioridad del caso (Urgente, Quirúrgico, Prioritario, etc.) Panel 4: recursos necesarios (Ventilador, Extricación, Grúa, etc.) Panel 5: tipo de traslado (Camilla, Ambulatorio, Escolta) Panel 6: estado/entorno (No Eno, Pos Eno, Eno, Combate) Panel 7: señalización en zona (Panel, Bengala, Humo, etc.) Panel 8: tipo de paciente (Militar, Seguridad, Civil, Niño, etc.) Panel 9: riesgo NBQRE (Químico, Biológico, Nuclear, Radiológico, Explosivo)</p>
+<p>L1:493395 / L2:FQ 145 / ID 7712 / L3:3-Prioritario / L4:2-Extricación / L5:1-Camilla / L6:1-No Eno / L7:3-Humo / L8:4-Per. Civil / L9:5-Explosivo Ejemplo práctico: El dron patrulla a baja altura sobre un camino rural y detecta un vehículo volcado junto a una zanja. Hay una persona inmóvil cerca de la puerta del conductor y otra sentada en el suelo con signos de dolor. A pocos metros se ven restos metálicos y un bulto sospechoso (posible munición/artefacto), por lo que se reporta riesgo explosivo. Se solicita prioridad prioritaria, con extricación y traslado en camilla. La zona de aterrizaje se marca con humo para guiar al equipo.</p>
+</div>
+<div class="page-reference"><span>Referencia original: PDF · pág. 146</span><a href="https://drive.google.com/file/d/1w37C4RNiu-v0W_yCxjSA9ovbNZsHVcGr/view?usp=drivesdk#page=146" rel="noopener noreferrer" target="_blank">Abrir página del PDF <span aria-hidden="true">↗</span></a></div></section>
+<section class="page-section" id="p147"><h2 class="pgtitle"><span class="pgnum">PÁGINA 147</span> Panel de configuración - GPS</h2>
+<div class="source-text">
+<p>Panel de configuración - GPS</p>
+<p>El panel de GPS contiene una falsa radio que permite marcar coordenadas útiles y dejarlas guardadas. Por ejemplo cuando el piloto encuentra un objetivo a identificar durante una pasada de reconocimiento para luego realizar un ataque, o cuando las referencias visuales son escasas y debe confiar en la telemetría.</p>
+<p class="minor">RADIO</p>
+<p class="minor">Historial</p>
+<p class="minor">GPS</p>
+<p class="minor">ERROR -</p>
+<p class="minor">STATUS</p>
+<p class="minor">Call</p>
+<p>1 2 3 &lt;</p>
+<p>4 5 6 &gt;</p>
+<p>7 8 9 A</p>
+<p># 0 * B</p>
+<p>¿Cómo funciona? Pantalla Entrada: Muestra la coordenada que estás escribiendo en este momento. Historial: Muestra las últimas coordenadas enviadas y permite revisarlas con &lt; / &gt; Estado / Mensajes: Avisos rápidos (por ejemplo: “faltan dígitos”, “enviado”, “modo cambiado”).</p>
+<p>Botones (Tipo poke, se presionan con el dedo índice) 0–9: Escribe los números de la coordenada * (Borrar): Borra el último número escrito (retroceso) # (Enviar): Confirma y envía la coordenada (solo si está completa)</p>
+<p>Precisión (Botones A y B) MGRS 6 dígitos: Coordenada más rápida y general (3+3). Ideal para ubicaciones aproximadas. MGRS 8 dígitos: Coordenada más precisa (4+4). Ideal para ubicar con mayor exactitud.</p>
+<p>Historial (Contiene hasta 10 elementos, al llenarse se van borrando en FIFO) &lt; Anterior: Muestra una coordenada anterior del historial. &gt; Siguiente: Muestra una coordenada más reciente del historial.</p>
+<p>Aquí también se muestran los waypoints de las zonas reposicionamiento que se pueden ejecutar con el teclado presionando la tecla V + números del 1 al 9 y 0 para volver a base Esto complementa al método de teleporting con controllers</p>
+</div>
+<div class="page-reference"><span>Referencia original: PDF · pág. 147</span><a href="https://drive.google.com/file/d/1w37C4RNiu-v0W_yCxjSA9ovbNZsHVcGr/view?usp=drivesdk#page=147" rel="noopener noreferrer" target="_blank">Abrir página del PDF <span aria-hidden="true">↗</span></a></div></section>
+<footer class="footer">SimDron · Documentación web · Fuentes: manuales del 27/10/2026 · Borrador local sujeto a revisión editorial y de publicación.</footer></div></main><aside aria-label="Referencias y páginas del capítulo" class="right-rail"><div class="rail-sticky"><div class="rail-label">REFERENCIAS</div><div class="rail-doc"><strong>SimDron VR</strong><small>Build 220+ · PDF original</small></div><a class="rail-pdf" href="https://drive.google.com/file/d/1w37C4RNiu-v0W_yCxjSA9ovbNZsHVcGr/view?usp=drivesdk#page=145" rel="noopener noreferrer" target="_blank">Abrir PDF original ↗</a><p class="rail-help">Se abre en otra pestaña. Los PDF en Drive requieren autorización de acceso.</p><div class="rail-sep"></div><div class="rail-label">EN ESTE CAPÍTULO</div><nav class="rail-pages"><a href="#p145"><span>145</span><span>PÁGINA 145 Panel de configuración - 9 Line</span></a><a href="#p146"><span>146</span><span>PÁGINA 146 Panel de configuración - 9 Line</span></a><a href="#p147"><span>147</span><span>PÁGINA 147 Panel de configuración - GPS</span></a></nav><div class="rail-sep"></div><button class="rail-action" id="copylink" type="button">⧉  Copiar enlace del capítulo</button><a class="rail-action" href="../index.html">⌂  Inicio de documentación</a></div></aside></div>
+<div aria-label="Buscar" aria-modal="true" class="search-shade" id="search-shade" role="dialog"><div class="searchbox"><div class="searchform"><span>⌕</span><input aria-label="Buscar en manuales" autocomplete="off" id="search-input" placeholder="Buscar en SimDron y Mission Control..." type="search"/><button aria-label="Cerrar búsqueda" class="search-close" id="search-close">✕</button></div><div class="searchbody" id="search-results"></div></div></div>
+<script src="../assets/js/catalog.js"></script><script src="../assets/js/app.js"></script></body></html>

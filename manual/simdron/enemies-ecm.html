@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+
+<html data-group="simdron" data-page="simdron/enemies-ecm" data-root="../" lang="es"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><meta content="light dark" name="color-scheme"/><meta content="Documentación técnica de SimDron y Mission Control, adaptada de los manuales oficiales de octubre de 2026." name="description"/><title>Enemigos con IA y ECM · Documentación SimDron</title><link href="../assets/css/style.css" rel="stylesheet"/></head><body>
+<header class="top"><div class="topin"><button aria-label="Abrir índice" class="btn menu-toggle" id="menu-toggle">☰</button><a class="logo" href="../index.html"><span class="mark">SD</span><span>SIMDRON<small>DOCUMENTACIÓN</small></span></a><nav aria-label="Cambiar manual" class="productnav"><a aria-current="page" href="../simdron/concepto.html">SimDron VR</a><a href="../mission-control/introduccion.html">Mission Control</a></nav><div class="header-actions"><button aria-label="Alternar modo claro u oscuro" class="btn" id="theme-toggle" type="button">☾ <span>Oscuro</span></button><button class="btn" id="open-search" title="Buscar en ambos manuales">⌕ <span>Buscar</span> <span class="kbd">Ctrl K</span></button></div></div></header>
+<div class="layout"><aside class="aside" id="sidebar"><div class="aside-head">Índice · SimDron VR</div><div id="sidebar-contents"></div></aside><main class="main"><div class="content"><div class="crumb"><a href="../index.html">Documentación</a> / <span>SimDron VR</span> / 11 · Configuración</div>
+<div class="chapter-toolbar"><div class="back-to-doc"><span class="chapter-cat">Configuración</span></div><div class="chapter-movement"><a class="chapter-link" href="../simdron/9-line-gps.html" title="Panel 9-Line y GPS">‹ Anterior</a><a class="chapter-link" href="../simdron/fx.html" title="FX: efectos visuales">Siguiente ›</a></div></div><h1>Enemigos con IA y ECM</h1><div class="meta"><span class="pill version">Build 220+</span><span class="pill">PDF: pp. 148–149</span></div>
+<p class="source-lead">Guía de consulta basada en el manual original. Las páginas del PDF se abren en otra pestaña y las capturas pueden consultarse sin perder tu lugar.</p>
+<section class="page-section" id="p148"><h2 class="pgtitle"><span class="pgnum">PÁGINA 148</span> Panel de configuración - Enemy</h2>
+<figure class="imagepanel"><a aria-label="Abrir imagen en otra pestaña" class="figure-ext" href="../assets/figures/vr_fig_148.webp" rel="noopener" target="_blank"><img alt="Captura o ilustración original, página 148" decoding="async" loading="lazy" src="../assets/figures/vr_fig_148.webp"/></a><figcaption>Ilustración del manual, página 148. Clic para ampliar en otra pestaña.</figcaption></figure>
+<div class="source-text">
+<p>Panel de configuración - Enemy</p>
+<p>Estos elementos comunes a todos los escenarios representan sistemas de armas autónomos enemigos tales como los que se encuentran en los campos de batalla modernos. Además estos incorporan sistemas de inteligencia artificial de máquina de estado para desplazarse de manera autónoma dentro del terreno del mapa.</p>
+<p class="minor">Enemy</p>
+<p>Los sistemas enemigos tienen un componente de IA que los distribuye por el mapa y hace que se desplazen, de forma terrestre, naval o aérea según el caso de manera autónoma siguiendo las condiciones del terreno en cuanto a elevación y suelo.</p>
+<p class="minor">STATE MACHINE</p>
+<p class="minor">AAA</p>
+<p class="minor">AI DRONE</p>
+<p class="minor">SAM</p>
+<p class="minor">Act</p>
+<p class="minor">Range</p>
+<p class="minor">UGV</p>
+<p class="minor">Mode</p>
+<p class="minor">Alt</p>
+<p class="minor">UAV</p>
+<p class="minor">Type</p>
+<p class="minor">UVS</p>
+<p class="minor">Speed</p>
+<p class="minor">Robot</p>
+<p>AAA: Representa un vehículo autónomo (UGV) con torre de ametralladora antidron automática SAM: Representa un vehículo con misiles antiáereos de corto alcance</p>
+<p>UGV: Representa un vehículo autónomo terrestre de propósitos generales</p>
+<p class="minor">UAV: Representa un dron de reconocimiento tipo ala fija</p>
+<p class="minor">USV: Representa un dron marítimo de ataque</p>
+<p>Robot: Representa un dron tipo cuadrúpedo con LIDAR, además tiene la particularidad de “perseguir” al operador AI Drone: Tiene la capacidad de merodear por el terreno o buscar atacar al piloto si se encuentra dentro de su rango</p>
+</div>
+<div class="page-reference"><span>Referencia original: PDF · pág. 148</span><a href="https://drive.google.com/file/d/1w37C4RNiu-v0W_yCxjSA9ovbNZsHVcGr/view?usp=drivesdk#page=148" rel="noopener noreferrer" target="_blank">Abrir página del PDF <span aria-hidden="true">↗</span></a></div></section>
+<section class="page-section" id="p149"><h2 class="pgtitle"><span class="pgnum">PÁGINA 149</span> Panel de configuración - ECM</h2>
+<figure class="imagepanel"><a aria-label="Abrir imagen en otra pestaña" class="figure-ext" href="../assets/figures/vr_fig_149.webp" rel="noopener" target="_blank"><img alt="Captura o ilustración original, página 149" decoding="async" loading="lazy" src="../assets/figures/vr_fig_149.webp"/></a><figcaption>Ilustración del manual, página 149. Clic para ampliar en otra pestaña.</figcaption></figure>
+<div class="source-text">
+<p>Panel de configuración - ECM</p>
+<p>A diferencia de un simulador civil, una de las principales características que debe estar presente en un simulador militar de drones son las contramedidas electrónicas, Electronic Counter Measures en inglés o por sus siglas ECM. Estas provocan interferencias en la señal de transmisión de control y video del dron que varía desde un leve retraso en la imagen hasta la pérdida absoluta de mando.</p>
+<p class="minor">ECM</p>
+<p class="minor">ECM 1</p>
+<p class="minor">Slider multiplicador</p>
+<p class="minor">Distribuir</p>
+<p class="minor">x1,00 Noise: 25 Loss: 12 Disarm: 5</p>
+<p class="minor">ECM 2</p>
+<p class="minor">Distribuir</p>
+<p class="minor">x1,00 Noise: 25 Loss: 12 Disarm: 5</p>
+<p class="minor">Label de radios</p>
+<p class="minor">ECM 3</p>
+<p class="minor">Distribuir</p>
+<p class="minor">x1,00 Noise: 25 Loss: 12 Disarm: 5</p>
+<p class="minor">ECM 4</p>
+<p class="minor">Distribuir</p>
+<p class="minor">x1,00 Noise: 25 Loss: 12 Disarm: 5</p>
+<p class="minor">ECM 5</p>
+<p class="minor">Distribuir</p>
+<p class="minor">x1,00 Noise: 25 Loss: 12 Disarm: 5</p>
+<p>Distribuir: Posiciona en un lugar aleatorio del mapa a los paquetes de contramedidas electrónicas</p>
+<p class="minor">Multiplicador de radio (Slider xN)</p>
+<p>Radius Multiplier (x0.1 a x10): amplía o reduce el tamaño de todas las zonas a la vez.</p>
+<p>x1.00: radios normales. Más alto: afecta desde más lejos. Más bajo: hay que acercarse mucho para notar el efecto.</p>
+<p>Etiqueta/label (si está visible): muestra el multiplicador y los radios efectivos:</p>
+<p>Noise: radio actual de interferencia Loss: radio actual de pérdida de señal Disarm: radio actual de desarme</p>
+</div>
+<div class="page-reference"><span>Referencia original: PDF · pág. 149</span><a href="https://drive.google.com/file/d/1w37C4RNiu-v0W_yCxjSA9ovbNZsHVcGr/view?usp=drivesdk#page=149" rel="noopener noreferrer" target="_blank">Abrir página del PDF <span aria-hidden="true">↗</span></a></div></section>
+<footer class="footer">SimDron · Documentación web · Fuentes: manuales del 27/10/2026 · Borrador local sujeto a revisión editorial y de publicación.</footer></div></main><aside aria-label="Referencias y páginas del capítulo" class="right-rail"><div class="rail-sticky"><div class="rail-label">REFERENCIAS</div><div class="rail-doc"><strong>SimDron VR</strong><small>Build 220+ · PDF original</small></div><a class="rail-pdf" href="https://drive.google.com/file/d/1w37C4RNiu-v0W_yCxjSA9ovbNZsHVcGr/view?usp=drivesdk#page=148" rel="noopener noreferrer" target="_blank">Abrir PDF original ↗</a><p class="rail-help">Se abre en otra pestaña. Los PDF en Drive requieren autorización de acceso.</p><div class="rail-sep"></div><div class="rail-label">EN ESTE CAPÍTULO</div><nav class="rail-pages"><a href="#p148"><span>148</span><span>PÁGINA 148 Panel de configuración - Enemy</span></a><a href="#p149"><span>149</span><span>PÁGINA 149 Panel de configuración - ECM</span></a></nav><div class="rail-sep"></div><button class="rail-action" id="copylink" type="button">⧉  Copiar enlace del capítulo</button><a class="rail-action" href="../index.html">⌂  Inicio de documentación</a></div></aside></div>
+<div aria-label="Buscar" aria-modal="true" class="search-shade" id="search-shade" role="dialog"><div class="searchbox"><div class="searchform"><span>⌕</span><input aria-label="Buscar en manuales" autocomplete="off" id="search-input" placeholder="Buscar en SimDron y Mission Control..." type="search"/><button aria-label="Cerrar búsqueda" class="search-close" id="search-close">✕</button></div><div class="searchbody" id="search-results"></div></div></div>
+<script src="../assets/js/catalog.js"></script><script src="../assets/js/app.js"></script></body></html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html data-group="simdron" data-page="simdron/modelos-pid" data-root="../" lang="es"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><meta content="light dark" name="color-scheme"/><meta content="Documentación técnica de SimDron y Mission Control, adaptada de los manuales oficiales de octubre de 2026." name="description"/><title>Modelos de dron y retroalimentación PID · Documentación SimDron</title><link href="../assets/css/style.css" rel="stylesheet"/></head><body>
+<header class="top"><div class="topin"><button aria-label="Abrir índice" class="btn menu-toggle" id="menu-toggle">☰</button><a class="logo" href="../index.html"><span class="mark">SD</span><span>SIMDRON<small>DOCUMENTACIÓN</small></span></a><nav aria-label="Cambiar manual" class="productnav"><a aria-current="page" href="../simdron/concepto.html">SimDron VR</a><a href="../mission-control/introduccion.html">Mission Control</a></nav><div class="header-actions"><button aria-label="Alternar modo claro u oscuro" class="btn" id="theme-toggle" type="button">☾ <span>Oscuro</span></button><button class="btn" id="open-search" title="Buscar en ambos manuales">⌕ <span>Buscar</span> <span class="kbd">Ctrl K</span></button></div></div></header>
+<div class="layout"><aside class="aside" id="sidebar"><div class="aside-head">Índice · SimDron VR</div><div id="sidebar-contents"></div></aside><main class="main"><div class="content"><div class="crumb"><a href="../index.html">Documentación</a> / <span>SimDron VR</span> / 05 · Introducción al vuelo</div>
+<div class="chapter-toolbar"><div class="back-to-doc"><span class="chapter-cat">Introducción al vuelo</span></div><div class="chapter-movement"><a class="chapter-link" href="../simdron/modos-vuelo.html" title="Modos HORIZON / ANGLE / ACRO">‹ Anterior</a><a class="chapter-link" href="../simdron/primer-inicio.html" title="Zona de despliegue, escena principal y licencia">Siguiente ›</a></div></div><h1>Modelos de dron y retroalimentación PID</h1><div class="meta"><span class="pill version">Build 220+</span><span class="pill">PDF: pp. 58–60</span></div>
+<p class="source-lead">Guía de consulta basada en el manual original. Las páginas del PDF se abren en otra pestaña y las capturas pueden consultarse sin perder tu lugar.</p>
+<section class="page-section" id="p58"><h2 class="pgtitle"><span class="pgnum">PÁGINA 58</span> Modelos de dron</h2>
+<figure class="imagepanel"><a aria-label="Abrir imagen en otra pestaña" class="figure-ext" href="../assets/figures/vr_fig_058.webp" rel="noopener" target="_blank"><img alt="Captura o ilustración original, página 58" decoding="async" loading="lazy" src="../assets/figures/vr_fig_058.webp"/></a><figcaption>Ilustración del manual, página 58. Clic para ampliar en otra pestaña.</figcaption></figure>
+<div class="source-text">
+<p>Modelos de dron</p>
+<p class="minor">RTF</p>
+<p>El modelo RTF es como su nombre lo indica el clásico dron ready to flight o listo para volar, que son aquellos drones que de fábrica vienen preparados para ser utilizados por un amplio espectro de personas y para diferentes usos.</p>
+<p class="minor">FPV</p>
+<p>Es un dron tipo 7" competitivo como los que se utilizan en las guerras modernas como drones FPV de ataque. Una de sus principales ventajas es la posición de la cámara que posibilita inclinar hacia arriba el gimball más que en otros modelos, algo especialmente útil para alcanzar ángulos de actitud mayores que a su vez se traducen en una mayor velocidad por fuerza de empuje.</p>
+<p class="minor">PRO</p>
+<p>Representa un dron de grandes dimensiones tipo industrial o agrícola que se utilizan generalmente para portar una mayor carga debajo. Este tiene la característica de tener pies autoportantes que son útiles para posicionar en cualquier sitio. Pero en contraposición su tamaño hace que sea más susceptible a otros factores como la gravedad y el viento.</p>
+</div>
+<div class="page-reference"><span>Referencia original: PDF · pág. 58</span><a href="https://drive.google.com/file/d/1w37C4RNiu-v0W_yCxjSA9ovbNZsHVcGr/view?usp=drivesdk#page=58" rel="noopener noreferrer" target="_blank">Abrir página del PDF <span aria-hidden="true">↗</span></a></div></section>
+<section class="page-section" id="p59"><h2 class="pgtitle"><span class="pgnum">PÁGINA 59</span> Modelos de dron</h2>
+<figure class="imagepanel"><a aria-label="Abrir imagen en otra pestaña" class="figure-ext" href="../assets/figures/vr_fig_059.webp" rel="noopener" target="_blank"><img alt="Captura o ilustración original, página 59" decoding="async" loading="lazy" src="../assets/figures/vr_fig_059.webp"/></a><figcaption>Ilustración del manual, página 59. Clic para ampliar en otra pestaña.</figcaption></figure>
+<div class="source-text">
+<p>Modelos de dron</p>
+<p class="minor">MINI</p>
+<p>Este tipo de drones que se utilizan para interior y en ámbito militar/policial para operaciones especiales tiene la particularidad de que sus palas no se ven afectadas al colisionar contra objetos.</p>
+<p>El modelo High Speed está pensado para girar el gimball en un pronunciado ángulo positivo, despegar de manera vertical y luego lanzarse desde altura en un vuelo casi horizontal contra objetivos aereos.</p>
+<p class="minor">HIGH SPEED</p>
+<p class="minor">SRR</p>
+<p>El modelo de dron SRR está separado de la lógica de control de vuelo de los otros tipos de drones pero su empleo es fundamental para realizar un reconocimiento visual del terreno, marcación de objetivos y conducción EVLOS (Extended Visual Line of Sight)</p>
+</div>
+<div class="page-reference"><span>Referencia original: PDF · pág. 59</span><a href="https://drive.google.com/file/d/1w37C4RNiu-v0W_yCxjSA9ovbNZsHVcGr/view?usp=drivesdk#page=59" rel="noopener noreferrer" target="_blank">Abrir página del PDF <span aria-hidden="true">↗</span></a></div></section>
+<section class="page-section" id="p60"><h2 class="pgtitle"><span class="pgnum">PÁGINA 60</span> Retroalimentación PID</h2>
+<figure class="imagepanel"><a aria-label="Abrir imagen en otra pestaña" class="figure-ext" href="../assets/figures/vr_fig_060.webp" rel="noopener" target="_blank"><img alt="Captura o ilustración original, página 60" decoding="async" loading="lazy" src="../assets/figures/vr_fig_060.webp"/></a><figcaption>Ilustración del manual, página 60. Clic para ampliar en otra pestaña.</figcaption></figure>
+<div class="source-text">
+<p>((Proportional-integral-derivate)</p>
+<p class="minor">Retroalimentación PID</p>
+<p>Es un lazo de control automático que actúa como control de estabilidad Esto puede utilizarse para representar diferentes perfiles de drones y condiciones</p>
+<p class="minor">Guía de Ajuste PID</p>
+<p class="minor">para la Estabilización de Drones</p>
+<p class="minor">- FUNDAMENTOS DE LOS PARÁMETROS P I D</p>
+<p class="minor">Guía práctica de ajuste y perfiles</p>
+<p class="minor">1.Sube P para</p>
+<p class="minor">P (Proportional)</p>
+<p class="minor">firmeza</p>
+<p>2. Aumenta D para eliminar rebote</p>
+<p>Aplica fuerza según la magnitud del error; valores muy altos causan oscilación y vibración</p>
+<p class="minor">Cálculo crítico de altura</p>
+<p class="minor">PAlt ≥ 19.62 * masa</p>
+<p class="minor">D (Derivativo)</p>
+<p>Para sostener el peso, el Altitude PID debe ser al menos 20 veces la masa.</p>
+<p>Actúa como un amortiguador que reduce el rebote; valores bajos generan un efecto “resorte”.</p>
+<p class="minor">PERFIL DE VUELO Y VALORES DE INICIO</p>
+<p>ÁGIL / FPV NERVIOSO PESADO / ESTABLE</p>
+<p>SUAVE / CINEMATOGRÁFICO</p>
+<p>P (Rotación): 2.0 D (Rotación): 0.20</p>
+<p>P (Rotación): 1.2 D (Rotación): 0.50</p>
+<p>P (Rotación): 1.0 D (Rotación): 0.35</p>
+<p>Cuando este componente no está presente o su valor es bajo es normal que el dron mantenga un pequeño error de altitud residual, especialmente durante el vuelo estacionario</p>
+</div>
+<div class="page-reference"><span>Referencia original: PDF · pág. 60</span><a href="https://drive.google.com/file/d/1w37C4RNiu-v0W_yCxjSA9ovbNZsHVcGr/view?usp=drivesdk#page=60" rel="noopener noreferrer" target="_blank">Abrir página del PDF <span aria-hidden="true">↗</span></a></div></section>
+<footer class="footer">SimDron · Documentación web · Fuentes: manuales del 27/10/2026 · Borrador local sujeto a revisión editorial y de publicación.</footer></div></main><aside aria-label="Referencias y páginas del capítulo" class="right-rail"><div class="rail-sticky"><div class="rail-label">REFERENCIAS</div><div class="rail-doc"><strong>SimDron VR</strong><small>Build 220+ · PDF original</small></div><a class="rail-pdf" href="https://drive.google.com/file/d/1w37C4RNiu-v0W_yCxjSA9ovbNZsHVcGr/view?usp=drivesdk#page=58" rel="noopener noreferrer" target="_blank">Abrir PDF original ↗</a><p class="rail-help">Se abre en otra pestaña. Los PDF en Drive requieren autorización de acceso.</p><div class="rail-sep"></div><div class="rail-label">EN ESTE CAPÍTULO</div><nav class="rail-pages"><a href="#p58"><span>58</span><span>PÁGINA 58 Modelos de dron</span></a><a href="#p59"><span>59</span><span>PÁGINA 59 Modelos de dron</span></a><a href="#p60"><span>60</span><span>PÁGINA 60 Retroalimentación PID</span></a></nav><div class="rail-sep"></div><button class="rail-action" id="copylink" type="button">⧉  Copiar enlace del capítulo</button><a class="rail-action" href="../index.html">⌂  Inicio de documentación</a></div></aside></div>
+<div aria-label="Buscar" aria-modal="true" class="search-shade" id="search-shade" role="dialog"><div class="searchbox"><div class="searchform"><span>⌕</span><input aria-label="Buscar en manuales" autocomplete="off" id="search-input" placeholder="Buscar en SimDron y Mission Control..." type="search"/><button aria-label="Cerrar búsqueda" class="search-close" id="search-close">✕</button></div><div class="searchbody" id="search-results"></div></div></div>
+<script src="../assets/js/catalog.js"></script><script src="../assets/js/app.js"></script></body></html>
