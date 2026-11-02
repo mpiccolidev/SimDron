@@ -13,6 +13,7 @@
 
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="es_AR" />
+  <meta property="og:locale:alternate" content="en_US" />
   <meta property="og:title" content="SimDron — Sistema de Simulación de Vehículos Autónomos" />
   <meta property="og:description" content="Simulación inmersiva, perfiles de aeronave, sensores, entornos 3D y Mission Control para entrenamiento individual y colectivo." />
   <meta property="og:url" content="https://mpiccolidev.github.io/SimDron/" />
@@ -60,6 +61,11 @@
         <a href="#development">Development</a>
         <a class="nav-meta-link" href="https://www.meta.com/es-es/experiences/simulador-inmersivo-de-drones" target="_blank" rel="noopener noreferrer">META HORIZON ↗</a>
       </nav>
+      <div class="lang-switch" role="group" aria-label="Idioma / Language">
+        <button type="button" data-lang="es" class="active" aria-pressed="true">ES</button>
+        <span>/</span>
+        <button type="button" data-lang="en" aria-pressed="false">EN</button>
+      </div>
     </div>
   </header>
 
@@ -605,5 +611,6 @@
   </div>
 
   <script src="script.js" defer></script>
+  <script src="i18n.js" defer></script>
 </body>
 </html>

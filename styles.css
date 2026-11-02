@@ -901,3 +901,13 @@ h1{font-size:clamp(3.25rem,6.3vw,6.7rem);max-width:9.2ch;margin-top:24px}h1 em{f
 @media(max-width:480px){
   .tuning-grid{grid-template-columns:1fr 1fr}
 }
+
+
+/* v5.4e — ES / EN language selector */
+.lang-switch{display:flex;align-items:center;gap:5px;margin-left:12px;flex:0 0 auto;font:800 .64rem var(--mono);letter-spacing:.08em;color:#525a5a}
+.lang-switch button{appearance:none;border:0;background:transparent;color:#7e8787;font:inherit;cursor:pointer;padding:7px 5px;transition:color .15s ease}
+.lang-switch button:hover{color:#fff}
+.lang-switch button.active{color:var(--accent)}
+.lang-switch span{color:#353b3b}
+@media(max-width:1100px){.lang-switch{margin-left:auto;margin-right:6px}}
+@media(max-width:760px){.lang-switch{order:2;margin-left:auto}.menu-toggle{order:3}.lang-switch button{padding:8px 6px}}
